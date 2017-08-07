@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y111"
+        android:background="@color/main_color"
+        android:gravity="center"
+        android:text="确认我的梦想(2/2)"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y101"
+        android:gravity="center_horizontal"
+        android:text="最后一步"
+        android:textColor="@color/main_color"
+        android:textSize="32sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="个性化学习内容即将呈现"
+        android:textColor="@color/main_color"
+        android:textSize="32sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x47"
+        android:layout_marginTop="@dimen/y92"
+        android:text="已开通线下分校的省份"
+        android:textColor="#000"
+        android:textSize="16sp"
+        />
+
+    <RadioGroup
+        android:id="@+id/rg_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x47"
+        android:layout_marginRight="@dimen/x47"
+        android:layout_marginTop="@dimen/y25"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/rb_select_hunan"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="湖南"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_select_guangdong"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="广东"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_select_guangxi"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="广西"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_select_guizhou"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="贵州"
+            android:textColor="@drawable/main_title_text_chector"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x47"
+        android:layout_marginTop="@dimen/y92"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:text="其他省份"
+            android:textColor="#000"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="（暂时没有线下分校，但是学习内容依旧完善）"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+    <com.weiwangcn.betterspinner.library.BetterSpinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y60"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/x47"
+        android:layout_marginRight="@dimen/x47"
+        android:layout_marginTop="@dimen/y25"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:hint="北京"
+        android:paddingLeft="12dp"
+        android:textColor="@color/main_color"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/x47"
+        android:layout_marginRight="@dimen/x47"
+        android:background="@color/main_color"
+        />
+    <Button
+        android:id="@+id/btn_dream_next"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y100"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="@dimen/y75"
+        android:background="@drawable/btn_login_bg"
+        android:gravity="center"
+        android:text="保存我的梦想"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y25"
+        android:text="学习过程中，你可以通过个人设置进行修改"
+        android:textColor="#727172"
+        android:textSize="14sp"
+        />
+</LinearLayout>

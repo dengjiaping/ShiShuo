@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/main_bkg"
+              android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y112"
+        android:background="@color/main_color"
+        android:gravity="center"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        />
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/y38"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y103"
+        android:background="@color/white"
+        >
+        <TextView
+            android:id="@+id/tv_login_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x28"
+            android:text="手机号:"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            />
+
+        <EditText
+            android:id="@+id/et_login_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:inputType="phone"
+            android:hint="输入手机号码"
+            />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_login"
+        android:background="@drawable/btn_login_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y90"
+        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:text="下一步"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/y75"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        />
+<LinearLayout
+    android:layout_marginTop="@dimen/y450"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="@dimen/x244"
+        android:layout_height="1dp"
+        android:background="#2000"
+        android:layout_gravity="center_vertical"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:text="其他登录方式"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:background="#2000"
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/x244"
+        android:layout_marginLeft="3dp"
+        android:layout_height="1dp"/>
+</LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/y31"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/imgbtn_qq"
+            android:layout_marginLeft="@dimen/x192"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/main_bkg"
+            android:src="@mipmap/qq_icon"
+            />
+
+        <ImageButton
+            android:id="@+id/imgbtn_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x192"
+            android:background="@color/main_bkg"
+            android:src="@mipmap/wechat_icon"
+            />
+    </RelativeLayout>
+
+<LinearLayout
+    android:layout_marginTop="@dimen/y50"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="登录及表示你同意良师说"
+        />
+    <TextView
+        android:id="@+id/tv_login_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="服务和隐私条款"
+        android:textColor="#ff5a79"
+        />
+</LinearLayout>
+</LinearLayout>
