@@ -41,7 +41,7 @@
         android:layout_marginTop="@dimen/y92"
         android:text="已开通线下分校的省份"
         android:textColor="#000"
-        android:textSize="16sp"
+        android:textSize="14sp"
         />
 
     <RadioGroup
@@ -114,10 +114,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
+            android:layout_marginRight="2dp"
             android:text="其他省份"
             android:textColor="#000"
-            android:textSize="16sp"
+            android:textSize="14sp"
             />
 
         <TextView
@@ -125,17 +125,17 @@
             android:layout_height="wrap_content"
             android:text="（暂时没有线下分校，但是学习内容依旧完善）"
             android:textColor="#666666"
-            android:textSize="14sp"
+            android:textSize="12sp"
             />
     </LinearLayout>
     <com.weiwangcn.betterspinner.library.BetterSpinner
-        android:id="@+id/spinner2"
+        android:id="@+id/spinner_dream_city"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y60"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="@dimen/x47"
         android:layout_marginRight="@dimen/x47"
-        android:layout_marginTop="@dimen/y25"
+        android:layout_marginTop="@dimen/y35"
         android:background="@null"
         android:gravity="center_vertical"
         android:hint="北京"
@@ -153,7 +153,7 @@
     <Button
         android:id="@+id/btn_dream_next"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y100"
+        android:layout_height="@dimen/y90"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="@dimen/y75"

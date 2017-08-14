@@ -19,15 +19,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="hengai.com.shishuo.ui.activity.MainActivity" >
-        </activity>
-        <activity android:name="hengai.com.shishuo.ui.activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 登录验证码界面 -->
+        <activity android:name="hengai.com.shishuo.ui.activity.LoginActivity" >
+
+        </activity>
+        <!-- 注册界面 -->
         <activity android:name="hengai.com.shishuo.ui.activity.Login2Activity" />
+         <!--登录界面-->
+        <activity android:name=".ui.activity.LoginPwdActivity"/>
         <!-- 集成QQ登录中需要的 -->
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
@@ -56,9 +59,7 @@
         <activity
             android:name="hengai.com.shishuo.ui.activity.MyDreamActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="hengai.com.shishuo.ui.activity.MyDream2Activity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.MyDreamCity"></activity>
 
         <meta-data
             android:name="UMENG_APPKEY"

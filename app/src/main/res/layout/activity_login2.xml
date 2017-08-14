@@ -10,7 +10,7 @@
         android:layout_height="@dimen/y112"
         android:background="@color/main_color"
         android:gravity="center"
-        android:text="登录"
+        android:text="注册"
         android:textColor="@color/white"
         android:textSize="22sp"
         />
@@ -59,7 +59,8 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/tv_login_phone"
             android:gravity="center_vertical"
-            android:inputType="phone"
+            android:background="@null"
+            android:inputType="number"
             android:hint="输入验证码"
             />
         <Button
@@ -77,6 +78,32 @@
             />
     </RelativeLayout>
 
+<LinearLayout
+    android:layout_marginTop="@dimen/y38"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y103"
+    android:background="@color/white">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/x28"
+        android:text="设置密码:"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        />
+
+    <EditText
+        android:id="@+id/et_login_password"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:inputType="text"
+        android:background="@null"
+        android:hint="输入账号密码/6位以上"
+        />
+
+</LinearLayout>
     <Button
         android:id="@+id/btn_login2"
         android:background="@drawable/btn_login_bg"
@@ -84,7 +111,7 @@
         android:layout_height="@dimen/y90"
         android:textSize="22sp"
         android:textColor="@color/white"
-        android:text="登    录"
+        android:text="下一步"
         android:gravity="center"
         android:layout_marginTop="@dimen/y75"
         android:layout_marginLeft="16dp"

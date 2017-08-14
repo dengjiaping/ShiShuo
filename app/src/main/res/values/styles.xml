@@ -8,7 +8,11 @@
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/white</item>
     </style>
-
+    <!--底部导航-->
+    <style name="CustomTitleTextAppearance">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 <!--友盟-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
     <style name="ACPLDialog">
         <item name="android:windowFrame">@null</item>

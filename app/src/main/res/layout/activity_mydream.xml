@@ -177,7 +177,7 @@
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y60"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="@dimen/x47"
         android:layout_marginRight="@dimen/x47"
         android:layout_marginTop="@dimen/y25"
