@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+    >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x20"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x20"
+        android:text="【学生】2017年语文课文试讲"
+        android:textColor="#2c2f2f"
+        android:textSize="18sp"/>
+    <!--android:textColor="@color/item_teacher_desc_color"-->
+    <FrameLayout
+        android:id="@+id/fl_teacherclass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_margin="3dp">
+
+        <hengai.com.shishuo.ui.widget.RatioImageView
+            android:id="@+id/im_teacherclass"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y330"
+            android:adjustViewBounds="false"
+            android:scaleType="fitXY"
+            android:src="@mipmap/livecs"/>
+
+        <ImageView
+            android:id="@+id/im_play_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/play_button"/>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fl_teacherclass"
+        android:paddingBottom="@dimen/x20"
+        android:paddingTop="@dimen/x20">
+
+        <TextView
+            android:id="@+id/tv_teacher_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x30"
+            android:drawablePadding="@dimen/x14"
+            android:text="良师学生"
+            android:textColor="#000"
+            android:textSize="@dimen/x25"/>
+
+        <TextView
+            android:id="@+id/tv_type2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x42"
+            android:layout_toRightOf="@+id/tv_teacher_name"
+            android:background="@drawable/interpreting_tag"
+            android:gravity="center"
+            android:paddingBottom="@dimen/x5"
+            android:paddingLeft="@dimen/x20"
+            android:paddingRight="@dimen/x20"
+            android:paddingTop="@dimen/x5"
+            android:text="说课"
+            android:textColor="@color/main_color"
+            android:textSize="@dimen/x25"
+            />
+
+        <TextView
+            android:id="@+id/tv_teacher_item_comment_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x30"
+            android:text="1000"
+            android:textColor="#545454"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/icon_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_toLeftOf="@+id/tv_teacher_item_comment_num"
+            android:src="@drawable/message"/>
+
+    </RelativeLayout>
+</RelativeLayout>

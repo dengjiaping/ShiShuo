@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/y276"
+              android:background="@color/white"
+              android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y38"
+        android:src="@mipmap/kym_icon"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y25"
+        android:text="暂时没有直播，快去看看回放吧！"
+        android:textColor="#000"
+        android:textSize="18sp"
+        />
+</LinearLayout>

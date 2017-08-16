@@ -24,9 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="hengai.com.shishuo.ui.activity.LoginActivity" >
+        <activity android:name="hengai.com.shishuo.ui.activity.LoginActivity" />
 
-        </activity>
+     <activity android:name=".ui.activity.CeshiActivity">
+
+
+     </activity>
         <!-- 注册界面 -->
         <activity android:name="hengai.com.shishuo.ui.activity.Login2Activity" />
          <!--登录界面-->

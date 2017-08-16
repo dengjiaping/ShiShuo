@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="14dp"
+              android:background="@color/white"
+              android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:id="@+id/rl_latest_practice"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y75"
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x33"
+            android:gravity="center_vertical"
+            android:text="最新练课"
+            android:textColor="#666666"
+            android:textSize="18sp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x29"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="全部"
+                android:textColor="#666666"
+                android:textSize="18sp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x10"
+                android:src="@drawable/return_button"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        />
+
+    <RelativeLayout
+        android:id="@+id/enter_into"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y75"
+
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_item3_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x33"
+            android:text="本周共有"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_item3_1"
+            android:text="5位"
+            android:textColor="#ff5a7a"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_num"
+            android:text="同学获得了名师点评，快去看看吧"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_dianji"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x29"
+            android:src="@drawable/sj_button"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        />
+</LinearLayout>
