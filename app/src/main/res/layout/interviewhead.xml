@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textSize="16sp"
-            android:textColor="#000"
+            android:textColor="#ff473b"
             android:text="直播"
             />
     </LinearLayout>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="16sp"
-                android:textColor="#000"
+                android:textColor="#ff4b79"
                 android:text="练课"
                 />
         </LinearLayout>
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="16sp"
-                android:textColor="#000"
+                android:textColor="#6a69ff"
                 android:text="资料"
                 />
         </LinearLayout>
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="16sp"
-                android:textColor="#000"
+                android:textColor="#4d9bff"
                 android:text="公告"
                 />
         </LinearLayout>
