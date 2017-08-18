@@ -2,19 +2,20 @@
 <resources>
     <color name="colorPrimary">#E8466E</color>
     <color name="colorPri">#ff116E</color>
-
+    <color name="transplate">#00ff00ff</color>
     <color name="colorAccent">#FF4081</color>
     <!-- 粉红-->
     <color name="main_color">#E8466E</color>
     <!--主要背景-->
     <color name="main_bkg">#e6e6e6</color>
 
+    <color name="live_title_bkg">#D00028</color>
     <color name="main_button_enable">#666666</color>
     <!-- 白色 -->
     <color name="white">#ffffff</color>
     <!--黑色-->
     <color name="black">#000</color>
-
+    <color name="replay">#26ABFF</color>
     <color name="main_title_text_selected_color">#ffffff</color>
     <color name="main_title_text_unselected_color">#E8466E</color>
 

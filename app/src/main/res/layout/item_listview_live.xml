@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/y278"
+              android:orientation="vertical"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:background="@color/main_color"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        >
+        <TextView
+            android:id="@+id/tv_live_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginTop="@dimen/y30"
+            android:text="7月份语文面试答疑语文面试"
+            android:textColor="#000"
+            android:textSize="19sp"
+            />
+        <ImageView
+            android:id="@+id/iv_live_tj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/tj_icon"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/time_icon"
+            />
+
+        <TextView
+            android:id="@+id/tv_time_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:text="2017-07-07"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_time_houes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="20:00-20:40"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y180"
+        android:background="@color/white"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_techcer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/x43"
+            android:orientation="vertical"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/one_image"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/gg_button"
+                />
+            <!--app:civ_border_color="#FF000000"
+            app:civ_border_width="0dp"-->
+            <TextView
+                android:id="@+id/one_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x6"
+                android:text="曾老师"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_techcer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/x34"
+            android:layout_toRightOf="@id/ll_techcer1"
+            android:orientation="vertical"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/two_image"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/gg_button"
+                />
+            <!--app:civ_border_color="#FF000000"
+            app:civ_border_width="1dp"-->
+            <TextView
+                android:id="@+id/two_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x6"
+                android:text="曾老师"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_enrol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="@dimen/x29"
+            android:text="正在报名"
+            android:textColor="@color/main_color"
+            android:textSize="18sp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/x29"
+            android:layout_below="@id/tv_enrol"
+            android:layout_marginTop="8dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已有"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_persornum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000"
+                android:textColor="@color/main_color"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人报名"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

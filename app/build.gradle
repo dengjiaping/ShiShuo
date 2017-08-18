@@ -62,4 +62,7 @@ dependencies {
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
+    //刷新控件
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+
 }

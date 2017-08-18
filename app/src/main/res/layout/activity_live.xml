@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/main_bkg"
+              android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/main_color"
+        >
+
+        <ImageButton
+            android:id="@+id/imgbtn_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@color/main_color"
+            android:src="@mipmap/return_button"
+            />
+
+        <LinearLayout
+            android:layout_width="136dp"
+            android:layout_height="34dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/live_title_shape"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/rb_inter"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/teacher_bkg_secletor"
+                android:gravity="center"
+                android:text="面试"
+                android:textColor="@drawable/main_title_text_selector"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/rb_writen"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/student_bkg_secletor"
+                android:text="笔试"
+                android:textColor="@drawable/main_title_text_selector"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_live"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/main_color"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="我报名的直播课"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
+
+        <ImageButton
+            android:id="@+id/img_btn_mylive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@color/main_color"
+            android:src="@mipmap/mszb_button"
+            />
+    </RelativeLayout>
+</LinearLayout>

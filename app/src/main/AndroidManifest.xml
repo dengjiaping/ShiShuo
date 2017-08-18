@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="hengai.com.shishuo">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -18,55 +19,58 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="hengai.com.shishuo.ui.activity.MainActivity" >
+        <activity android:name="hengai.com.shishuo.ui.activity.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="hengai.com.shishuo.ui.activity.LoginActivity" />
+        <activity android:name="hengai.com.shishuo.ui.activity.LoginActivity"/>
 
-     <activity android:name=".ui.activity.CeshiActivity">
+        <activity android:name=".ui.activity.CeshiActivity">
 
 
-     </activity>
+        </activity>
         <!-- 注册界面 -->
-        <activity android:name="hengai.com.shishuo.ui.activity.Login2Activity" />
-         <!--登录界面-->
+        <activity android:name="hengai.com.shishuo.ui.activity.Login2Activity"/>
+        <!--登录界面-->
         <activity android:name=".ui.activity.LoginPwdActivity"/>
         <!-- 集成QQ登录中需要的 -->
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="tencent100424468" />
+                <data android:scheme="tencent100424468"/>
             </intent-filter>
         </activity>
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="hengai.com.shishuo.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="hengai.com.shishuo.ui.activity.MyDreamActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.MyDreamCity"></activity>
-
+        //直播页面
+        <activity android:name=".ui.activity.LiveActivity"/>
+        //我的直播
+        <activity android:name=".ui.activity.MyLiveActivity"/>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="58abfdb9f5ade42da7000218" />
+            android:value="58abfdb9f5ade42da7000218"/>
     </application>
 
 </manifest>

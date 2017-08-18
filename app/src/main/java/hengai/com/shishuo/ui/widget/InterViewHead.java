@@ -43,6 +43,30 @@ public class InterViewHead extends RelativeLayout implements BaseSliderView.OnSl
     @InjectView(R.id.rl_latest_live)
     RelativeLayout mRlLatestLive;
 
+    public SliderLayout getSlider() {
+        return mSlider;
+    }
+
+    public LinearLayout getLlLive() {
+        return mLlLive;
+    }
+
+    public LinearLayout getLlPractice() {
+        return mLlPractice;
+    }
+
+    public LinearLayout getLlData() {
+        return mLlData;
+    }
+
+    public LinearLayout getLlNotice() {
+        return mLlNotice;
+    }
+
+    public RelativeLayout getRlLatestLive() {
+        return mRlLatestLive;
+    }
+
     public InterViewHead(Context context) {
         this(context, null);
     }
@@ -78,27 +102,6 @@ public class InterViewHead extends RelativeLayout implements BaseSliderView.OnSl
         mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mSlider.setCustomAnimation(new DescriptionAnimation());
         mSlider.setDuration(4000);
-    }
-
-    @OnClick({R.id.ll_live, R.id.ll_practice, R.id.ll_data, R.id.ll_notice, R.id.rl_latest_live})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ll_live:
-                T.showShort(getContext(), "直播");
-                break;
-            case R.id.ll_practice:
-                T.showShort(getContext(), "练课");
-                break;
-            case R.id.ll_data:
-                T.showShort(getContext(), "资料");
-                break;
-            case R.id.ll_notice:
-                T.showShort(getContext(), "公告");
-                break;
-            case R.id.rl_latest_live:
-                T.showShort(getContext(), "最新直播更多");
-                break;
-        }
     }
 
     @Override
