@@ -1,5 +1,9 @@
 package hengai.com.shishuo.ui.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,59 +17,166 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.sdsmdg.tastytoast.TastyToast;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.InterViewLiveBean;
+import hengai.com.shishuo.network.HiRetorfit;
+import hengai.com.shishuo.ui.activity.CourseDetailsActivity;
+import hengai.com.shishuo.ui.activity.CourseOneDetailsActivity;
+import hengai.com.shishuo.ui.activity.LoginActivity;
+import hengai.com.shishuo.utils.DateUtil;
+import hengai.com.shishuo.utils.LogUtils;
+import hengai.com.shishuo.utils.SPUtils;
 import hengai.com.shishuo.utils.T;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yu on 2017/8/17.
  */
 
-public class InterViewLiveFragement extends BaseFragment {
+public class InterViewLiveFragement extends Fragment {
+
+    private List<InterViewLiveBean.DataBean> mList = new ArrayList<>();
+    int page = 0;
+    int paging = 10;
+    int x = 1;
+    private ListView mListView;
+    private MyAdapter mMyAdapter;
+    private View mRoot;
+    private RefreshLayout mRefreshLayout;
+    private String mChennel;
+    private String mToken;
 
     @Override
-    protected void startLoadData() {
-        onDataLoadedSuccess();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
+    @Nullable
     @Override
-    protected View onCreatContentView() {
-        View root = View.inflate(getContext(), R.layout.fragment_interview_live, null);
-        RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
-        ListView listView = (ListView) root.findViewById(R.id.lv_inter_live);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRoot = View.inflate(getContext(), R.layout.fragment_interview_live, null);
+        mRefreshLayout = (RefreshLayout) mRoot.findViewById(R.id.refreshLayout);
+        mListView = (ListView) mRoot.findViewById(R.id.lv_inter_live);
+        mChennel = (String) SPUtils.get(getContext(), "channel", "1");
+        mToken = (String) SPUtils.get(getContext(), "token", "1");
+        LogUtils.d(mToken+"++++");
+        initData();
 
-        listView.setAdapter(new MyAdapte());
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        return mRoot;
+    }
+
+    private boolean initData() {
+
+        Call<InterViewLiveBean> call = HiRetorfit.getInstans().getApi().InterLive(mChennel, mToken, page, paging);
+        call.enqueue(new Callback<InterViewLiveBean>() {
+            @Override
+            public void onResponse(Call<InterViewLiveBean> call, Response<InterViewLiveBean> response) {
+                if (response != null) {
+                    if (response.body().getResult() == 1) {
+                        InterViewLiveBean interViewLiveBean = response.body();
+                        mList.addAll(interViewLiveBean.getData());
+                        //initView();
+                        if (x == 1) {
+                            x = 2;
+                            initView();
+                        } else {
+                            mMyAdapter.notifyDataSetChanged();
+                        }
+                    } else if (response.body().getResult() == -1) {
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        TastyToast.makeText(getContext(), "token失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    } else if (response.body().getResult() == 0) {
+                        TastyToast.makeText(getContext(), "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    }
+
+                } else {
+
+                    TastyToast.makeText(getContext(), "获取数据失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InterViewLiveBean> call, Throwable t) {
+
+                TastyToast.makeText(getContext(), "获取数据失败请检查网络设置！", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            }
+        });
+
+        if (mList.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    protected void initView() {
+        mMyAdapter = new MyAdapter();
+        mListView.setAdapter(mMyAdapter);
+        final Intent intent1 = new Intent(getContext(), CourseOneDetailsActivity.class);
+        final Intent intent2 = new Intent(getContext(), CourseDetailsActivity.class);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                T.showShort(getContext(), position + "++++");
+                if (mList.get(position).isIsPackage()) {
+                    intent2.putExtra("id", mList.get(position).getId() + "");
+                    startActivity(intent2);
+                } else {
+                    String startDate = DateUtil.getDate(mList.get(position).getStartDate());
+                    String startTime = DateUtil.getTime(mList.get(position).getStartTime());
+                    intent1.putExtra("num", mList.get(position).getPersonNum() + "");
+                    intent1.putExtra("videoId", mList.get(position).getVideoId());
+                    intent1.putExtra("date", startDate);
+                    intent1.putExtra("time", startTime);
+                    intent1.putExtra("url", mList.get(position).getCourseIntroduction().getIntroduceUrl());
+                    startActivity(intent1);
+                }
             }
         });
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000);
-            }
-        });
-        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadmore(2000);
+                page = 0;
+                mList.clear();
+                refreshlayout.finishRefresh(initData());
+                //
+                //initData();
             }
         });
 
-        return root;
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page = page + 1;
+                refreshlayout.finishLoadmore(initData());
+            }
+        });
+
     }
 
 
-    private class MyAdapte extends BaseAdapter {
+    private class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return 12;
+            if (mList != null) {
+                return mList.size();
+            } else {
+                TastyToast.makeText(getContext(), "数据错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                return 0;
+            }
+
         }
 
         @Override
@@ -88,6 +199,38 @@ public class InterViewLiveFragement extends BaseFragment {
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.mTvLiveTitle.setText(mList.get(position).getTitle() + "");
+            viewHolder.mTvTimeYear.setText(DateUtil.getDate(mList.get(position).getStartDate()));
+            if (mList.get(position).isIsPackage()) {
+                viewHolder.mTvLine.setText("—");
+                viewHolder.mTvTimeHoues.setText(DateUtil.getDate(mList.get(position).getEndDate()));
+            } else {
+                viewHolder.mTvTimeHoues.setText(DateUtil.getTime(mList.get(position).getStartTime()) + "开始");
+            }
+
+            if (!mList.get(position).isIsRecommend()) {
+                viewHolder.mIvLiveTj.setVisibility(View.GONE);
+            }
+
+            if (!mList.get(position).isEnrollmentStatus()) {
+                viewHolder.mTvEnrol.setText("已报名");
+                viewHolder.mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
+            }
+            viewHolder.mTvPersornum.setText(mList.get(position).getPersonNum() + "");
+
+            if (mList.get(position).getTeachers().size() == 1) {
+                Picasso.with(getContext()).load(mList.get(position).getTeachers().get(0).getTeacherIcon()).into(viewHolder.mOneImage);
+                viewHolder.mOneName.setText(mList.get(position).getTeachers().get(0).getTeacherName());
+                viewHolder.mLlTechcer2.setVisibility(View.GONE);
+            } else if (mList.get(position).getTeachers().size() == 2) {
+                Picasso.with(getContext()).load(mList.get(position).getTeachers().get(0).getTeacherIcon()).into(viewHolder.mOneImage);
+                viewHolder.mOneName.setText(mList.get(position).getTeachers().get(0).getTeacherName());
+                Picasso.with(getContext()).load(mList.get(position).getTeachers().get(1).getTeacherIcon()).into(viewHolder.mTwoImage);
+                viewHolder.mTwoName.setText(mList.get(position).getTeachers().get(1).getTeacherName());
+            } else {
+                viewHolder.mLlTechcer2.setVisibility(View.GONE);
+                viewHolder.mLlTechcer1.setVisibility(View.GONE);
             }
 
 
@@ -121,6 +264,8 @@ public class InterViewLiveFragement extends BaseFragment {
         TextView mTvEnrol;
         @InjectView(R.id.tv_persornum)
         TextView mTvPersornum;
+        @InjectView(R.id.tv_line)
+        TextView mTvLine;
 
         ViewHolder(View view) {
             ButterKnife.inject(this, view);

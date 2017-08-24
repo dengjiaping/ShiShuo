@@ -5,7 +5,8 @@
     <color name="transplate">#00ff00ff</color>
     <color name="colorAccent">#FF4081</color>
     <!-- 粉红-->
-    <color name="main_color">#E8466E</color>
+    <color name="main_color">#FD577B</color>
+    <!--<color name="main_color">#E8466E</color>-->
     <!--主要背景-->
     <color name="main_bkg">#e6e6e6</color>
 

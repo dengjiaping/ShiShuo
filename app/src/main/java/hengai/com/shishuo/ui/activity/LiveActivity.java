@@ -104,7 +104,8 @@ public class LiveActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgbtn_return:
-                finish();
+                //finish();
+                startActivity(new Intent(LiveActivity.this,CourseDetailsActivity.class));
                 break;
             case R.id.rb_inter:
                 mVpLive.setCurrentItem(0);
@@ -118,6 +119,8 @@ public class LiveActivity extends AppCompatActivity {
                 break;
             case R.id.img_btn_mylive:
                startActivity(new Intent(LiveActivity.this,MyLiveActivity.class));
+                //startActivity(new Intent(LiveActivity.this,CourseOneDetailsActivity.class));
+
                 break;
         }
     }

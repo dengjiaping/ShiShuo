@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
         instance = this;
-        mContext=this;
+        mContext = this;
         mBtnLogin.setEnabled(false);
         mEtLoginPhone.addTextChangedListener(mWatcher);
         String pwd = (String) SPUtils.get(LoginActivity.this, "phone", "1");
@@ -149,14 +149,14 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case R.id.imgbtn_qq:
                 //startActivity(new Intent(LoginActivity.this,LoginPwdActivity.class));
-                mUmsys="QQ";
+                mUmsys = "QQ";
                 thirdPartyLogin(SHARE_MEDIA.QQ);
                /* String s1= (String) SPUtils.get(LoginActivity.this,"settings","2");
                 LogUtils.d(s1);*/
                 break;
             case R.id.imgbtn_wechat:
                 //startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                mUmsys="WX";
+                mUmsys = "WX";
                 thirdPartyLogin(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.tv_login_server:
@@ -167,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * 验证手机号码是否已注册
+     *
      * @param i
      */
     private void login(String i) {
@@ -231,6 +232,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onStart(SHARE_MEDIA media) {
 
             }
+
             /*mUmsys;
             private String mUmuid;
             private String mUmname;
@@ -242,14 +244,14 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "授权成功", Toast.LENGTH_LONG).show();
                 LogUtils.d("++++" + map.toString());
 
-                    mUmuid = map.get("uid");
-                    mUmname = map.get("name");
-                    mUmgender = map.get("gender");
-                    mUmheadurl = map.get("iconurl");
-                    TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                    mchcode = tm.getDeviceId();
-                    LogUtils.d("++++这是之后的数据" +"mUmuid="+mUmuid +"mUmname="+mUmname+mUmgender+mUmheadurl+mUmsys+mchcode);
-                    quickLogin("liangshishuo",mUmsys,mUmuid,mUmname,mUmgender,mUmheadurl,mchcode);
+                mUmuid = map.get("uid");
+                mUmname = map.get("name");
+                mUmgender = map.get("gender");
+                mUmheadurl = map.get("iconurl");
+                TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                mchcode = tm.getDeviceId();
+                LogUtils.d("++++这是之后的数据" + "mUmuid=" + mUmuid + "mUmname=" + mUmname + mUmgender + mUmheadurl + mUmsys + mchcode);
+                quickLogin("liangshishuo", mUmsys, mUmuid, mUmname, mUmgender, mUmheadurl, mchcode);
 
             }
 
@@ -269,6 +271,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * 第三方登录
+     *
      * @param channel
      * @param umsys
      * @param umuid
@@ -277,35 +280,35 @@ public class LoginActivity extends AppCompatActivity {
      * @param umheadurl
      * @param mchcode
      */
-private void quickLogin(String channel, String umsys, String umuid, final String umname, final String umgender, final String umheadurl, String mchcode){
-Call<LoginBean> call=HiRetorfit.getInstans().getApi().QuickLogin(channel,umsys,umuid,umname,umgender,umheadurl,mchcode);
-    call.enqueue(new Callback<LoginBean>() {
-        @Override
-        public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
-        String s1= (String) SPUtils.get(LoginActivity.this,"settings","1");
-            if(response!=null){
-                LoginBean loginBean=response.body();
-                SPUtils.put(mContext,"uid",loginBean.getUsertoken().getUid());
-                SPUtils.put(mContext,"token",loginBean.getUsertoken().getToken());
-                SPUtils.put(mContext,"umname",umname);
-                SPUtils.put(mContext,"umgender",umgender);
-                SPUtils.put(mContext,"umheadurl",umheadurl);
-                if(s1.equals("1")){
-                    startActivity(new Intent(mContext,MyDreamActivity.class));
-                    finish();
-                }else{
-                    startActivity(new Intent(mContext,MainActivity.class));
-                    finish();
+    private void quickLogin(String channel, String umsys, String umuid, final String umname, final String umgender, final String umheadurl, String mchcode) {
+        Call<LoginBean> call = HiRetorfit.getInstans().getApi().QuickLogin(channel, umsys, umuid, umname, umgender, umheadurl, mchcode);
+        call.enqueue(new Callback<LoginBean>() {
+            @Override
+            public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
+                String s1 = (String) SPUtils.get(LoginActivity.this, "settings", "1");
+                if (response != null) {
+                    LoginBean loginBean = response.body();
+                    SPUtils.put(mContext, "uid", loginBean.getUsertoken().getUid());
+                    SPUtils.put(mContext, "token", loginBean.getUsertoken().getToken());
+                    SPUtils.put(mContext, "umname", umname);
+                    SPUtils.put(mContext, "umgender", umgender);
+                    SPUtils.put(mContext, "umheadurl", umheadurl);
+                    if (s1.equals("1")) {
+                        startActivity(new Intent(mContext, MyDreamActivity.class));
+                        finish();
+                    } else {
+                        startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
+                    }
                 }
             }
-        }
 
-        @Override
-        public void onFailure(Call<LoginBean> call, Throwable t) {
-         T.showShort(mContext,"登录失败");
-        }
-    });
-}
+            @Override
+            public void onFailure(Call<LoginBean> call, Throwable t) {
+                T.showShort(mContext, "登录失败");
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

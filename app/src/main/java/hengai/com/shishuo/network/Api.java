@@ -1,12 +1,16 @@
 package hengai.com.shishuo.network;
 
 
+import hengai.com.shishuo.bean.CourseDetailsBean;
 import hengai.com.shishuo.bean.HomeBean;
+import hengai.com.shishuo.bean.InterViewLiveBean;
 import hengai.com.shishuo.bean.LoginBean;
 import hengai.com.shishuo.bean.MobileNumble;
+import hengai.com.shishuo.bean.MyLiveBean;
 import hengai.com.shishuo.bean.RegisterBean;
 
 import hengai.com.shishuo.bean.SettingMsgBean;
+import hengai.com.shishuo.bean.WrittenLiveBean;
 import hengai.com.shishuo.bean.Xueke;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -49,6 +53,21 @@ public interface Api {
     //首页数据的获取
     @GET("homepagejson.html")
     Call<HomeBean> GetHomeData(@Query("channel") String channel, @Query("token") String token);
+    //获取面试直播的数据
+    @GET("listinterviewcourse.html")
+    Call<InterViewLiveBean> InterLive(@Query("channel") String channel,@Query("token") String token, @Query("page") int page,@Query("paging") int paging);
+
+    //获取笔试直播的数据
+    @GET("listwrittencourse.html")
+    Call<WrittenLiveBean> WrittenLive(@Query("channel") String channel, @Query("token") String token,@Query("page") int page,@Query("paging") int paging);
+
+    //获取我的直播的数据
+    @GET("mycourse.html")
+    Call<MyLiveBean> MyLive(@Query("channel") String channel, @Query("token") String token);
+
+    //获取直播详情的数据
+    @GET("getcourseinfo.html")
+    Call<CourseDetailsBean> CourseDetail(@Query("channel") String channel, @Query("token") String token,@Query("courseid") String courseid);
 
     @GET("ceshi.json")
     Call<SettingMsgBean> Settings();

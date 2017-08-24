@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:orientation="vertical"
               android:background="@color/main_bkg"
     >
 
@@ -16,11 +17,12 @@
             >
 
             <ImageButton
+                android:id="@+id/imgbtn_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/main_color"
+                android:background="#fd577b"
                 android:src="@mipmap/return_button"
                 />
 
@@ -47,6 +49,7 @@
             >
 
             <LinearLayout
+                android:id="@+id/ll_todayLive"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -75,6 +78,7 @@
                 android:background="@color/main_button_enable"
                 />
             <LinearLayout
+                android:id="@+id/ll_noStrat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -103,6 +107,7 @@
                 android:background="@color/main_button_enable"
                 />
             <LinearLayout
+                android:id="@+id/ll_replay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -124,6 +129,13 @@
                     />
             </LinearLayout>
         </LinearLayout>
-
     </RelativeLayout>
+    <ListView
+        android:id="@+id/lv_mylive"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:divider="#00000000"
+        android:dividerHeight="8dp"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>
