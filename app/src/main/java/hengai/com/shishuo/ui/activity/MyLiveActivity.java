@@ -1,6 +1,7 @@
 package hengai.com.shishuo.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -55,6 +56,9 @@ public class MyLiveActivity extends AppCompatActivity {
         mContext=this;
         String channel = (String) SPUtils.get(this, "channel", "1");
         String token = (String) SPUtils.get(this, "token", "1");
+        mLlTodayLive.setSelected(true);
+        mLlReplay.setSelected(false);
+        mLlNoStrat.setSelected(false);
         initData(channel,token);
     }
 
@@ -72,7 +76,8 @@ public class MyLiveActivity extends AppCompatActivity {
                         mLlTodayLive.setSelected(true);
                         mLvMylive.setAdapter(new TodayLiveAdapter(mTodayLive,mContext));
                     }else if(response.body().getResult()==-1){
-
+                        TastyToast.makeText(mContext, "权限验证失效请重新登录！", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                        startActivity(new Intent(MyLiveActivity.this,LoginActivity.class));
                     }
                 }else if(response.body().getResult()==0){
 

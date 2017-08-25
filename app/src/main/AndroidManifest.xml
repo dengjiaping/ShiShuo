@@ -39,11 +39,9 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data android:scheme="tencent100424468"/>
+                <data android:scheme="tencent1105807406"/>
             </intent-filter>
         </activity>
         <activity
@@ -76,6 +74,36 @@
         <activity android:name=".ui.activity.CourseOneDetailsActivity"/>
         //评价页面
         <activity android:name=".ui.activity.EvaluationActivity">
+        </activity>
+        //报名成功分享页面
+        <activity android:name=".ui.activity.SignUpActivity"></activity>
+        //直播房间页面
+        <activity android:name=".ui.activity.LiveRoomActivity"></activity>
+        //评价分享页
+        <activity android:name=".ui.activity.EvalutionShareActivity"></activity>
+        //新浪微博分享
+        <activity
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!--<activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
+                  android:configChanges="keyboardHidden|orientation"
+                  android:exported="false"
+                  android:windowSoftInputMode="adjustResize">
+
+        </activity>-->
+
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:launchMode="singleTask"
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
         </activity>
         <meta-data

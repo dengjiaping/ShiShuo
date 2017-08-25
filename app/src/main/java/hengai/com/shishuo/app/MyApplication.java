@@ -34,6 +34,7 @@ public class MyApplication extends Application {
     {
         PlatformConfig.setWeixin("wx5231d4d655cbf5c2", "875777926699ad7f9a0ad7675dfe2011");
         PlatformConfig.setQQZone("1105807406", "IIwxLqdIAdZGG6R3");
+        PlatformConfig.setSinaWeibo("2862859337", "06f988828740fee943633953dcf73ba3","http://liangshiba.com");
     }
     static {//static 代码段可以防止内存泄露
         //设置全局的Header构建器

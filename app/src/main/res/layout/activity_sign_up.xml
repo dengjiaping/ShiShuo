@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/main_color"
+    >
+    <ImageView
+        android:id="@+id/iv_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/return_button"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="报名成功"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/signup_bkg"
+            />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:text="中学语文文言文试讲"
+            />
+
+    </RelativeLayout>
+
+<TextView
+    android:id="@+id/tv_into_live"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:text="进入直播间"
+    android:layout_marginTop="20dp"
+    android:layout_marginLeft="28dp"
+    android:layout_marginRight="28dp"
+    android:textColor="@color/white"
+    android:background="@color/main_color"
+    android:textSize="16sp"
+    android:gravity="center"
+    />
+    <TextView
+        android:id="@+id/tv_sharing"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="分享"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:textColor="@color/white"
+        android:background="@color/main_color"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
+</LinearLayout>

@@ -1,6 +1,7 @@
 package hengai.com.shishuo.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -149,7 +150,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 //客服
                 break;
             case R.id.tv_sign_free:
-
+                if(mCourseDetailsBean!=null){
+                    Intent intent = new Intent(CourseDetailsActivity.this,SignUpActivity.class);
+                    intent.putExtra("title",mCourseDetailsBean.getData().getTitle());
+                    startActivity(intent);
+                }else{
+                    TastyToast.makeText(mContext, "数据错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                }
                 break;
         }
     }

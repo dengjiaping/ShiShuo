@@ -55,14 +55,15 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.roughike:bottom-bar:2.3.1'
     /*轮播图*/
+
     /*compile "com.android.support:support-v4:+"*/
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
-
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
     //刷新控件
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-
+    compile files('libs/SocialSDK_Sina_Simplify.jar')
+    compile files('libs/umeng_social_shareview.jar')
 }

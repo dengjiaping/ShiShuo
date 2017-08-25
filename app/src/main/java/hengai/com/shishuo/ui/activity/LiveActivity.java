@@ -100,7 +100,7 @@ public class LiveActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.imgbtn_return, R.id.rb_inter, R.id.rb_writen, R.id.img_btn_mylive})
+    @OnClick({R.id.imgbtn_return, R.id.rb_inter, R.id.rb_writen, R.id.img_btn_mylive,R.id.rl_intomylive})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgbtn_return:
@@ -119,6 +119,11 @@ public class LiveActivity extends AppCompatActivity {
                 break;
             case R.id.img_btn_mylive:
                startActivity(new Intent(LiveActivity.this,MyLiveActivity.class));
+                //startActivity(new Intent(LiveActivity.this,CourseOneDetailsActivity.class));
+
+                break;
+            case R.id.rl_intomylive:
+                startActivity(new Intent(LiveActivity.this,MyLiveActivity.class));
                 //startActivity(new Intent(LiveActivity.this,CourseOneDetailsActivity.class));
 
                 break;
