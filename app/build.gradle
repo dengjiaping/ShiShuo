@@ -66,4 +66,5 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile files('libs/SocialSDK_Sina_Simplify.jar')
     compile files('libs/umeng_social_shareview.jar')
+    compile project(':sdk')
 }
