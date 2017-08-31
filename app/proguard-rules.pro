@@ -106,3 +106,11 @@
 -keep class com.linkedin.** { *; }
 -keep class com.android.dingtalk.share.ddsharemodule.** { *; }
 -keepattributes Signature
+
+
+#cc点播
+-dontwarn com.bokecc.sdk.mobile.**
+
+-keep public class com.bokecc.sdk.mobile.**{*;}
+
+-keep public interface com.bokecc.sdk.mobile.**{*;}

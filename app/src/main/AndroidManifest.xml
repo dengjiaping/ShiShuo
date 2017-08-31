@@ -79,6 +79,8 @@
         <activity android:name=".ui.activity.SignUpActivity"></activity>
         //直播房间页面
         <activity android:name=".ui.activity.LiveRoomActivity"></activity>
+        //视频点播  播放页面
+        <activity android:name=".ui.activity.VideoPlayActivity"></activity>
         //评价分享页
         <activity android:name=".ui.activity.EvalutionShareActivity"></activity>
         //新浪微博分享
