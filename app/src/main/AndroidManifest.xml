@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="hengai.com.shishuo">
+          package="hengai.com.shishuo"
+          xmlns:tools="http://schemas.android.com/tools"
+    >
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="23"
+        tools:overrideLibrary="tv.danmaku.ijk.media.player_arm64"/>
+
+
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
+
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+<!--CC-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -90,6 +113,15 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="false"
             android:screenOrientation="portrait" >
+        </activity>
+      //直播回放页面
+        <activity android:name=".live.activity.ReplayActivity"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"
+            >
+
+
         </activity>
         <!--<activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
                   android:configChanges="keyboardHidden|orientation"
