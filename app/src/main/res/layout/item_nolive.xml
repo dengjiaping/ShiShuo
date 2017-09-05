@@ -5,11 +5,22 @@
               android:background="@color/white"
               android:orientation="vertical"
     >
-    <ListView
-        android:id="@+id/lv_ceshi"
+    <TextView
+        android:id="@+id/tv_live"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:gravity="center"
+        android:background="#f00"
+        android:layout_height="30dp"
+        android:text="直播"
+        />
+    <TextView
+        android:id="@+id/tv_replay"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="#0f0"
+        android:layout_height="30dp"
+        android:layout_marginTop="60dp"
+        android:text="回放"
+        />
 
-
-    </ListView>
 </LinearLayout>

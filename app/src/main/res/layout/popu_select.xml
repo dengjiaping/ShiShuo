@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <RadioGroup
+        android:id="@+id/rg_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/rb_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="全部"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_speak"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="说课"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_rehearsal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="试讲"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_structured"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="结构化"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_defense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="答辩"
+            android:textColor="@drawable/main_title_text_chector"/>
+    </RadioGroup>
+</LinearLayout>

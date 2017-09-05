@@ -12,6 +12,7 @@
 
     <color name="live_title_bkg">#D00028</color>
     <color name="main_button_enable">#666666</color>
+    <color name="popu_bkg">#2122</color>
     <!-- 白色 -->
     <color name="white">#ffffff</color>
     <!--黑色-->

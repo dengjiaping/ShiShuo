@@ -38,6 +38,7 @@ public class MyApplication extends Application {
 // BeeCloud.setSandbox(true);
 // BeeCloud.setAppIdAndSecret("appId", "testSecret");
     }
+
     {
         PlatformConfig.setWeixin("wx5231d4d655cbf5c2","875777926699ad7f9a0ad7675dfe2011");
         PlatformConfig.setQQZone("1105807406", "IIwxLqdIAdZGG6R3");
