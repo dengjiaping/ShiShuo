@@ -20,6 +20,8 @@ import com.umeng.socialize.UMShareAPI;
 
 import cn.beecloud.BeeCloud;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.utils.DataSet;
+import hengai.com.shishuo.utils.DownloadController;
 
 /**
  * Created by yu on 2017/8/4.
@@ -34,6 +36,10 @@ public class MyApplication extends Application {
         BeeCloud.setAppIdAndSecret("04250155-4651-42d1-917d-2f793f720806",
                 "811671b6-34d6-4db5-b020-484dcc8bf844");
 
+
+        //初始化数据库和下载数据
+        DataSet.init(this);
+        DownloadController.init();
 // 如果需要开启测试模式
 // BeeCloud.setSandbox(true);
 // BeeCloud.setAppIdAndSecret("appId", "testSecret");

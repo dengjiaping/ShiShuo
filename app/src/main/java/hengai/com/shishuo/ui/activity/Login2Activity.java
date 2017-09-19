@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.sdsmdg.tastytoast.TastyToast;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -114,7 +116,8 @@ public class Login2Activity extends AppCompatActivity {
                 public void onResponse(Call<RegisterBean> call, Response<RegisterBean> response) {
                     if(response!=null){
                         if(response.body().getResult()==1){
-                            T.showShort(Login2Activity.this,"注册成功");
+                            TastyToast.makeText(Login2Activity.this,"注册成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
+
                             //注册成功后登录
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -123,21 +126,23 @@ public class Login2Activity extends AppCompatActivity {
                                 }
                             });
                         }else {
-                            T.showShort(Login2Activity.this,response.body().getMessage());
+                            TastyToast.makeText(Login2Activity.this,response.body().getMessage(),TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                         }
 
                     }else{
-                        T.showShort(Login2Activity.this,"网络错误");
+                        //T.showShort(Login2Activity.this,"网络错误");
+                        TastyToast.makeText(Login2Activity.this,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RegisterBean> call, Throwable t) {
-                    T.showShort(Login2Activity.this,"网络错误");
+                            TastyToast.makeText(Login2Activity.this,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                 }
             });
         }else{
-            T.showShort(Login2Activity.this,"请输入验证码");
+
+            TastyToast.makeText(Login2Activity.this,"请输入验证码",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
         }
     }
 
@@ -167,7 +172,8 @@ public class Login2Activity extends AppCompatActivity {
                         finish();
                     }
                     if(loginBean.getResult()==-1){
-                        T.showShort(mContext,"登录失败");
+
+                        TastyToast.makeText(Login2Activity.this,"登录失败",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                     }
 
                 }

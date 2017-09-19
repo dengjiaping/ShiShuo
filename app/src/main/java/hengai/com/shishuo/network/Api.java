@@ -1,15 +1,18 @@
 package hengai.com.shishuo.network;
 
 
+import hengai.com.shishuo.bean.Banner;
 import hengai.com.shishuo.bean.CourseDetailsBean;
 import hengai.com.shishuo.bean.HomeBean;
 import hengai.com.shishuo.bean.InterViewLiveBean;
+import hengai.com.shishuo.bean.LiveCourseInfo;
 import hengai.com.shishuo.bean.LoginBean;
 import hengai.com.shishuo.bean.MobileNumble;
 import hengai.com.shishuo.bean.MyLiveBean;
 import hengai.com.shishuo.bean.RegisterBean;
 
 import hengai.com.shishuo.bean.SettingMsgBean;
+import hengai.com.shishuo.bean.VideoSetting;
 import hengai.com.shishuo.bean.WrittenLiveBean;
 import hengai.com.shishuo.bean.Xueke;
 import retrofit2.Call;
@@ -49,10 +52,14 @@ public interface Api {
     //上传用户设置
     @GET("updateallsetting.html")
     Call<RegisterBean> UpSetting(@Query("channel") String channel, @Query("branchid") String branchid, @Query("catgid") String catgid, @Query("scatgid") String scatgid, @Query("token") String token);
-
+    //获得视频平台播放配置参数
+    @GET("getvcpsetting.html")
+    Call<VideoSetting> VideoSetting(@Query("channel") String channel);
     //首页数据的获取
     @GET("homepagejson.html")
     Call<HomeBean> GetHomeData(@Query("channel") String channel, @Query("token") String token);
+    @GET("homebannerjson.html")
+    Call<Banner> BannerList(@Query("channel") String channel);
     //获取面试直播的数据
     @GET("listinterviewcourse.html")
     Call<InterViewLiveBean> InterLive(@Query("channel") String channel,@Query("token") String token, @Query("page") int page,@Query("paging") int paging);
@@ -67,7 +74,7 @@ public interface Api {
 
     //获取直播详情的数据
     @GET("getcourseinfo.html")
-    Call<CourseDetailsBean> CourseDetail(@Query("channel") String channel, @Query("token") String token,@Query("courseid") String courseid);
+    Call<LiveCourseInfo> CourseDetail(@Query("channel") String channel, @Query("token") String token, @Query("crcode") String crcode);
 
     @GET("ceshi.json")
     Call<SettingMsgBean> Settings();

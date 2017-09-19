@@ -64,6 +64,7 @@ import org.json.JSONObject;
 import org.webrtc.EglBase;
 import org.webrtc.SurfaceViewRenderer;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -756,7 +757,6 @@ public class PcLivePlayActivity extends BaseActivity implements TextureView.Surf
                             if (docView != null) {
                                 docView.setVisibility(View.VISIBLE);
                             }
-
                             break;
                         case PREPARING:
                             pcPortraitProgressBar.setVisibility(View.GONE);

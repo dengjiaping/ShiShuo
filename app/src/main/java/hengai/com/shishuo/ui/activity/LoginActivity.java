@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sdsmdg.tastytoast.TastyToast;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -115,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                 mBtnLogin.setEnabled(false);
             }
             if (temp.length() > 11) {
-                T.showShort(LoginActivity.this, "你输入的字数已经超过了限制！");
+                TastyToast.makeText(LoginActivity.this,"请输入正确的手机号码",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;
                 mEtLoginPhone.setText(s);
@@ -131,10 +132,12 @@ public class LoginActivity extends AppCompatActivity {
             if (mPhone.length() == 11) {
                 login(mPhone);
             } else {
-                T.showShort(this, "手机号格式有误");
+                TastyToast.makeText(LoginActivity.this,"手机号格式有误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+
             }
         } else {
-            T.showShort(this, "手机号码不能为空");
+            TastyToast.makeText(LoginActivity.this,"手机号码不能为空",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+
         }
 
     }
@@ -241,7 +244,8 @@ public class LoginActivity extends AppCompatActivity {
             private String mchcode;*/
             @Override
             public void onComplete(SHARE_MEDIA media, int i, Map<String, String> map) {
-                Toast.makeText(LoginActivity.this, "授权成功", Toast.LENGTH_LONG).show();
+
+                TastyToast.makeText(LoginActivity.this,"授权成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
                 LogUtils.d("++++" + map.toString());
 
                 mUmuid = map.get("uid");
@@ -257,13 +261,15 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(SHARE_MEDIA media, int i, Throwable throwable) {
-                Toast.makeText(LoginActivity.this, "授权失败", Toast.LENGTH_LONG).show();
+
+                TastyToast.makeText(LoginActivity.this,"授权失败",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                 LogUtils.d("++++" + throwable.getMessage());
             }
 
             @Override
             public void onCancel(SHARE_MEDIA media, int i) {
-                Toast.makeText(LoginActivity.this, "取消授权", Toast.LENGTH_LONG).show();
+                TastyToast.makeText(LoginActivity.this,"授权取消",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
+
             }
         });
 
@@ -305,7 +311,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginBean> call, Throwable t) {
-                T.showShort(mContext, "登录失败");
+
             }
         });
     }

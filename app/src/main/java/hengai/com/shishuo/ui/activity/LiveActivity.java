@@ -22,6 +22,7 @@ import hengai.com.shishuo.ui.fragment.InterViewLiveFragement;
 import hengai.com.shishuo.ui.fragment.WritenLiveFragment;
 
 /**
+ * 直播视频列表页面
  * Created by yu on 2017/8/17.
  */
 
@@ -104,8 +105,8 @@ public class LiveActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgbtn_return:
-                //finish();
-                startActivity(new Intent(LiveActivity.this,CourseDetailsActivity.class));
+                finish();
+                //startActivity(new Intent(LiveActivity.this,CourseDetailsActivity.class));
                 break;
             case R.id.rb_inter:
                 mVpLive.setCurrentItem(0);

@@ -22,6 +22,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
 import hengai.com.shishuo.bean.CourseDetailsBean;
+import hengai.com.shishuo.bean.LiveCourseInfo;
 import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.adapter.LiveDerailImgAdapter;
 import hengai.com.shishuo.ui.adapter.LiveDetailLeftAdapter;
@@ -70,8 +71,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
     TextView mTvSignFree;
     @InjectView(R.id.lv_detail)
     ListView mLvDetail;
-    private List<CourseDetailsBean.DataBean.CourseArrangementBean> mList;
-    private CourseDetailsBean mCourseDetailsBean;
+    private List<LiveCourseInfo.DataBean.CourseArrangementBean> mList;
+    private LiveCourseInfo mCourseDetailsBean;
     Context mContext;
     String url;
     @Override
@@ -99,16 +100,17 @@ public class CourseDetailsActivity extends AppCompatActivity {
     private void initData() {
         String channel = (String) SPUtils.get(this, "channel", "1");
         String token = (String) SPUtils.get(this, "token", "1");
-        String id = getIntent().getStringExtra("id");
+        String crcode = getIntent().getStringExtra("crcode");
 
-        Call<CourseDetailsBean> call = HiRetorfit.getInstans().getApi().CourseDetail(channel, token, id);
-        call.enqueue(new Callback<CourseDetailsBean>() {
+        Call<LiveCourseInfo> call = HiRetorfit.getInstans().getApi().CourseDetail(channel, token, crcode);
+        call.enqueue(new Callback<LiveCourseInfo>() {
             @Override
-            public void onResponse(Call<CourseDetailsBean> call, Response<CourseDetailsBean> response) {
+            public void onResponse(Call<LiveCourseInfo> call, Response<LiveCourseInfo> response) {
                 if (response.body().getResult() == 1) {
                     mCourseDetailsBean = response.body();
                     mList = mCourseDetailsBean.getData().getCourseArrangement();
-                    url=mCourseDetailsBean.getData().getCourseIntroduction().getIntroduceUrl();
+                    //url=mCourseDetailsBean.getData();
+                    //TODO
                     initView();
                 } else if (response.body().getResult() == -1) {
                     TastyToast.makeText(mContext, "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
@@ -119,7 +121,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<CourseDetailsBean> call, Throwable t) {
+            public void onFailure(Call<LiveCourseInfo> call, Throwable t) {
 
             }
         });

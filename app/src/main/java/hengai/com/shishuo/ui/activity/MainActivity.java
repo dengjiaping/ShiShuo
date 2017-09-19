@@ -1,7 +1,9 @@
 package hengai.com.shishuo.ui.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.IdRes;
@@ -11,9 +13,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bokecc.sdk.mobile.download.Downloader;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -35,6 +39,9 @@ import hengai.com.shishuo.ui.fragment.FindFragment;
 import hengai.com.shishuo.ui.fragment.InterViewFragment;
 import hengai.com.shishuo.ui.fragment.MineFragment;
 import hengai.com.shishuo.ui.fragment.WrittenFragment;
+import hengai.com.shishuo.utils.DataSet;
+import hengai.com.shishuo.utils.DownloadController;
+import hengai.com.shishuo.utils.DownloaderWrapper;
 import hengai.com.shishuo.utils.LogUtils;
 import hengai.com.shishuo.utils.T;
 import retrofit2.Call;
@@ -140,4 +147,55 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Log.i("data", "save data... ...");
+
+        DataSet.saveUploadData();
+        DataSet.saveDownloadData();
+
+        if (hasDownloadingTask()) {
+            //showDialog();
+            super.onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private boolean hasDownloadingTask() {
+        for (DownloaderWrapper wrapper: DownloadController.downloadingList) {
+            if (wrapper.getStatus() == Downloader.DOWNLOAD || wrapper.getStatus() == Downloader.WAIT) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void showDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DownloadController.setBackDownload(true);
+                        finish();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stopDownloadService();
+                        DownloadController.setBackDownload(false);
+                        finish();
+                    }
+                }).setTitle("有正在下载的任务，是否需要后台下载？")
+                .create();
+
+        dialog.show();
+    }
+
+    private void stopDownloadService() {
+        /*Intent intent = new Intent(this, DownloadService.class);
+        stopService(intent);*/
+    }
 }

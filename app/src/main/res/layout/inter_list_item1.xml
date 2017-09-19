@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/y30"
         android:text="7月份语文面试答疑语文面试"
         android:textColor="#000"
-        android:textSize="19sp"
+        android:textSize="17sp"
         />
     <ImageView
         android:id="@+id/iv_live_tj"
@@ -31,6 +31,7 @@
     
 
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/x30">
@@ -67,6 +68,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y180"
+        android:layout_marginTop="5dp"
         >
 
         <LinearLayout
@@ -136,7 +138,7 @@
             android:layout_marginRight="@dimen/x29"
             android:text="正在报名"
             android:textColor="@color/main_color"
-            android:textSize="18sp"
+            android:textSize="17sp"
             />
 
         <LinearLayout

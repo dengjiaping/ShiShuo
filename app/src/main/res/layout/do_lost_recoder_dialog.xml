@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/pop_dialog_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="260dp"
+        android:layout_height="0dip"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.37"
+        android:background="@drawable/pop_dialog_bg_title_blue" >
+
+        <ImageView
+            android:id="@+id/dialog_title_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/hichat_ic_tips" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_toRightOf="@id/dialog_title_image"
+            android:text="警告"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:text="返回将丢弃刚刚拍摄的视频"
+        android:textColor="#55595e"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/cancel_lost_ok"
+            android:layout_width="60dip"
+            android:layout_height="30dip"
+            android:background="@drawable/hichat_btn_pop_dialog"
+            android:text="确定"
+            android:textColor="#494b4c"
+            android:textSize="18sp" >
+        </Button>
+
+        <Button
+            android:id="@+id/cancel_lost_cancel"
+            android:layout_width="60dip"
+            android:layout_height="30dip"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/hichat_btn_pop_dialog"
+            android:text="取消"
+            android:textColor="#494b4c"
+            android:textSize="18sp" >
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>

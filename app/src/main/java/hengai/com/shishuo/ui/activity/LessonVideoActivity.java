@@ -81,7 +81,12 @@ public class LessonVideoActivity extends AppCompatActivity {
         mLvLessonVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(LessonVideoActivity.this, LessonDetailActivity.class));
+                Intent intent= new Intent(LessonVideoActivity.this,MediaPlayActivity.class);
+                intent.putExtra("videoId","A283A0C6C3DDFFE09C33DC5901307461");
+
+                startActivity(intent);
+
+                //startActivity(new Intent(LessonVideoActivity.this, LessonDetailActivity.class));
             }
         });
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -178,6 +183,7 @@ public class LessonVideoActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgbtn_return:
+                finish();
                 break;
             case R.id.img_btn_categry:
                 if (ss) {

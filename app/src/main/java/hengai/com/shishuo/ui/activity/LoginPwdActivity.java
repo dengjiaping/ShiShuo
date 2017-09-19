@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.sdsmdg.tastytoast.TastyToast;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -96,11 +98,12 @@ public class LoginPwdActivity extends AppCompatActivity {
                 if(!pwd.equals("")){
                     login(mChannel,mPhone,pwd);
                 }else{
-                    T.showShort(mContext,"密码不能为");
+                    TastyToast.makeText(LoginPwdActivity.this,"密码不能为空",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                 }
 
                 break;
             case R.id.tv_login_forgetpwd:
+
                 break;
         }
     }
@@ -111,7 +114,6 @@ public class LoginPwdActivity extends AppCompatActivity {
             public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
                 if(response!=null){
                     LoginBean loginBean=response.body();
-                    T.showShort(LoginPwdActivity.this,response.body().getMessage());
                     if(loginBean.getResult()==1){
                         SPUtils.put(mContext,"channel",channel);
                         SPUtils.put(mContext,"phone",phone);
@@ -119,11 +121,12 @@ public class LoginPwdActivity extends AppCompatActivity {
                         SPUtils.put(mContext,"uid",loginBean.getUsertoken().getUid());
                         SPUtils.put(mContext,"token",loginBean.getUsertoken().getToken());
                         LoginActivity.instance.finish();
+                        TastyToast.makeText(LoginPwdActivity.this,"登录成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
                         startActivity(new Intent(LoginPwdActivity.this,MainActivity.class));
                         finish();
                     }
                     if(loginBean.getResult()==-1){
-                        T.showShort(LoginPwdActivity.this,"用户名或者密码错误");
+                        TastyToast.makeText(LoginPwdActivity.this,"用户名或者密码错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                     }
 
                 }
@@ -131,7 +134,7 @@ public class LoginPwdActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginBean> call, Throwable t) {
-
+                TastyToast.makeText(LoginPwdActivity.this,"访问错误"+"--"+t,TastyToast.LENGTH_SHORT,TastyToast.ERROR);
             }
         });
     }

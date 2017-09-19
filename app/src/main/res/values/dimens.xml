@@ -44,4 +44,15 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
 
     <dimen name="pc_live_top_title">14sp</dimen>
     <dimen name="pc_live_top_living_sign">12sp</dimen>
+
+
+
+    <dimen name="popmenu_width">100.0dip</dimen>
+    <dimen name="popmenu_height">60.0dip</dimen>
+    <dimen name="popmenu_speed_height">120.0dip</dimen>
+    <dimen name="popmenu_yoff">5.0dip</dimen>
+    <dimen name="dip2pix">1.0dip</dimen>
+
+    <dimen name="ad_tv_margin_top_bottom">10dp</dimen>
+    <dimen name="ad_tv_margin_left_right">10dp</dimen>
 </resources>

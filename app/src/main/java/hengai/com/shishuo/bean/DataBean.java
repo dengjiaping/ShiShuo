@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/8/9 0009.
+ * Created by yu on 2017/8/9 0009.
  */
 
 public class DataBean {

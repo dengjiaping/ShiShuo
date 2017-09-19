@@ -52,7 +52,6 @@
 
         <activity android:name=".ui.activity.CeshiActivity">
 
-
         </activity>
         <!-- 注册界面 -->
         <activity android:name="hengai.com.shishuo.ui.activity.Login2Activity"/>
@@ -103,11 +102,31 @@
         //直播房间页面
         <activity android:name=".ui.activity.LiveRoomActivity"></activity>
         //视频点播  播放页面
+        <activity android:name=".ui.activity.MediaPlayActivity"
+                  android:configChanges="screenSize|keyboardHidden|orientation"
+                  android:label="@string/play"
+                  android:screenOrientation="sensor"
+            ></activity>
         <activity android:name=".ui.activity.VideoPlayActivity"></activity>
+        //视频录制界面
+        <activity android:name=".ui.activity.VideoRecorderActivity_2"></activity>
+
+        <activity android:name=".ui.activity.VideoPublishActivity_2"></activity>
+        <activity android:name=".ui.activity.VideoPublishNoSelectActivity_2"></activity>
         //练课视频详情页
         <activity android:name=".ui.activity.LessonDetailActivity"></activity>
         //评价分享页
         <activity android:name=".ui.activity.EvalutionShareActivity"></activity>
+        //抽题
+        <activity android:name=".ui.activity.QuestionActivity"></activity>
+        //课题图片介绍界面
+        <activity android:name=".ui.activity.PhotoPagerActivity"></activity>
+        //抽完提开始备考界面
+        <activity android:name=".ui.activity.StartPrepareActivity"></activity>
+
+        //上传发布成功分享界面
+        <activity android:name=".ui.activity.ReleaseSuccessActivity"></activity>
+
         //新浪微博分享
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
@@ -117,7 +136,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".ui.activity.LessonVideoActivity"></activity>
-
+      //资料资讯页面
+        <activity android:name=".ui.activity.InfoMationActivity"></activity>
+        //资料资讯详情页面
+        <activity android:name=".ui.activity.InfomationDetailsActivity"></activity>
       //直播回放页面
         <activity android:name=".live.activity.ReplayActivity"
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
@@ -127,6 +149,11 @@
 
 
         </activity>
+
+        <service
+            android:name=".upload.UploadService"
+            android:enabled="true" >
+        </service>
         <!--<activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
                   android:configChanges="keyboardHidden|orientation"
                   android:exported="false"

@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.Banner;
 import hengai.com.shishuo.bean.HomeBean;
 import hengai.com.shishuo.utils.T;
 
@@ -86,22 +87,27 @@ public class InterViewHead extends RelativeLayout implements BaseSliderView.OnSl
         linflater = LayoutInflater.from(getContext());
     }
 
-    public void bindView(List<HomeBean.DataBean.BannerBean> beanList) {
-        for (int i = 0; i < beanList.size(); i++) {
-            TextSliderView textSlider = new TextSliderView(getContext());
-            textSlider.image(beanList.get(i).getUrl())
-                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-                    .setOnSliderClickListener(this);
-            textSlider.bundle(new Bundle());
-            textSlider.getBundle().putInt("extra", beanList.get(i).getId());
-            mSlider.addSlider(textSlider);
+    public void bindView(List<Banner.DataBean.BannerBean> beanList) {
+        if(beanList.size()>0){
+            for (int i = 0; i < beanList.size(); i++) {
+                TextSliderView textSlider = new TextSliderView(getContext());
+                textSlider.image(beanList.get(i).getUrl())
+                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                        .setOnSliderClickListener(this);
+                textSlider.bundle(new Bundle());
+                textSlider.getBundle().putInt("extra", beanList.get(i).getId());
+                mSlider.addSlider(textSlider);
+            }
+
+
+            mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+            mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            mSlider.setCustomAnimation(new DescriptionAnimation());
+            mSlider.setDuration(4000);
+        }else{
+
         }
 
-
-        mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mSlider.setCustomAnimation(new DescriptionAnimation());
-        mSlider.setDuration(4000);
     }
 
     @Override

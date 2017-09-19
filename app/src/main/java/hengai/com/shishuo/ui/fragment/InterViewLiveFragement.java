@@ -1,6 +1,8 @@
 package hengai.com.shishuo.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
 import hengai.com.shishuo.bean.InterViewLiveBean;
+import hengai.com.shishuo.bean.VideoSetting;
 import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.activity.CourseDetailsActivity;
 import hengai.com.shishuo.ui.activity.CourseOneDetailsActivity;
@@ -56,6 +59,8 @@ public class InterViewLiveFragement extends Fragment {
     private RefreshLayout mRefreshLayout;
     private String mChennel;
     private String mToken;
+    SharedPreferences preferencesL;
+    SharedPreferences preferencesV;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,19 +70,53 @@ public class InterViewLiveFragement extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         mRoot = View.inflate(getContext(), R.layout.fragment_interview_live, null);
         mRefreshLayout = (RefreshLayout) mRoot.findViewById(R.id.refreshLayout);
         mListView = (ListView) mRoot.findViewById(R.id.lv_inter_live);
         mChennel = (String) SPUtils.get(getContext(), "channel", "1");
         mToken = (String) SPUtils.get(getContext(), "token", "1");
-        LogUtils.d(mToken+"++++");
+        LogUtils.d(mToken + "++++");
         initData();
 
         return mRoot;
     }
 
     private boolean initData() {
+        //LogUtils.d("++++"+mToken);
+        preferencesL = getContext().getSharedPreferences("videoL", Activity.MODE_PRIVATE);
+        preferencesV = getContext().getSharedPreferences("videoV", Activity.MODE_PRIVATE);
+        final SharedPreferences.Editor editorL = preferencesL.edit();
+        final SharedPreferences.Editor editorV = preferencesV.edit();
+        Call<VideoSetting> callSetting = HiRetorfit.getInstans().getApi().VideoSetting(mChennel);
+        callSetting.enqueue(new Callback<VideoSetting>() {
+            @Override
+            public void onResponse(Call<VideoSetting> call, Response<VideoSetting> response) {
+                if (response != null) {
+                    if (response.body().getResult() == 1) {
+                        editorL.putString("accountId", response.body().getData().get(0).getAccountId());
+                        editorL.putString("apiKey", response.body().getData().get(0).getApiKey());
 
+                        editorV.putString("accountId", response.body().getData().get(1).getAccountId());
+                        editorV.putString("apiKey", response.body().getData().get(1).getApiKey());
+
+
+                    } else if (response.body().getResult() == -1) {
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        TastyToast.makeText(getContext(), "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    } else if (response.body().getResult() == 0) {
+                        TastyToast.makeText(getContext(), "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VideoSetting> call, Throwable t) {
+                TastyToast.makeText(getContext(), "网络错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            }
+        });
         Call<InterViewLiveBean> call = HiRetorfit.getInstans().getApi().InterLive(mChennel, mToken, page, paging);
         call.enqueue(new Callback<InterViewLiveBean>() {
             @Override
@@ -95,7 +134,7 @@ public class InterViewLiveFragement extends Fragment {
                         }
                     } else if (response.body().getResult() == -1) {
                         startActivity(new Intent(getContext(), LoginActivity.class));
-                        TastyToast.makeText(getContext(), "token失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                        TastyToast.makeText(getContext(), "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                     } else if (response.body().getResult() == 0) {
                         TastyToast.makeText(getContext(), "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                     }
@@ -130,13 +169,14 @@ public class InterViewLiveFragement extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isIsPackage()) {
-                    intent2.putExtra("id", mList.get(position).getId() + "");
+                    //intent2.putExtra("id", mList.get(position).getId() + "");
+                    intent2.putExtra("crcode", mList.get(position).getCode());
                     startActivity(intent2);
                 } else {
                     String startDate = DateUtil.getDate(mList.get(position).getStartDate());
                     String startTime = DateUtil.getTime(mList.get(position).getStartTime());
                     intent1.putExtra("num", mList.get(position).getPersonNum() + "");
-                    intent1.putExtra("videoId", mList.get(position).getVideoId());
+                    intent1.putExtra("crcode", mList.get(position).getCode());
                     intent1.putExtra("date", startDate);
                     intent1.putExtra("time", startTime);
                     intent1.putExtra("url", mList.get(position).getCourseIntroduction().getIntroduceUrl());
@@ -212,11 +252,12 @@ public class InterViewLiveFragement extends Fragment {
             if (!mList.get(position).isIsRecommend()) {
                 viewHolder.mIvLiveTj.setVisibility(View.GONE);
             }
-
-            if (!mList.get(position).isEnrollmentStatus()) {
+            //TODO
+            //是否已报名
+            /*if (!mList.get(position).isEnrollmentStatus()) {
                 viewHolder.mTvEnrol.setText("已报名");
                 viewHolder.mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
-            }
+            }*/
             viewHolder.mTvPersornum.setText(mList.get(position).getPersonNum() + "");
 
             if (mList.get(position).getTeachers().size() == 1) {
@@ -231,9 +272,8 @@ public class InterViewLiveFragement extends Fragment {
             } else {
                 viewHolder.mLlTechcer2.setVisibility(View.GONE);
                 viewHolder.mLlTechcer1.setVisibility(View.GONE);
+
             }
-
-
             return convertView;
         }
 
