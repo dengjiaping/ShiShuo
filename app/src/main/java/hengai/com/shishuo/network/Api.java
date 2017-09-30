@@ -5,6 +5,7 @@ import hengai.com.shishuo.bean.Banner;
 import hengai.com.shishuo.bean.CourseDetailsBean;
 import hengai.com.shishuo.bean.HomeBean;
 import hengai.com.shishuo.bean.InterViewLiveBean;
+import hengai.com.shishuo.bean.LessonVideoBean;
 import hengai.com.shishuo.bean.LiveCourseInfo;
 import hengai.com.shishuo.bean.LoginBean;
 import hengai.com.shishuo.bean.MobileNumble;
@@ -78,6 +79,10 @@ public interface Api {
 
     @GET("ceshi.json")
     Call<SettingMsgBean> Settings();
+
+    @GET("listvideotables.html")
+    Call<LessonVideoBean> LessonVideo(@Query("channel") String channel, @Query("token") String token, @Query("page") int page, @Query("paging") int paging,@Query("ctag1") String ctag1);
+
     /*@GET("categoryMenu")
     Call<List<CategoryMenuBean>> ListCategory();*/
    /* @GET("recommend")

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:text="教育概述"
+        android:textColor="@color/main_color"
+        android:textSize="16sp"
+        />
+<LinearLayout
+    android:id="@+id/ll_bkg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:background="@drawable/bj1"
+    >
+    <TextView
+        android:id="@+id/tv_knowledge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="54dp"
+        android:text="教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+
+        />
+
+</LinearLayout>
+
+</LinearLayout>

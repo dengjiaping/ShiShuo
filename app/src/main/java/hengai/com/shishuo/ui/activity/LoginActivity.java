@@ -185,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     if (mMobileNumble.getResult() == 0) {
                         Intent intent = new Intent(LoginActivity.this, Login2Activity.class);
+                        SPUtils.put(LoginActivity.this,"phone",mPhone);
                         intent.putExtra("phone", mPhone);
                         startActivity(intent);
                     }

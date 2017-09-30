@@ -26,15 +26,25 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.sdsmdg.tastytoast.TastyToast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.LessonVideoBean;
+import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.widget.PopuIntroduce;
 import hengai.com.shishuo.ui.widget.PopuSelect;
 import hengai.com.shishuo.ui.widget.RatioImageView;
+import hengai.com.shishuo.utils.SPUtils;
 import hengai.com.shishuo.utils.T;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yu on 2017/9/3.
@@ -65,6 +75,15 @@ public class LessonVideoActivity extends AppCompatActivity {
     LinearLayout mLlRb;
     Context mContext;
     private PopuSelect mPopuSelect;
+    private String mChennel;
+    private String mToken;
+
+    int page = 0;
+    int paging = 10;
+    int bool=1;
+    String[] ctag={"","SK","SJ","JGH","DB"};
+    List<LessonVideoBean.DataBean> list= new ArrayList<>();
+    private MyAdapter mMyAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,12 +91,15 @@ public class LessonVideoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lesson_video);
         ButterKnife.inject(this);
         mContext = this;
-        initView();
+        mChennel = (String) SPUtils.get(mContext, "channel", "1");
+        mToken = (String) SPUtils.get(mContext, "token", "1");
+
+        initData();
     }
 
     private void initView() {
-        MyAdapter myAdapter = new MyAdapter();
-        mLvLessonVideo.setAdapter(myAdapter);
+        mMyAdapter = new MyAdapter();
+        mLvLessonVideo.setAdapter(mMyAdapter);
         mLvLessonVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -93,9 +115,8 @@ public class LessonVideoActivity extends AppCompatActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
-                refreshlayout.finishRefresh(2000);
-                //
-                //initData();
+                refreshlayout.finishRefresh(initData());
+
             }
         });
 
@@ -103,16 +124,56 @@ public class LessonVideoActivity extends AppCompatActivity {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
 
-                refreshlayout.finishLoadmore(2000);
+                refreshlayout.finishLoadmore(initData());
             }
         });
     }
 
+    private boolean initData(){
+
+        Call<LessonVideoBean> call=HiRetorfit.getInstans().getApi().LessonVideo(mChennel,mToken,page,paging,ctag[0]);
+         call.enqueue(new Callback<LessonVideoBean>() {
+             @Override
+             public void onResponse(Call<LessonVideoBean> call, Response<LessonVideoBean> response) {
+                 if(response!=null){
+                     if(response.body().getResult()==1){
+                         list=response.body().getData();
+                         if(bool==1){
+                             bool=2;
+                             initView();
+                         }else{
+                             mMyAdapter.notifyDataSetChanged();
+                         }
+
+                     }else if (response.body().getResult() == -1) {
+                         startActivity(new Intent(LessonVideoActivity.this, LoginActivity.class));
+                         TastyToast.makeText(LessonVideoActivity.this, "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                     } else if (response.body().getResult() == 0) {
+                         TastyToast.makeText(LessonVideoActivity.this, "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                     }
+                 }else{
+
+                 }
+
+
+             }
+
+             @Override
+             public void onFailure(Call<LessonVideoBean> call, Throwable t) {
+
+             }
+         });
+        return true;
+    }
     class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return 10;
+            if(list!=null){
+                return list.size();
+            }else{
+                return 0;
+            }
         }
 
         @Override
@@ -135,6 +196,9 @@ public class LessonVideoActivity extends AppCompatActivity {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
+
+
+
 
 
             return convertView;

@@ -37,8 +37,7 @@ public class Login2Activity extends AppCompatActivity {
     TextView mTvLogin2Phone;
     @InjectView(R.id.et_login_phone)
     EditText mEtLoginPhone;
-    @InjectView(R.id.btn_login2_send)
-    Button mBtnLogin2Send;
+
     @InjectView(R.id.btn_login2)
     Button mBtnLogin2;
     @InjectView(R.id.et_login_password)
@@ -61,12 +60,10 @@ public class Login2Activity extends AppCompatActivity {
         mBtnLogin2.setEnabled(false);
     }
 
-    @OnClick({R.id.btn_login2_send, R.id.btn_login2})
+    @OnClick({ R.id.btn_login2})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_login2_send:
-                code(mChannel, mPhone);
-                break;
+                //code(mChannel, mPhone);
             case R.id.btn_login2:
                register();
                 break;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:voyager="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/main_bkg"
@@ -58,12 +59,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/tv_login_phone"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:gravity="center_vertical"
+            android:maxLines="1"
             android:background="@null"
             android:inputType="number"
             android:hint="输入验证码"
             />
-        <Button
+        <!--<Button
             android:id="@+id/btn_login2_send"
             android:layout_width="@dimen/x150"
             android:layout_height="@dimen/y88"
@@ -75,7 +78,20 @@
             android:textSize="13sp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/x28"
-            />
+            />-->
+        <hengai.com.shishuo.ui.widget.CountDownButtonView
+            android:layout_width="@dimen/x170"
+            android:layout_height="@dimen/y88"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_login_bg"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x28"
+            voyager:format="%d秒后重新获取"
+            voyager:text="获取验证码"
+            voyager:time="60" />
     </RelativeLayout>
 
 <LinearLayout
@@ -97,8 +113,10 @@
         android:id="@+id/et_login_password"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:textCursorDrawable="@drawable/color_cursor"
         android:gravity="center_vertical"
         android:inputType="text"
+        android:maxLines="1"
         android:background="@null"
         android:hint="输入账号密码/6位以上"
         />
