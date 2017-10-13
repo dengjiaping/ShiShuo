@@ -126,10 +126,16 @@ public class WritenLiveFragment extends Fragment {
                 } else {
                     String startDate = DateUtil.getDate(mList.get(position).getStartDate());
                     String startTime = DateUtil.getTime(mList.get(position).getStartTime());
-                    mIntent1.putExtra("num", mList.get(position).getPersonNum() + "");
+
                     mIntent1.putExtra("videoId", mList.get(position).getVideoId());
+
+
+                    mIntent1.putExtra("num", mList.get(position).getPersonNum() + "");
+                    //mIntent1.putExtra("crcode", mList.get(position).getCode());
                     mIntent1.putExtra("date", startDate);
                     mIntent1.putExtra("time", startTime);
+                    mIntent1.putExtra("title",mList.get(position).getTitle());
+                    mIntent1.putExtra("personNum", mList.get(position).getPersonNum()+"");
                     mIntent1.putExtra("url", mList.get(position).getCourseIntroduction().getIntroduceUrl());
                     startActivity(mIntent1);
                 }

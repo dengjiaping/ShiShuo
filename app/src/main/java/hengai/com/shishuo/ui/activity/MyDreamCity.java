@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.sdsmdg.tastytoast.TastyToast;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
@@ -207,26 +208,31 @@ public class MyDreamCity extends AppCompatActivity {
                 public void onResponse(Call<RegisterBean> call, Response<RegisterBean> response) {
                     if(response!=null){
                         if(response.body().getResult()==1){
-                            T.showShort(mContext,"设置成功");
+                            TastyToast.makeText(mContext,"设置成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
+                            SPUtils.put(mContext,"scatgId",mScatgid);
+                            SPUtils.put(mContext,"catgId",mCatgid);
+                            SPUtils.put(mContext,"cityId",mCityId);
                             startActivity(new Intent(MyDreamCity.this,MainActivity.class));
+                            finish();
                             //TODO
 
                         }else{
-                            T.showShort(mContext,"设置失败");
+                            TastyToast.makeText(mContext,"设置失败",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+
                         }
                     }else{
-                        T.showShort(mContext,"网络错误");
+                        TastyToast.makeText(mContext,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RegisterBean> call, Throwable t) {
-
+                    TastyToast.makeText(mContext,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                 }
             });
 
         }else{
-            T.showShort(mContext,"请选择省份");
+            TastyToast.makeText(mContext,"请选择省份",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
         }
 
     }

@@ -102,8 +102,8 @@ public class InterViewLiveFragement extends Fragment {
 
 
                     } else if (response.body().getResult() == -1) {
-                        startActivity(new Intent(getContext(), LoginActivity.class));
                         TastyToast.makeText(getContext(), "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                        startActivity(new Intent(getContext(), LoginActivity.class));
                     } else if (response.body().getResult() == 0) {
                         TastyToast.makeText(getContext(), "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                     }
@@ -179,6 +179,8 @@ public class InterViewLiveFragement extends Fragment {
                     intent1.putExtra("crcode", mList.get(position).getCode());
                     intent1.putExtra("date", startDate);
                     intent1.putExtra("time", startTime);
+                    intent1.putExtra("title",mList.get(position).getTitle());
+                    intent1.putExtra("personNum", mList.get(position).getPersonNum()+"");
                     intent1.putExtra("url", mList.get(position).getCourseIntroduction().getIntroduceUrl());
                     startActivity(intent1);
                 }

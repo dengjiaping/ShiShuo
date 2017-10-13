@@ -1,6 +1,7 @@
 package hengai.com.shishuo.ui.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -8,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +22,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.ui.widget.PopMenu;
+import hengai.com.shishuo.ui.widget.PopuCitySelect;
 
 /**
  * Created by yu on 2017/9/26.
@@ -47,7 +52,7 @@ public class WritenMoldTestFragment extends Fragment {
     }
 
     private void initView() {
-         mLvWriten.setAdapter(new MyAdapter());
+        mLvWriten.setAdapter(new MyAdapter(getContext()));
     }
 
     private void initData() {
@@ -68,10 +73,19 @@ public class WritenMoldTestFragment extends Fragment {
         final int TYPE_3 = 2;
         final int TYPE_4 = 3;
         final int TYPE_5 = 4;
+        Context mCtx;
+        String[] s1={"长沙","株洲","湘潭","衡阳","岳阳","永州","郴州","娄底","邵阳"};
+        private PopuCitySelect mPopu;
+
+        public MyAdapter(Context context) {
+            mCtx=context;
+        }
+
         @Override
         public int getCount() {
             return 10;
         }
+
         @Override
         public int getViewTypeCount() {
             return 5;
@@ -81,13 +95,13 @@ public class WritenMoldTestFragment extends Fragment {
         public int getItemViewType(int position) {
             if (position == 0) {
                 return TYPE_1;
-            }else if(position>0&&position<5){
+            } else if (position > 0 && position < 5) {
                 return TYPE_2;
-            }else if(position==5){
+            } else if (position == 5) {
                 return TYPE_3;
-            }else if(position==6){
+            } else if (position == 6) {
                 return TYPE_4;
-            }else{
+            } else {
                 return TYPE_5;
             }
         }
@@ -128,7 +142,7 @@ public class WritenMoldTestFragment extends Fragment {
                         break;
                     case TYPE_4:
                         convertView = View.inflate(getContext(), R.layout.item_writen_three, null);
-                        holder4= new ViewHolder4(convertView);
+                        holder4 = new ViewHolder4(convertView);
                         convertView.setTag(holder4);
                         break;
                     case TYPE_5:
@@ -158,15 +172,27 @@ public class WritenMoldTestFragment extends Fragment {
             }
             switch (getItemViewType(position)) {
                 case TYPE_1:
-holder1.mLlAddrass.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        showPopu();
-    }
-    private void showPopu() {
+                    final ViewHolder1 finalHolder = holder1;
+                    holder1.mLlAddrass.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showPopu();
+                        }
+                        private void showPopu() {
+                            mPopu = new PopuCitySelect(mCtx,mItemClickListener,s1,s1);
+                            mPopu.setOnDismissListener(mOnDismissListener);
 
-    }
-});
+                            mPopu.showAsDropDown(getActivity().findViewById(R.id.ll_addrass),
+                                    0, 0);
+                        }
+                        AdapterView.OnItemClickListener mItemClickListener=new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            finalHolder.mTvAddrass.setText(s1[position]);
+                                mPopu.dismiss();
+                            }
+                        };
+                    });
                     break;
                 case TYPE_2:
 
@@ -178,12 +204,22 @@ holder1.mLlAddrass.setOnClickListener(new View.OnClickListener() {
 
                     break;
                 case TYPE_5:
-                   holder5.mIvLiveTj.setVisibility(View.GONE);
+                    holder5.mIvLiveTj.setVisibility(View.GONE);
                     break;
             }
+
+
+
             return convertView;
         }
 
+
+        PopupWindow.OnDismissListener mOnDismissListener = new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mPopu.dismiss();
+            }
+        };
 
     }
 

@@ -13,12 +13,25 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
+import com.sdsmdg.tastytoast.TastyToast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.QuestionBean;
+import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.widget.PopuRecodeVideo;
+import hengai.com.shishuo.utils.LogUtils;
+import hengai.com.shishuo.utils.SPUtils;
 import hengai.com.shishuo.utils.T;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by yu on 2017/9/6.
@@ -55,6 +68,13 @@ public class QuestionActivity extends AppCompatActivity {
     private String[] photoUrl;
     Context mContext;
     private PopuRecodeVideo mPopu;
+    private String mCatg1;
+    private String mChannel = "liangshishuo";
+    private String mToken;
+    private String mCatagid;
+    private String mScatagid;
+    private List<String> mlist=new ArrayList<String>();
+    private String mTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +83,55 @@ public class QuestionActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         mContext = this;
         mBtSelect.setEnabled(false);
+        initData();
+
+    }
+
+    private void initView() {
+        if (!mToken.equals("1") && !mCatagid.equals("1") && !mScatagid.equals("1")) {
+            Call<QuestionBean> call = HiRetorfit.getInstans().getApi().QuestionTest(mChannel, mToken, mCatagid, mScatagid, mCatg1);
+            call.enqueue(new Callback<QuestionBean>() {
+                @Override
+                public void onResponse(Call<QuestionBean> call, Response<QuestionBean> response) {
+
+                    if(response!=null){
+                        if(response.body().getResult()==1){
+                          mTitle=response.body().getData().getName();
+                          List<QuestionBean.DataBean.FilesBean>  files= response.body().getData().getFiles();
+                            if(files.size()>0){
+                                for(int i=0;i<files.size();i++){
+                                    mlist.add(files.get(i).getUrl());
+                                }
+                            }
+
+                            intent = new Intent(QuestionActivity.this, StartPrepareActivity.class);
+                            intent.putExtra("lessonType2", lessonType2);
+                            intent.putStringArrayListExtra("imgUrl", (ArrayList<String>) mlist);
+                            intent.putExtra("questionContent", mTitle);
+                            startActivity(intent);
+                        }
+                    }else{
+                        TastyToast.makeText(mContext,"数据解析错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<QuestionBean> call, Throwable t) {
+                    TastyToast.makeText(mContext,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                }
+            });
+        }else{
+            TastyToast.makeText(mContext,"请先配置个人信息",TastyToast.LENGTH_SHORT,TastyToast.INFO);
+            startActivity(new Intent(mContext,MyDreamActivity.class));
+        }
+
+    }
+
+    private void initData() {
+        mToken = (String) SPUtils.get(mContext, "token", "1");
+        mCatagid = (String) SPUtils.get(mContext, "catgId", "1");
+        mScatagid = (String) SPUtils.get(mContext, "scatgId", "1");
+        LogUtils.d("question" + mToken + mCatagid + "+++" + mScatagid);
     }
 
     boolean ss = true;
@@ -86,6 +155,7 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
             case R.id.bt_trial_teaching:
                 lessonType2 = 2;
+                mCatg1="SJ";
                 mBtTrialTeaching.setSelected(true);
                 mBtSpeaking.setSelected(false);
                 mBtInterview.setSelected(false);
@@ -94,6 +164,7 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
             case R.id.bt_speaking:
                 lessonType2 = 0;
+                mCatg1="SK";
                 mBtTrialTeaching.setSelected(false);
                 mBtSpeaking.setSelected(true);
                 mBtInterview.setSelected(false);
@@ -102,6 +173,7 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
             case R.id.bt_interview:
                 lessonType2 = 3;
+                mCatg1="JGH";
                 mBtTrialTeaching.setSelected(false);
                 mBtSpeaking.setSelected(false);
                 mBtInterview.setSelected(true);
@@ -110,6 +182,7 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
             case R.id.bt_answer:
                 lessonType2 = 4;
+                mCatg1="DB";
                 mBtTrialTeaching.setSelected(false);
                 mBtSpeaking.setSelected(false);
                 mBtInterview.setSelected(false);
@@ -117,24 +190,23 @@ public class QuestionActivity extends AppCompatActivity {
                 mBtSelect.setEnabled(true);
                 break;
             case R.id.bt_select:
-                intent=new Intent(QuestionActivity.this, StartPrepareActivity.class);
-                intent.putExtra("lessonType2", lessonType2);
-                intent.putExtra("questionContent", "三年级下|良师智胜");
-                startActivity(intent);
+                initView();
+
                 break;
         }
     }
+
     private View.OnClickListener onitemsClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.ll_recode_video:
-                    Intent intent=new Intent(QuestionActivity.this,VideoRecorderActivity_2.class);
-                    intent.putExtra("source","recode");
+                    Intent intent = new Intent(QuestionActivity.this, VideoRecorderActivity_2.class);
+                    intent.putExtra("source", "recode");
                     startActivity(intent);
                     break;
                 case R.id.ll_upload_video:
-                    T.showShort(mContext, "上传视频功能暂未实现");
+                    TastyToast.makeText(mContext,"上传视频功能暂未实现",TastyToast.LENGTH_SHORT,TastyToast.INFO);
                     break;
             }
         }
@@ -147,6 +219,7 @@ public class QuestionActivity extends AppCompatActivity {
             mPopu.dismiss();
         }
     };
+
     private void showPopup() {
         mPopu = new PopuRecodeVideo(QuestionActivity.this, onitemsClick);
         mPopu.setOnDismissListener(mOnDismissListener);
@@ -154,8 +227,6 @@ public class QuestionActivity extends AppCompatActivity {
                 0, 0);
 
     }
-
-
 
 
 }

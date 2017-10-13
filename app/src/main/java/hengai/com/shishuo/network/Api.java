@@ -10,12 +10,14 @@ import hengai.com.shishuo.bean.LiveCourseInfo;
 import hengai.com.shishuo.bean.LoginBean;
 import hengai.com.shishuo.bean.MobileNumble;
 import hengai.com.shishuo.bean.MyLiveBean;
+import hengai.com.shishuo.bean.QuestionBean;
 import hengai.com.shishuo.bean.RegisterBean;
 
 import hengai.com.shishuo.bean.SettingMsgBean;
 import hengai.com.shishuo.bean.VideoSetting;
 import hengai.com.shishuo.bean.WrittenLiveBean;
 import hengai.com.shishuo.bean.Xueke;
+import hengai.com.shishuo.ui.activity.QuestionActivity;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -82,6 +84,9 @@ public interface Api {
 
     @GET("listvideotables.html")
     Call<LessonVideoBean> LessonVideo(@Query("channel") String channel, @Query("token") String token, @Query("page") int page, @Query("paging") int paging,@Query("ctag1") String ctag1);
+
+    @GET("listcoursefilebyram.html")
+    Call<QuestionBean> QuestionTest(@Query("channel") String channel, @Query("token") String token, @Query("catgid") String catgid, @Query("scatgid") String scatgid, @Query("ctag1") String ctag1);
 
     /*@GET("categoryMenu")
     Call<List<CategoryMenuBean>> ListCategory();*/

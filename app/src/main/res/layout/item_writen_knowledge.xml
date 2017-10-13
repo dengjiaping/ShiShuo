@@ -15,26 +15,47 @@
         android:textColor="@color/main_color"
         android:textSize="16sp"
         />
-<LinearLayout
-    android:id="@+id/ll_bkg"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
-    android:background="@drawable/bj1"
-    >
-    <TextView
-        android:id="@+id/tv_knowledge"
+
+    <LinearLayout
+        android:id="@+id/ll_bkg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="54dp"
-        android:text="教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述"
-        android:textColor="@color/white"
-        android:textSize="12sp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bj1"
+        >
 
+        <TextView
+            android:id="@+id/tv_knowledge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="54dp"
+            android:layout_marginTop="14dp"
+            android:text="教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述教育的概述概述概述"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+
+            />
+
+    </LinearLayout>
+<RelativeLayout
+    android:id="@+id/rl_know_btn"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/btn_know"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_login_bg"
+        android:text="我记住了"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         />
 
-</LinearLayout>
-
+</RelativeLayout>
 </LinearLayout>

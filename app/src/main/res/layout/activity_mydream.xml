@@ -57,8 +57,8 @@
         <RadioButton
             android:id="@+id/rb_teacher_certify"
             android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/longbkg_checktor"
             android:button="@null"
@@ -69,9 +69,9 @@
         <RadioButton
             android:id="@+id/rb_teacher_employ"
             android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/longbkg_checktor"
             android:button="@null"
@@ -82,8 +82,8 @@
         <RadioButton
             android:id="@+id/rb_select_exam"
             android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:background="@drawable/longbkg_checktor"
             android:button="@null"
@@ -115,7 +115,7 @@
         <RadioButton
             android:id="@+id/bt_junior_sc"
             android:layout_width="1dp"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/longbkg_checktor"
@@ -127,7 +127,7 @@
         <RadioButton
             android:id="@+id/bt_high_sc"
             android:layout_width="1dp"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
@@ -140,7 +140,7 @@
         <RadioButton
             android:id="@+id/bt_primary_sc"
             android:layout_width="1dp"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
@@ -153,7 +153,7 @@
         <RadioButton
             android:id="@+id/bt_kid_sc"
             android:layout_width="1dp"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@drawable/longbkg_checktor"

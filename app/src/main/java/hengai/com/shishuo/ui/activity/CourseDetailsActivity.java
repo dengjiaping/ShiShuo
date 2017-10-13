@@ -116,13 +116,15 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     TastyToast.makeText(mContext, "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                 } else if (response.body().getResult() == 0) {
                     //TODO
-                    TastyToast.makeText(mContext, "token失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    TastyToast.makeText(mContext, "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    startActivity(new Intent(mContext,LoginActivity.class));
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<LiveCourseInfo> call, Throwable t) {
-
+                TastyToast.makeText(mContext, "网络错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             }
         });
     }
@@ -148,8 +150,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 mTvClassIntroduce.setTextColor(getResources().getColor(R.color.main_color));
                 break;
             case R.id.ll_consuting:
-                //TODO
-                //客服
+                Intent intent1 = new Intent(mContext, AllWebActivity.class);
+                intent1.putExtra("webUrl", "http://html.ecqun.com/kf/sdk/openwin.html?corpid=4752991&cstype=rand&mode=0&cskey=qsocaZNfbAGeeXfU7z");
+                startActivity(intent1);
                 break;
             case R.id.tv_sign_free:
                 if(mCourseDetailsBean!=null){

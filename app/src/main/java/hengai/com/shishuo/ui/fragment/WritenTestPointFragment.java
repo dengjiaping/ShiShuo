@@ -1,12 +1,14 @@
 package hengai.com.shishuo.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.ui.activity.KnowledgeInterpretActivity;
 
 /**
  * Created by yu on 2017/9/26.
@@ -40,6 +43,14 @@ public class WritenTestPointFragment extends Fragment {
 
     private void initView() {
      mLvWritenKnowdege.setAdapter(new MyWritenAdapter());
+        mLvWritenKnowdege.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position!=0){
+                    startActivity(new Intent(getContext(),KnowledgeInterpretActivity.class));
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -114,7 +125,6 @@ public class WritenTestPointFragment extends Fragment {
                 }
 
             }
-
            showView();
             return convertView;
         }

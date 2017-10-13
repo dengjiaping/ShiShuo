@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
+import com.sdsmdg.tastytoast.TastyToast;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
@@ -174,6 +175,11 @@ public class MyDreamActivity extends AppCompatActivity {
      * 获取所有的设置数据
      */
     private void initData() {
+        if(mToken.equals("1")){
+            TastyToast.makeText(MyDreamActivity.this,"登录过期请重新登录",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+            startActivity(new Intent(mContext,LoginActivity.class));
+            finish();
+        }
         Call<SettingMsgBean> call = HiRetorfit.getInstans().getApi().Setting("liangshishuo",mToken);
         call.enqueue(new Callback<SettingMsgBean>() {
             @Override
@@ -183,11 +189,11 @@ public class MyDreamActivity extends AppCompatActivity {
                     if(settingMsgBean.getResult()==1){
                         mDataBean = response.body().getData();
                         getBranchs();
-                        LogUtils.d(mDataBean.getScatgs1524().get(0).getName()+"++++");
+                        /*LogUtils.d(mDataBean.getScatgs1524().get(0).getName()+"++++");
                         LogUtils.d(mDataBean.getScatgs1588().get(0).getName()+"++++1");
                         LogUtils.d(getScatags1588("KD").toString()+"++++");
                         LogUtils.d(getScatags1524("KD").toString()+"++++");
-                        LogUtils.d(getScatags1591("KD").toString()+"++++");
+                        LogUtils.d(getScatags1591("KD").toString()+"++++");*/
 
                         initView();
                     }
@@ -196,7 +202,7 @@ public class MyDreamActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SettingMsgBean> call, Throwable t) {
-               T.showShort(mContext,"获取数据失败请检查网络");
+                TastyToast.makeText(MyDreamActivity.this,"获取数据失败请检查网络",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
             }
         });
     }
@@ -351,7 +357,8 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 }else{
-                    T.showShort(MyDreamActivity.this,"请选择考试类型");
+                    TastyToast.makeText(MyDreamActivity.this,"请选择考试类型",TastyToast.LENGTH_SHORT,TastyToast.INFO);
+
                 }
                 break;
             case R.id.bt_high_sc:
@@ -363,7 +370,8 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 }else{
-                    T.showShort(MyDreamActivity.this,"请选择考试类型");
+                    TastyToast.makeText(MyDreamActivity.this,"请选择考试类型",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
+
                 }
                 break;
             case R.id.bt_primary_sc:
@@ -375,7 +383,8 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 }else{
-                    T.showShort(MyDreamActivity.this,"请选择考试类型");
+                    TastyToast.makeText(MyDreamActivity.this,"请选择考试类型",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
+
                 }
                 break;
             case R.id.bt_kid_sc:
@@ -387,7 +396,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 }else{
-                    T.showShort(MyDreamActivity.this,"请选择考试类型");
+                    TastyToast.makeText(MyDreamActivity.this,"请选择考试类型",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
                 }
                 break;
             case R.id.rg_level:
@@ -400,7 +409,8 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 }else{
-                    T.showShort(MyDreamActivity.this,"请选择考试类型和教学目标");
+                    TastyToast.makeText(MyDreamActivity.this,"请选择考试类型和教学目标",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
+
                 }
                 //mSubject = mSpinner1.getText().toString();
                 break;
@@ -446,7 +456,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    T.showShort(MyDreamActivity.this, "您还没有选择完成");
+                    TastyToast.makeText(MyDreamActivity.this,"您还没有选择完成",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
                 }
                 break;
         }

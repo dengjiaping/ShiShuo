@@ -3,8 +3,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="@color/main_bkg"
     >
 <RelativeLayout
+    android:id="@+id/rl_know"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@color/main_color"
@@ -29,8 +31,9 @@
    <ListView
        android:id="@+id/lv_writen_konwledge"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
+       android:layout_height="wrap_content"
        android:background="@color/main_bkg"
-       android:dividerHeight="8dp"
+       android:dividerHeight="14dp"
        />
+
 </LinearLayout>
