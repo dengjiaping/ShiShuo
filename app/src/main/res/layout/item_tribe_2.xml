@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/x30">
+
+            <ImageView
+                android:id="@+id/im_tribe_avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_tribe_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/im_tribe_avatar"
+                android:text="马老师"
+                android:textColor="#ff5a79"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_tribe_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x30"
+            android:text="来,让你们学习一下名师怎么讲课,这是我的备课"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <hengai.com.shishuo.ui.widget.NoScrollGridView
+            android:id="@+id/gv_tribe_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:horizontalSpacing="@dimen/x10"
+            android:verticalSpacing="@dimen/x10"
+            android:gravity="left"
+            android:numColumns="3"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/im_teacherclass"
+            android:layout_marginTop="@dimen/x14">
+
+            <TextView
+                android:id="@+id/tv_tribe_updated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x14"
+                android:text="1小时前"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_tribe_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_tribe_updated"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_toRightOf="@+id/tv_tribe_updated"
+                android:text="删除"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_tribe_comment_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="1000"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/icon_tribe_comment"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x7"
+                android:layout_toLeftOf="@+id/tv_tribe_comment_num"
+                android:src="@drawable/messages_button" />
+
+            <TextView
+                android:id="@+id/tv_tribe_like_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x25"
+                android:layout_toLeftOf="@id/icon_tribe_comment"
+                android:text="1000"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/im_tribe_praise"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x7"
+                android:layout_toLeftOf="@id/tv_tribe_like_num"
+                android:src="@drawable/thumb_button" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_show_praise"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="#e6e6e6"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_share_heart"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/thumb_button"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/tv_likeuser_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:layout_toRightOf="@id/iv_share_heart"
+                android:textColor="#7888a9"
+                android:textSize="13.0sp" />
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:layout_margin="3dp"
+            android:background="#ffffff"
+            android:visibility="gone" />
+        <!-- 评论回复列表 -->
+        <hengai.com.shishuo.ui.widget.NoScrollListView
+            android:id="@+id/replyList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#e6e6e6"
+            android:divider="#000000"
+            android:layout_marginTop="10dip"
+            android:visibility="gone" />
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/x30"
+        android:src="#e6e6e6"/>
+</LinearLayout>
+
+

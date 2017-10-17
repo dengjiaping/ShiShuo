@@ -91,14 +91,14 @@ public class InterViewHead extends RelativeLayout implements BaseSliderView.OnSl
         if(beanList.size()>0){
             for (int i = 0; i < beanList.size(); i++) {
                 TextSliderView textSlider = new TextSliderView(getContext());
-                textSlider.image(beanList.get(i).getUrl())
+                textSlider.description("跟随良师，方为良师")
+                        .image(beanList.get(i).getUrl())
                         .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                         .setOnSliderClickListener(this);
                 textSlider.bundle(new Bundle());
                 textSlider.getBundle().putInt("extra", beanList.get(i).getId());
                 mSlider.addSlider(textSlider);
             }
-
 
             mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
             mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);

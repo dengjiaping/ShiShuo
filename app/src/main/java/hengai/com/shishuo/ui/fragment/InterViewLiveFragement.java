@@ -59,8 +59,6 @@ public class InterViewLiveFragement extends Fragment {
     private RefreshLayout mRefreshLayout;
     private String mChennel;
     private String mToken;
-    SharedPreferences preferencesL;
-    SharedPreferences preferencesV;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +74,7 @@ public class InterViewLiveFragement extends Fragment {
         mListView = (ListView) mRoot.findViewById(R.id.lv_inter_live);
         mChennel = (String) SPUtils.get(getContext(), "channel", "1");
         mToken = (String) SPUtils.get(getContext(), "token", "1");
+
         LogUtils.d(mToken + "++++");
         initData();
 
@@ -84,22 +83,15 @@ public class InterViewLiveFragement extends Fragment {
 
     private boolean initData() {
         //LogUtils.d("++++"+mToken);
-        preferencesL = getContext().getSharedPreferences("videoL", Activity.MODE_PRIVATE);
-        preferencesV = getContext().getSharedPreferences("videoV", Activity.MODE_PRIVATE);
-        final SharedPreferences.Editor editorL = preferencesL.edit();
-        final SharedPreferences.Editor editorV = preferencesV.edit();
         Call<VideoSetting> callSetting = HiRetorfit.getInstans().getApi().VideoSetting(mChennel);
         callSetting.enqueue(new Callback<VideoSetting>() {
             @Override
             public void onResponse(Call<VideoSetting> call, Response<VideoSetting> response) {
                 if (response != null) {
                     if (response.body().getResult() == 1) {
-                        editorL.putString("accountId", response.body().getData().get(0).getAccountId());
-                        editorL.putString("apiKey", response.body().getData().get(0).getApiKey());
-
-                        editorV.putString("accountId", response.body().getData().get(1).getAccountId());
-                        editorV.putString("apiKey", response.body().getData().get(1).getApiKey());
-
+                        for(int i=0;i<response.body().getData().size();i++){
+                            SPUtils.put(getContext(),response.body().getData().get(i).getCfgId()+"",response.body().getData().get(i).getAccountId());
+                        }
 
                     } else if (response.body().getResult() == -1) {
                         TastyToast.makeText(getContext(), "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);

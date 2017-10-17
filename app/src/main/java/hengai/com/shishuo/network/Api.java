@@ -4,6 +4,8 @@ package hengai.com.shishuo.network;
 import hengai.com.shishuo.bean.Banner;
 import hengai.com.shishuo.bean.CourseDetailsBean;
 import hengai.com.shishuo.bean.HomeBean;
+import hengai.com.shishuo.bean.InfoMationBean;
+import hengai.com.shishuo.bean.InfoMationDetailBean;
 import hengai.com.shishuo.bean.InterViewLiveBean;
 import hengai.com.shishuo.bean.LessonVideoBean;
 import hengai.com.shishuo.bean.LiveCourseInfo;
@@ -87,7 +89,12 @@ public interface Api {
 
     @GET("listcoursefilebyram.html")
     Call<QuestionBean> QuestionTest(@Query("channel") String channel, @Query("token") String token, @Query("catgid") String catgid, @Query("scatgid") String scatgid, @Query("ctag1") String ctag1);
-
+    //资讯列表    可加根据参数查询@Query("title") String title,
+    @GET("listinfo.html")
+    Call<InfoMationBean> InfoMationList(@Query("channel") String channel, @Query("token") String token,@Query("catg3") String ctag3);
+    //资讯详情
+    @GET("getinfocontent.html")
+    Call<InfoMationDetailBean> InfoMationDetail(@Query("channel") String channel, @Query("infoid") String id);
     /*@GET("categoryMenu")
     Call<List<CategoryMenuBean>> ListCategory();*/
    /* @GET("recommend")

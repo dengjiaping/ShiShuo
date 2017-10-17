@@ -158,6 +158,10 @@
         <activity android:name=".ui.activity.InfoMationActivity"></activity>
         //资料资讯详情页面
         <activity android:name=".ui.activity.InfomationDetailsActivity"></activity>
+        //部落页面
+        <activity android:name=".ui.activity.TribeActivity"></activity>
+        //图文上传页面
+        <activity android:name=".ui.activity.PublishTribeInfoActivity_2"></activity>
         //直播回放页面
         <activity
             android:name=".live.activity.ReplayActivity"

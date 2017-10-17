@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x180"
+    android:layout_height="@dimen/x180">
+
+    <ImageView
+        android:id="@+id/im_tribe_grid_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+    <ImageView
+        android:id="@+id/im_cancel"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/cancle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>

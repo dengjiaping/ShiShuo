@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main_bkg">
+
+    <RelativeLayout
+        android:id="@+id/main_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/main_color">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/x30"
+            android:onClick="onBackClicked"
+            android:src="@drawable/return_button" />
+
+        <Button
+            android:id="@+id/bt_save"
+            android:layout_width="@dimen/x116"
+            android:layout_height="@dimen/x53"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/short_send_selector"
+            android:text="发送"
+            android:textSize="@dimen/x31"
+            android:textColor="@color/main_color"
+            android:layout_marginRight="@dimen/x30" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_tribe_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x283"
+                android:layout_weight="1"
+                android:ems="10"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:gravity="top|left"
+                android:paddingLeft="@dimen/x30"
+                android:paddingTop="@dimen/x7"
+                android:background="@null"
+                android:hint="写下你此刻的想法...."
+                android:inputType="textMultiLine"
+                android:textColorHint="@color/main_button_enable"
+                android:textSize="16sp" />
+        </LinearLayout>
+            <hengai.com.shishuo.ui.widget.NoScrollGridView
+                android:id="@+id/gv_tribe_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:gravity="center"
+                android:numColumns="3"
+                android:horizontalSpacing="@dimen/x10"
+                android:verticalSpacing="@dimen/x10"
+                android:stretchMode="columnWidth" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/im_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x29"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_marginBottom="@dimen/x10"
+                android:src="@drawable/camera_button" />
+            <ImageView
+                android:id="@+id/im_select_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/x20"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_toLeftOf="@+id/im_take_photo"
+                android:src="@drawable/picture_button" />
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>

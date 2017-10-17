@@ -158,6 +158,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 if(mCourseDetailsBean!=null){
                     Intent intent = new Intent(CourseDetailsActivity.this,SignUpActivity.class);
                     intent.putExtra("title",mCourseDetailsBean.getData().getTitle());
+
+
                     startActivity(intent);
                 }else{
                     TastyToast.makeText(mContext, "数据错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);

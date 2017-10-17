@@ -1,5 +1,6 @@
 package hengai.com.shishuo.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,16 +14,27 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bokecc.sdk.mobile.live.util.LogUtil;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.sdsmdg.tastytoast.TastyToast;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.InfoMationBean;
+import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.activity.InfomationDetailsActivity;
 import hengai.com.shishuo.utils.SPUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yu on 2017/9/19.
@@ -35,6 +47,8 @@ public class InfomationRFragment extends Fragment {
     private View mRoot;
     private RefreshLayout mRefreshLayout;
     private ListView mLvInfomation;
+
+    private List<InfoMationBean.DataBean> mList=new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,28 +56,48 @@ public class InfomationRFragment extends Fragment {
         mRefreshLayout = (RefreshLayout) mRoot.findViewById(R.id.refreshLayout);
         mLvInfomation = (ListView) mRoot.findViewById(R.id.lv_inter_live);
 
-        mChennel = (String) SPUtils.get(getContext(), "channel", "1");
+        mChennel = (String) SPUtils.get(getContext(), "channel", "liangshishuo");
         mToken = (String) SPUtils.get(getContext(), "token", "1");
         initData();
         return mRoot;
     }
 
-    private void initData() {
-        //TODO
-        //网络请求获取数据
+    private boolean initData() {
 
-        initView();
+        //网络请求获取数据
+        Call<InfoMationBean> call = HiRetorfit.getInstans().getApi().InfoMationList(mChennel, mToken, "BK");
+        call.enqueue(new Callback<InfoMationBean>() {
+            @Override
+            public void onResponse(Call<InfoMationBean> call, Response<InfoMationBean> response) {
+                if (response != null) {
+                    if (response.code() == 200) {
+                        mList = response.body().getData();
+                        LogUtil.d("++++",mList.size()+"xxx");
+                        initView();
+                    } else {
+                        TastyToast.makeText(getContext(), "数据错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InfoMationBean> call, Throwable t) {
+                TastyToast.makeText(getContext(), "网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        });
+        return true;
 
     }
 
     private void initView() {
-        MyAdapter myAdapter = new MyAdapter();
+        MyAdapter myAdapter = new MyAdapter(getContext(),mList);
         mLvInfomation.setAdapter(myAdapter);
         final Intent intent = new Intent(getContext(), InfomationDetailsActivity.class);
 
         mLvInfomation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intent.putExtra("id", mList.get(position).getId() + "");
                 startActivity(intent);
             }
         });
@@ -88,10 +122,20 @@ public class InfomationRFragment extends Fragment {
     }
 
     private class MyAdapter extends BaseAdapter {
+        private Context mCtx;
+        private List<InfoMationBean.DataBean> mList;
 
+        public MyAdapter(Context ctx, List<InfoMationBean.DataBean> list) {
+            mCtx = ctx;
+            mList = list;
+        }
         @Override
         public int getCount() {
-            return 10;
+            if (mList != null) {
+                return mList.size();
+            } else {
+                return 0;
+            }
         }
 
         @Override
@@ -101,7 +145,7 @@ public class InfomationRFragment extends Fragment {
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -117,11 +161,22 @@ public class InfomationRFragment extends Fragment {
                 holder= (InfomationLFragment.ViewHolder) convertView.getTag();
             }
 
-            if (position % 2 == 0) {
+            if (!mList.get(position).getHeadImgUrl().equals("")) {
+                holder.mIvInfomation.setVisibility(View.VISIBLE);
+                Picasso.with(mCtx).load(mList.get(position).getHeadImgUrl()).into(holder.mIvInfomation);
+            }
+
+            holder.mTvTitle.setText(mList.get(position).getTitle());
+            holder.mTvName.setText(mList.get(position).getCreator());
+            String time=mList.get(position).getCreateTime().substring(0,mList.get(position).getCreateTime().indexOf(" "));
+            holder.mTvTime.setText(time);
+            holder.mTvPersonNum.setText(mList.get(position).getViewTime()+"");
+            holder.mCircleView.setVisibility(View.INVISIBLE);
+            if (mList.get(position).getIsRefered().equals("Y")) {
+
+            }else{
                 holder.mLine.setVisibility(View.GONE);
                 holder.mIvTj.setVisibility(View.GONE);
-                holder.mIvInfomation.setVisibility(View.VISIBLE);
-
             }
 
             return convertView;
@@ -140,6 +195,8 @@ public class InfomationRFragment extends Fragment {
         TextView mTvName;
         @InjectView(R.id.tv_time)
         TextView mTvTime;
+        @InjectView(R.id.tv_title)
+        TextView mTvTitle;
         @InjectView(R.id.tv_person_num)
         TextView mTvPersonNum;
 

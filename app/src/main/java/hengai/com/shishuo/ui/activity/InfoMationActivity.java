@@ -9,15 +9,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.sdsmdg.tastytoast.TastyToast;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.InfoMationBean;
+import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.adapter.FragmentVPAdapter;
 import hengai.com.shishuo.ui.fragment.InfomationLFragment;
 import hengai.com.shishuo.ui.fragment.InfomationRFragment;
+import hengai.com.shishuo.utils.SPUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -43,8 +52,12 @@ public class InfoMationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infomation);
         ButterKnife.inject(this);
-        initView();
+
+       initView();
+
     }
+
+
 
     private void initView() {
         mInfomationL = new InfomationLFragment();
@@ -77,10 +90,13 @@ public class InfoMationActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
+
                     mVpInfomation.setCurrentItem(0);
                     mRbInter.setSelected(true);
                     mRbWriten.setSelected(false);
+
                 } else if(position == 1) {
+
                     mVpInfomation.setCurrentItem(1);
                     mRbInter.setSelected(false);
                     mRbWriten.setSelected(true);
@@ -102,11 +118,13 @@ public class InfoMationActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.rb_inter:
+
                 mVpInfomation.setCurrentItem(0);
                 mRbInter.setSelected(true);
                 mRbWriten.setSelected(false);
                 break;
             case R.id.rb_writen:
+
                 mVpInfomation.setCurrentItem(1);
                 mRbInter.setSelected(false);
                 mRbWriten.setSelected(true);

@@ -130,7 +130,7 @@ public class VideoPublishNoSelectActivity_2 extends Activity {
         setContentView(R.layout.activity_publish_video_noselect_2);
         receiver = new UploadReceiver();
         this.registerReceiver(receiver, new IntentFilter(ConfigUtil.ACTION_UPLOAD));
-        System.out.println("++++++"+"进入了pushino2");
+
         initView();
     }
 

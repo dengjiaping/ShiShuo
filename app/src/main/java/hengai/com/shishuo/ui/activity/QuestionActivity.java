@@ -103,12 +103,16 @@ public class QuestionActivity extends AppCompatActivity {
                                     mlist.add(files.get(i).getUrl());
                                 }
                             }
+                            if(files.size()!=0){
+                                intent = new Intent(QuestionActivity.this, StartPrepareActivity.class);
+                                intent.putExtra("lessonType2", lessonType2);
+                                intent.putStringArrayListExtra("imgUrl", (ArrayList<String>) mlist);
+                                intent.putExtra("questionContent", mTitle);
+                                startActivity(intent);
+                            }else{
+                               TastyToast.makeText(mContext,"未抽到题型",TastyToast.LENGTH_SHORT,TastyToast.INFO);
+                            }
 
-                            intent = new Intent(QuestionActivity.this, StartPrepareActivity.class);
-                            intent.putExtra("lessonType2", lessonType2);
-                            intent.putStringArrayListExtra("imgUrl", (ArrayList<String>) mlist);
-                            intent.putExtra("questionContent", mTitle);
-                            startActivity(intent);
                         }
                     }else{
                         TastyToast.makeText(mContext,"数据解析错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
@@ -156,6 +160,7 @@ public class QuestionActivity extends AppCompatActivity {
             case R.id.bt_trial_teaching:
                 lessonType2 = 2;
                 mCatg1="SJ";
+                mlist.clear();
                 mBtTrialTeaching.setSelected(true);
                 mBtSpeaking.setSelected(false);
                 mBtInterview.setSelected(false);
@@ -165,6 +170,7 @@ public class QuestionActivity extends AppCompatActivity {
             case R.id.bt_speaking:
                 lessonType2 = 0;
                 mCatg1="SK";
+                mlist.clear();
                 mBtTrialTeaching.setSelected(false);
                 mBtSpeaking.setSelected(true);
                 mBtInterview.setSelected(false);
@@ -174,6 +180,7 @@ public class QuestionActivity extends AppCompatActivity {
             case R.id.bt_interview:
                 lessonType2 = 3;
                 mCatg1="JGH";
+                mlist.clear();
                 mBtTrialTeaching.setSelected(false);
                 mBtSpeaking.setSelected(false);
                 mBtInterview.setSelected(true);
@@ -183,6 +190,7 @@ public class QuestionActivity extends AppCompatActivity {
             case R.id.bt_answer:
                 lessonType2 = 4;
                 mCatg1="DB";
+                mlist.clear();
                 mBtTrialTeaching.setSelected(false);
                 mBtSpeaking.setSelected(false);
                 mBtInterview.setSelected(false);
@@ -191,7 +199,6 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
             case R.id.bt_select:
                 initView();
-
                 break;
         }
     }

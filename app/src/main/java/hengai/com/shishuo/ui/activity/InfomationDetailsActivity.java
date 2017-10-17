@@ -14,6 +14,12 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.InfoMationDetailBean;
+import hengai.com.shishuo.network.HiRetorfit;
+import hengai.com.shishuo.utils.SPUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yu on 2017/9/19.
@@ -42,17 +48,37 @@ public class InfomationDetailsActivity extends AppCompatActivity {
     WebView mWebvInfomation;
 
     private String url;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infomation_details);
         ButterKnife.inject(this);
         initData();
-        initView();
     }
 
     private void initData() {
-      url="http://mp.weixin.qq.com/s/8mkmc1RNuDZ3TRV3wpPDSQ";
+        //url="http://mp.weixin.qq.com/s/8mkmc1RNuDZ3TRV3wpPDSQ";
+        String mchannel = (String) SPUtils.get(this, "channel", "liangshishuo");
+        String id = getIntent().getStringExtra("id");
+        Call<InfoMationDetailBean> call = HiRetorfit.getInstans().getApi().InfoMationDetail(mchannel, id);
+        call.enqueue(new Callback<InfoMationDetailBean>() {
+            @Override
+            public void onResponse(Call<InfoMationDetailBean> call, Response<InfoMationDetailBean> response) {
+                if (response != null) {
+                    if (response.body().getCode() == 200) {
+                        url = response.body().getData().getUrl();
+                        initView();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InfoMationDetailBean> call, Throwable t) {
+
+            }
+        });
+
         //url="http://x.iyoukiss.com/qbexamsess_ent.html?sesscode=6rq1zovb&checkopen=fDjeG2Tz1JEhZtERm4btxsz1NUCfvBrBsf5uhmvsLx4eeFSc&from=groupmessage";
     }
 
@@ -83,13 +109,14 @@ public class InfomationDetailsActivity extends AppCompatActivity {
 
     }
 
-    int x=1;
+    int x = 1;
+
     private void collect() {
-        if(x==1){
-            x=0;
+        if (x == 1) {
+            x = 0;
             mIvStart.setImageResource(R.drawable.sc_dl);
-        }else{
-            x=1;
+        } else {
+            x = 1;
             mIvStart.setImageResource(R.drawable.sc);
         }
 
