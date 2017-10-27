@@ -43,6 +43,7 @@ public class LoginPwdActivity extends AppCompatActivity {
     private Context mContext;
     private String mPhone;
     private String mChannel;
+    private String mIsStting;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class LoginPwdActivity extends AppCompatActivity {
     private void initData() {
         mPhone = getIntent().getStringExtra("phone");
         mChannel = "liangshishuo";
+        mIsStting = (String) SPUtils.get(getApplicationContext(),"issetting","N");
     }
     private void initView() {
         mEtLoginPhone.addTextChangedListener(mWatcher);
@@ -118,11 +120,16 @@ public class LoginPwdActivity extends AppCompatActivity {
                         SPUtils.put(mContext,"channel",channel);
                         SPUtils.put(mContext,"phone",phone);
                         SPUtils.put(mContext,"pwd",pwd);
-                        SPUtils.put(mContext,"uid",loginBean.getUsertoken().getUid());
+                        //SPUtils.put(mContext,"uid",loginBean.getUsertoken().getUid());
                         SPUtils.put(mContext,"token",loginBean.getUsertoken().getToken());
                         LoginActivity.instance.finish();
                         TastyToast.makeText(LoginPwdActivity.this,"登录成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
-                        startActivity(new Intent(LoginPwdActivity.this,MainActivity.class));
+                        if(mIsStting.equals("N")){
+                            startActivity(new Intent(LoginPwdActivity.this,MyDreamActivity.class));
+                        }else{
+                            startActivity(new Intent(LoginPwdActivity.this,MainActivity.class));
+                        }
+                        SPUtils.put(getApplicationContext(),"islogin","Y");
                         finish();
                     }
                     if(loginBean.getResult()==-1){

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
@@ -38,6 +39,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -64,7 +66,9 @@ import com.sdsmdg.tastytoast.TastyToast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -73,6 +77,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.AddSeeNum;
+import hengai.com.shishuo.bean.DianZanBean;
+import hengai.com.shishuo.bean.ReViewBean;
+import hengai.com.shishuo.bean.VideoCouseInfo;
+import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.adapter.LessonAppraiseAdapter;
 import hengai.com.shishuo.ui.widget.PlayTopPopupWindow;
 import hengai.com.shishuo.ui.widget.PopMenu;
@@ -81,8 +90,13 @@ import hengai.com.shishuo.ui.widget.Subtitle;
 import hengai.com.shishuo.ui.widget.VerticalSeekBar;
 import hengai.com.shishuo.utils.ConfigUtil;
 import hengai.com.shishuo.utils.DataSet;
+import hengai.com.shishuo.utils.DateUtil;
 import hengai.com.shishuo.utils.DownloadController;
 import hengai.com.shishuo.utils.ParamsUtil;
+import hengai.com.shishuo.utils.SPUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 视频播放界面
@@ -182,7 +196,7 @@ public class MediaPlayActivity extends Activity implements
     private float scrollTotalDistance;
     private int lastPlayPosition, currentPlayPosition;
     private String videoId;
-    private RelativeLayout  rlPlay;
+    private RelativeLayout rlPlay;
     private LinearLayout llBelow;
     private WindowManager wm;
     private ImageView ivFullscreen;
@@ -195,7 +209,11 @@ public class MediaPlayActivity extends Activity implements
             setLayoutVisibility(View.GONE, false);
         }
     };
-
+    private String mChannel;
+    private String mToken;
+    private String mCode;
+    private VideoCouseInfo.DataBean mData;
+    private List<VideoCouseInfo.DataBean.CommentsBean> mList=new ArrayList<VideoCouseInfo.DataBean.CommentsBean>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,7 +222,8 @@ public class MediaPlayActivity extends Activity implements
 
         setContentView(R.layout.new_ad_media_play);
         ButterKnife.inject(this);
-        initView1();
+        initData();
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -223,6 +242,57 @@ public class MediaPlayActivity extends Activity implements
         }
     }
 
+    private boolean initData() {
+        mChannel = (String) SPUtils.get(getApplicationContext(), "channel", "1");
+        mToken = (String) SPUtils.get(getApplicationContext(), "token", "1");
+        mCode = getIntent().getStringExtra("code");
+
+       if (mCode != null) {
+             Call<AddSeeNum> call1=HiRetorfit.getInstans().getApi().AddSeeNum(mChannel,mToken,mCode);
+            call1.enqueue(new Callback<AddSeeNum>() {
+                @Override
+                public void onResponse(Call<AddSeeNum> call, Response<AddSeeNum> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<AddSeeNum> call, Throwable throwable) {
+
+                }
+            });
+            Call<VideoCouseInfo> call = HiRetorfit.getInstans().getApi().LessonVideoCouse(mChannel, mToken, mCode);
+            call.enqueue(new Callback<VideoCouseInfo>() {
+
+
+
+                @Override
+                public void onResponse(Call<VideoCouseInfo> call, Response<VideoCouseInfo> response) {
+
+                    if (response != null) {
+                        if (response.body().getResult() == 1) {
+                            mData = response.body().getData();
+                         for(int i=0;i<mData.getComments().size();i++){
+                             if(mData.getComments().get(i).getFromUserType().equals("T")){
+                                 mList.add(mData.getComments().get(i));
+                             }
+                         }
+                            initView1();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<VideoCouseInfo> call, Throwable t) {
+                    TastyToast.makeText(getApplicationContext(), "网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                }
+            });
+        } else {
+            TastyToast.makeText(getApplicationContext(), "数据错误请联系客服", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+        }
+
+        return true;
+    }
+
     private void initNetworkTimerTask() {
         networkInfoTimerTask = new TimerTask() {
             @Override
@@ -234,13 +304,14 @@ public class MediaPlayActivity extends Activity implements
         timer.schedule(networkInfoTimerTask, 0, 600);
     }
 
-    @OnClick({R.id.iv_share, R.id.img_dz, R.id.tv_dz_num, R.id.img_msg, R.id.tv_msg_num, R.id.ll_appraise, R.id.ll_pofile, R.id.tv_see_comments, R.id.img_btn_appraise})
+    @OnClick({R.id.iv_share, R.id.img_dz, R.id.tv_dz_num, R.id.img_msg, R.id.tv_msg_num, R.id.ll_appraise, R.id.ll_pofile, R.id.tv_see_comments, R.id.img_btn_appraise,R.id.rl_student_appraise})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_share:
                 share();
                 break;
             case R.id.img_dz:
+                dz();
                 break;
             case R.id.tv_dz_num:
                 break;
@@ -249,21 +320,69 @@ public class MediaPlayActivity extends Activity implements
             case R.id.tv_msg_num:
                 break;
             case R.id.ll_appraise:
+
                 break;
             case R.id.ll_pofile:
                 profilePopu();
                 break;
             case R.id.tv_see_comments:
+                Intent intent=new Intent(MediaPlayActivity.this,TeacherCommentsActivity.class);
+                intent.putExtra("code",mCode);
+                startActivity(intent);
                 break;
             case R.id.img_btn_appraise:
                 popu(view);
                 break;
+            case R.id.rl_student_appraise:
+
+                break;
         }
+    }
+
+    private void dz() {
+        if (mData.isMyzan()) {
+            dzNet("no");
+        } else {
+            dzNet("yes");
+        }
+    }
+
+    private void dzNet(final String bool) {
+        Call<DianZanBean> call = HiRetorfit.getInstans().getApi().VideoDianZan(mChannel, mToken, mCode, bool);
+        call.enqueue(new Callback<DianZanBean>() {
+            @Override
+            public void onResponse(Call<DianZanBean> call, Response<DianZanBean> response) {
+                if (response != null) {
+                    if (response.body().getResult() == 1) {
+                        if (bool.equals("no")) {
+                            mData.setMyzan(false);
+                            mImgDz.setImageResource(R.drawable.dz_button);
+                            mTvDzNum.setText((mData.getZannum() - 1) + "");
+                            mData.setZannum(mData.getZannum() - 1);
+                        } else {
+                            mData.setMyzan(true);
+                            mImgDz.setImageResource(R.drawable.dz_button_after);
+                            mTvDzNum.setText((mData.getZannum() + 1) + "");
+                            mData.setZannum(mData.getZannum() + 1);
+                        }
+
+                    } else {
+                        TastyToast.makeText(getApplicationContext(), "点赞失败请联系客服", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DianZanBean> call, Throwable throwable) {
+                TastyToast.makeText(getApplicationContext(), "网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        });
     }
 
     private void share() {
 
     }
+
     private void popu(View view) {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(MediaPlayActivity.this).inflate(
@@ -272,6 +391,8 @@ public class MediaPlayActivity extends Activity implements
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setTouchable(true);
 
+        TextView tv = (TextView) contentView.findViewById(R.id.tv_revert_name);
+        tv.setText("点评：");
         ImageButton btn = (ImageButton) contentView.findViewById(R.id.img_dismiss);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,14 +402,15 @@ public class MediaPlayActivity extends Activity implements
         });
         final EditText etDetail = (EditText) contentView.findViewById(R.id.et_revert_appraise);
         Button revert = (Button) contentView.findViewById(R.id.btn_revert);
+        revert.setText("立即点评");
         revert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(etDetail.getText())){
-                    TastyToast.makeText(MediaPlayActivity.this,etDetail.getText().toString(), TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
-                    popupWindow.dismiss();
-                }else{
-                    TastyToast.makeText(MediaPlayActivity.this, "请填写评价内容", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                if (!TextUtils.isEmpty(etDetail.getText())) {
+                    sendComment(popupWindow, etDetail.getText().toString());
+
+                } else {
+                    TastyToast.makeText(getApplicationContext(), "请填写评价内容", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                 }
             }
         });
@@ -300,6 +422,28 @@ public class MediaPlayActivity extends Activity implements
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+    }
+
+    private void sendComment(final PopupWindow popupWindow, String text) {
+        Call<ReViewBean> call = HiRetorfit.getInstans().getApi().ReView(mChannel, mToken, mCode, text,"");
+        call.enqueue(new Callback<ReViewBean>() {
+            @Override
+            public void onResponse(Call<ReViewBean> call, Response<ReViewBean> response) {
+                if (response != null) {
+                    if (response.body().getResult() == 1) {
+                        popupWindow.dismiss();
+                        TastyToast.makeText(getApplicationContext(), "评论成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                    } else {
+                        TastyToast.makeText(getApplicationContext(), "评论失败:" + response.body().getMessage(), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReViewBean> call, Throwable t) {
+                TastyToast.makeText(getApplicationContext(), "评论失败：网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        });
     }
 
     private void profilePopu() {
@@ -315,13 +459,14 @@ public class MediaPlayActivity extends Activity implements
 
         }
     };
+
     private void initView1() {
-        mLvVideoStudentappraise.setAdapter(new LessonAppraiseAdapter(MediaPlayActivity.this));
+        mLvVideoStudentappraise.setAdapter(new LessonAppraiseAdapter(MediaPlayActivity.this, mData.getComments()));
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
-                refreshlayout.finishRefresh(2000);
+                refreshlayout.finishRefresh(initData());
                 //
                 //initData();
             }
@@ -331,13 +476,26 @@ public class MediaPlayActivity extends Activity implements
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
 
-                refreshlayout.finishLoadmore(2000);
+                refreshlayout.finishLoadmore(initData());
             }
         });
 
+        String startDate = DateUtil.getDate(mData.getStartDate());
+        mTvTime.setText(startDate + "");
+        //TODO
+        mTvSeeNum.setText(mData.getViewtime() + "");
+        mTvVideoCategry.setText(mData.getTitle());
+        mTvDzNum.setText(mData.getZannum() + "");
+        mTvMsgNum.setText(mData.getCommentNum() + "");
+        if (mData.isMyzan()) {
+            mImgDz.setImageResource(R.drawable.dz_button_after);
+        }
+       mTvTeacherNum.setText(mList.size()+"");
+       /* if(mList.size()==0){
+            mTvSeeComments.setEnabled(false);
+        }*/
+
     }
-
-
 
     enum NetworkStatus {
         WIFI,
@@ -388,8 +546,8 @@ public class MediaPlayActivity extends Activity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                //TastyToast.makeText(getApplicationContext(), "已切换至wifi", TastyToast.LENGTH_SHORT, TastyToast.INFO);
 
-                Toast.makeText(getApplicationContext(), "已切换至wifi", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -425,7 +583,8 @@ public class MediaPlayActivity extends Activity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "当前无网络信号，无法播放", Toast.LENGTH_SHORT).show();
+                TastyToast.makeText(getApplicationContext(), "当前无网络信号，无法播放", TastyToast.LENGTH_SHORT, TastyToast.INFO);
+
             }
         });
     }
@@ -456,7 +615,7 @@ public class MediaPlayActivity extends Activity implements
 
     private void initView() {
 
-        llBelow= (LinearLayout) findViewById(R.id.ll_below);
+        llBelow = (LinearLayout) findViewById(R.id.ll_below);
         rlPlay = (RelativeLayout) findViewById(R.id.rl_play);
 
         rlPlay.setOnTouchListener(new OnTouchListener() {
@@ -588,7 +747,7 @@ public class MediaPlayActivity extends Activity implements
         player.setOnInfoListener(this);
 
         videoId = getIntent().getStringExtra("videoId");
-        videoIdText.setText(videoId);
+        //videoIdText.setText(mData.getTitle());
         isLocalPlay = getIntent().getBooleanExtra("isLocalPlay", false);
         try {
 
@@ -835,7 +994,7 @@ public class MediaPlayActivity extends Activity implements
 
             switch (v.getId()) {
             /*case R.id.btnPlay:
-				if (!isPrepared) {
+                if (!isPrepared) {
 					return;
 				}
 				changePlayStatus();
@@ -906,9 +1065,9 @@ public class MediaPlayActivity extends Activity implements
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
         }
     }
-	
+
 	/*private void changeToNextVideo(boolean isCompleted) {
-		int currentIndex = getCurrentVideoIndex();
+        int currentIndex = getCurrentVideoIndex();
 		int length = 1;
 		int position = 0;
 		if (currentIndex == length - 1) {
@@ -998,7 +1157,7 @@ public class MediaPlayActivity extends Activity implements
                         break;
                 }
 
-                Toast.makeText(getApplicationContext(), screenSizeArray[position], Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), screenSizeArray[position], Toast.LENGTH_SHORT).show();
                 LayoutParams params = getScreenSizeParams(position);
                 params.addRule(RelativeLayout.CENTER_IN_PARENT);
                 surfaceView.setLayoutParams(params);

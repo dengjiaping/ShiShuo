@@ -121,17 +121,13 @@ public class WritenLiveFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isIsPackage()) {
-                    mIntent2.putExtra("id", mList.get(position).getId() + "");
+                    mIntent2.putExtra("crcode", mList.get(position).getCode());
                     startActivity(mIntent2);
                 } else {
                     String startDate = DateUtil.getDate(mList.get(position).getStartDate());
                     String startTime = DateUtil.getTime(mList.get(position).getStartTime());
-
-                    mIntent1.putExtra("videoId", mList.get(position).getVideoId());
-
-
                     mIntent1.putExtra("num", mList.get(position).getPersonNum() + "");
-                    //mIntent1.putExtra("crcode", mList.get(position).getCode());
+                    mIntent1.putExtra("crcode", mList.get(position).getCode());
                     mIntent1.putExtra("date", startDate);
                     mIntent1.putExtra("time", startTime);
                     mIntent1.putExtra("title",mList.get(position).getTitle());
@@ -210,10 +206,10 @@ public class WritenLiveFragment extends Fragment {
                 viewHolder.mIvLiveTj.setVisibility(View.GONE);
             }
 
-            if (!mList.get(position).isEnrollmentStatus()) {
+            /*if (!mList.get(position).isEnrollmentStatus()) {
                 viewHolder.mTvEnrol.setText("已报名");
                 viewHolder.mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
-            }
+            }*/
             viewHolder.mTvPersornum.setText(mList.get(position).getPersonNum() + "");
 
             if (mList.get(position).getTeachers().size() == 1) {

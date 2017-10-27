@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fbf3f5"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="视频完成"
+            android:text="视频发布"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -33,108 +33,168 @@
     <ImageView
         android:id="@+id/im_video_image"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="160dp"
         android:layout_below="@+id/main_top_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:text="标题:"
+            android:textSize="16sp"
+            />
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/im_video_image"
-        android:layout_marginLeft="@dimen/x20"
-        android:layout_marginTop="@dimen/y13"
-        android:text="标题"
-        android:textSize="@dimen/x24"/>
-
-    <EditText
-        android:id="@+id/et_video_description"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y60"
-        android:layout_below="@+id/tv_title"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:background="@color/white"
-        android:hint="请输入标题内容"
-        android:layout_marginTop="@dimen/y15"
-        android:textCursorDrawable="@drawable/color_cursor"
-        android:maxLines="5"
-        android:paddingLeft="@dimen/x20"
-        android:textSize="@dimen/x30" />
+        android:padding="10dp"
+        android:text="选择自己的标签"
+        android:textColor="@color/main_button_enable"
+        android:textSize="14sp"
+        />
 
+    <RadioGroup
+        android:id="@+id/rg_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
 
+        <RadioButton
+            android:id="@+id/rb_speak"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="说课"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_rehearsal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="试讲"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_structured"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="结构化"
+            android:textColor="@drawable/main_title_text_chector"/>
+
+        <RadioButton
+            android:id="@+id/rb_defense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/longbkg_checktor"
+            android:button="@null"
+            android:gravity="center"
+            android:text="答辩"
+            android:textColor="@drawable/main_title_text_chector"/>
+    </RadioGroup>
 
     <LinearLayout
-        android:id="@+id/ll_mylabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_video_description"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_mylabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y30"
-            android:layout_marginLeft="@dimen/x20"
-            android:textSize="@dimen/x24"
-            android:text="我的标签" />
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
 
         <TextView
-            android:id="@+id/tv_item"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_categr"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y30"
-            android:layout_marginLeft="@dimen/x20"
-            android:background="@drawable/grown_label_selected_style"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/label_selected_style"
             android:gravity="center"
-            android:textColor="@color/white"></TextView>
+            android:padding="6dp"
+            android:text="教师招聘"
+            android:textColor="@color/white"
+            />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_xueduan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/label_selected_style"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="中学"
+            android:textColor="@color/white"
+            />
 
-            <TextView
-                android:id="@+id/tv_kind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/y30"
-                android:layout_marginLeft="@dimen/x20"
-                android:background="@drawable/grown_label_selected_style"
-                android:gravity="center"
-                android:textColor="@color/white"></TextView>
-
-            <TextView
-                android:id="@+id/tv_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/y30"
-                android:layout_marginLeft="@dimen/x40"
-                android:background="@drawable/label_selected_style"
-                android:gravity="center"
-                android:textColor="@color/white"></TextView>
-
-            <TextView
-                android:id="@+id/tv_subject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/y30"
-                android:layout_marginLeft="@dimen/x40"
-                android:background="@drawable/label_selected_style"
-                android:button="@null"
-                android:gravity="center"
-                android:textColor="@color/white"></TextView>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_subject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/label_selected_style"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="数学"
+            android:textColor="@color/white"
+            />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/charge_video_publish"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/y68"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/y50"
-        android:background="@drawable/savebtnbkg_selector"
-        android:text="上传视频"
+        android:id="@+id/btn_upload"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/btn_login_bg"
+        android:text="立即上传"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="17sp"
+        />
 
-</RelativeLayout>
+</LinearLayout>

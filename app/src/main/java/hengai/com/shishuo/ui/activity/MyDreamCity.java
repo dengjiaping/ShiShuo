@@ -29,6 +29,7 @@ import hengai.com.shishuo.R;
 import hengai.com.shishuo.bean.RegisterBean;
 import hengai.com.shishuo.bean.SerializableMap;
 import hengai.com.shishuo.network.HiRetorfit;
+import hengai.com.shishuo.ui.activity.myactivity.ShowMySettingActivity;
 import hengai.com.shishuo.utils.LogUtils;
 import hengai.com.shishuo.utils.SPUtils;
 import hengai.com.shishuo.utils.T;
@@ -67,73 +68,80 @@ public class MyDreamCity extends AppCompatActivity {
     private Context mContext;
     private String mToken;
 
-    private String mCityId="1";
+    private String mCityId = "1";
     private Map<Integer, String> mMap1;
     private Map<Integer, String> mMap2;
-    private String mCity="";
+    private String mCity = "";
+    private String mActivity="0";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mydream2);
         ButterKnife.inject(this);
-        mContext=this;
+        mContext = this;
         initView();
         initData();
-
     }
 
     private void initView() {
-       mSpinnerDreamCity.addTextChangedListener(watcher);
-    }
-  TextWatcher watcher=new TextWatcher() {
-      private CharSequence temp;
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        temp=s;
+        mSpinnerDreamCity.addTextChangedListener(watcher);
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
+    TextWatcher watcher = new TextWatcher() {
+        private CharSequence temp;
 
-    @Override
-    public void afterTextChanged(Editable s) {
-     if(temp.toString()!=null&temp.toString().equals("")){
-         mRbSelectHunan.setChecked(false);
-         mRbSelectGuangdong.setChecked(false);
-         mRbSelectGuangxi.setChecked(false);
-         mRbSelectGuizhou.setChecked(false);
-     }
-    }
-};
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            temp = s;
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (temp.toString() != null & temp.toString().equals("")) {
+                mRbSelectHunan.setChecked(false);
+                mRbSelectGuangdong.setChecked(false);
+                mRbSelectGuangxi.setChecked(false);
+                mRbSelectGuizhou.setChecked(false);
+            }
+        }
+    };
+
     private void initData() {
-        mToken = (String) SPUtils.get(mContext,"token","1");
+        mToken = (String) SPUtils.get(mContext, "token", "1");
 
-        mExam=getIntent().getStringExtra("exam");
-        mSchool=getIntent().getStringExtra("school");
-        mSubject=getIntent().getStringExtra("subject");
-        mCatgid=getIntent().getStringExtra("catagId");
-        mScatgid=getIntent().getStringExtra("scatgId");
-
-        Bundle bundle=getIntent().getExtras();
-        SerializableMap serializableMap= (SerializableMap) bundle.get("map1");
-        SerializableMap serializableMap2= (SerializableMap) bundle.get("map2");
-        mMap1=serializableMap.getMap();
-        mMap2=serializableMap2.getMap();
-        LogUtils.d(mExam+"++"+mSchool+"++"+mSubject+"++"+mCatgid+"+++"+mScatgid);
-        LogUtils.d(serializableMap.getMap().toString()+"+++++已开通");
-        LogUtils.d(serializableMap2.getMap().toString()+"+++++未开通");
-        Set set=mMap2.keySet();
-        List<String> list=new ArrayList<>();
-        for(Object b:set){
+        mExam = getIntent().getStringExtra("exam");
+        mSchool = getIntent().getStringExtra("school");
+        mSubject = getIntent().getStringExtra("subject");
+        mCatgid = getIntent().getStringExtra("catagId");
+        mScatgid = getIntent().getStringExtra("scatgId");
+        mActivity = getIntent().getStringExtra("activity");
+if(mActivity==null){
+    mActivity="0";
+}
+        Bundle bundle = getIntent().getExtras();
+        SerializableMap serializableMap = (SerializableMap) bundle.get("map1");
+        SerializableMap serializableMap2 = (SerializableMap) bundle.get("map2");
+        mMap1 = serializableMap.getMap();
+        mMap2 = serializableMap2.getMap();
+        LogUtils.d(mExam + "++" + mSchool + "++" + mSubject + "++" + mCatgid + "+++" + mScatgid);
+        LogUtils.d(serializableMap.getMap().toString() + "+++++已开通");
+        LogUtils.d(serializableMap2.getMap().toString() + "+++++未开通");
+        Set set = mMap2.keySet();
+        List<String> list = new ArrayList<>();
+        for (Object b : set) {
             list.add(serializableMap2.getMap().get(b));
         }
-        String[] listCity =new String[list.size()];
-        for(int i=0;i<list.size();i++){
-            listCity[i]=list.get(i);
+        String[] listCity = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            listCity[i] = list.get(i);
         }
 
-                //String[] listCity = {"北京","天津","上海","重庆","黑龙江","辽宁","吉林","河北","河南","湖北","山东","山西","安徽","浙江","江苏","福建","海南","四川","云南","青海","甘肃","江西"};
+        //String[] listCity = {"北京","天津","上海","重庆","黑龙江","辽宁","吉林","河北","河南","湖北","山东","山西","安徽","浙江","江苏","福建","海南","四川","云南","青海","甘肃","江西"};
         /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, list);*/
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -141,10 +149,11 @@ public class MyDreamCity extends AppCompatActivity {
         mSpinnerDreamCity.setAdapter(adapter);
 
     }
+
     /**
      * @param map
      * @param value
-     * @return  Integer类型的 value对应的Key值
+     * @return Integer类型的 value对应的Key值
      */
     private Integer getIntKey(Map<Integer, String> map, String value) {
         Integer key = null;
@@ -160,29 +169,33 @@ public class MyDreamCity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rb_select_hunan:
-                mCityId=1+"";
+                mCityId = 1 + "";
+                mCity="湖南";
                 LogUtils.d(mSpinnerDreamCity.getText().toString());
-                if(mSpinnerDreamCity.getText()!=null&!mSpinnerDreamCity.getText().toString().equals("")){
+                if (mSpinnerDreamCity.getText() != null & !mSpinnerDreamCity.getText().toString().equals("")) {
                     mSpinnerDreamCity.setText("");
                 }
                 break;
             case R.id.rb_select_guangdong:
-                mCityId=2+"";
-                if(mSpinnerDreamCity.getText()!=null&!mSpinnerDreamCity.getText().toString().equals("")){
+                mCity="广东";
+                mCityId = 2 + "";
+                if (mSpinnerDreamCity.getText() != null & !mSpinnerDreamCity.getText().toString().equals("")) {
                     mSpinnerDreamCity.setText("");
                 }
 
                 break;
             case R.id.rb_select_guangxi:
-                mCityId=0+"";
-                if(mSpinnerDreamCity.getText()!=null&!mSpinnerDreamCity.getText().toString().equals("")){
+                mCity="广西";
+                mCityId = 0 + "";
+                if (mSpinnerDreamCity.getText() != null & !mSpinnerDreamCity.getText().toString().equals("")) {
                     mSpinnerDreamCity.setText("");
                 }
 
                 break;
             case R.id.rb_select_guizhou:
-                mCityId=3+"";
-                if(mSpinnerDreamCity.getText()!=null&!mSpinnerDreamCity.getText().toString().equals("")){
+                mCityId = 3 + "";
+                mCity="贵州";
+                if (mSpinnerDreamCity.getText() != null & !mSpinnerDreamCity.getText().toString().equals("")) {
                     mSpinnerDreamCity.setText("");
                 }
                 break;
@@ -191,48 +204,69 @@ public class MyDreamCity extends AppCompatActivity {
             case R.id.spinner_dream_city:
                 break;
             case R.id.btn_dream_next:
+                LogUtils.d("+++++xxxxx1"+mCity);
                 commitSet();
                 break;
         }
     }
-    private void commitSet(){
-        mCity=mSpinnerDreamCity.getText().toString();
-        if(mCity!=null&!mCity.equals("")){
-            mCityId=getIntKey(mMap2,mSpinnerDreamCity.getText().toString())+"";
+
+    private void commitSet() {
+        LogUtils.d("+++++xxxxx2"+mCity);
+        if(mCity.equals("")){
+            mCity = mSpinnerDreamCity.getText().toString();
+            if (mCity != null & !mCity.equals("")) {
+                mCityId = getIntKey(mMap2, mSpinnerDreamCity.getText().toString()) + "";
+            }
         }
-        if(!mCityId.equals("0")){
-            LogUtils.d("++++最后"+mScatgid+"++"+mCatgid+"+++"+mCityId+"+++"+mToken);
-            Call<RegisterBean> call= HiRetorfit.getInstans().getApi().UpSetting("liangshishuo",mCityId,mCatgid,mScatgid,mToken);
+
+        if (!mCityId.equals("0")) {
+            LogUtils.d("++++最后" + mScatgid + "++" + mCatgid + "+++" + mCityId + "+++" + mToken);
+            Call<RegisterBean> call = HiRetorfit.getInstans().getApi().UpSetting("liangshishuo", mCityId, mCatgid, mScatgid, mToken);
             call.enqueue(new Callback<RegisterBean>() {
                 @Override
                 public void onResponse(Call<RegisterBean> call, Response<RegisterBean> response) {
-                    if(response!=null){
-                        if(response.body().getResult()==1){
-                            TastyToast.makeText(mContext,"设置成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
-                            SPUtils.put(mContext,"scatgId",mScatgid);
-                            SPUtils.put(mContext,"catgId",mCatgid);
-                            SPUtils.put(mContext,"cityId",mCityId);
-                            startActivity(new Intent(MyDreamCity.this,MainActivity.class));
+                    if (response != null) {
+                        if (response.body().getResult() == 1) {
+                            TastyToast.makeText(mContext, "设置成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                            SPUtils.put(mContext, "scatgId", mScatgid);
+                            SPUtils.put(mContext, "catgId", mCatgid);
+                            SPUtils.put(mContext, "cityId", mCityId);
+
+
+                            SPUtils.put(mContext, "city", mCity);
+                            SPUtils.put(mContext, "exam", mExam);
+                            SPUtils.put(mContext, "school", mSchool);
+                            SPUtils.put(mContext, "subject", mSubject);
+
+
+
+                                if(mActivity.equals("1")){
+                                }else{
+                                    SPUtils.put(getApplicationContext(),"issetting","Y");
+                                    startActivity(new Intent(MyDreamCity.this, MainActivity.class));
+                                }
+
+
+
                             finish();
                             //TODO
 
-                        }else{
-                            TastyToast.makeText(mContext,"设置失败",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
-
+                        } else {
+                            TastyToast.makeText(mContext, "设置失败", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                         }
-                    }else{
-                        TastyToast.makeText(mContext,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                    } else {
+                        TastyToast.makeText(mContext, "网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RegisterBean> call, Throwable t) {
-                    TastyToast.makeText(mContext,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                    TastyToast.makeText(mContext, "网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                 }
             });
 
-        }else{
-            TastyToast.makeText(mContext,"请选择省份",TastyToast.LENGTH_SHORT,TastyToast.WARNING);
+        } else {
+            TastyToast.makeText(mContext, "请选择省份", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
         }
 
     }

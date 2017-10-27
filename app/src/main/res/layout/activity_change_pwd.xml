@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/main_bkg"
+              android:gravity="center_horizontal"
+    >
+    <RelativeLayout
+        android:id="@+id/main_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/main_color">
+
+        <ImageView
+            android:id="@+id/im_listenclass_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/x30"
+            android:onClick="onBackClicked"
+            android:src="@drawable/return_button" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@+id/im_listenclass_back"
+            android:onClick="onBackClicked"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="修改密码"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_right_popmenu"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@android:color/white"
+            android:textSize="35sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/et_old_passwd"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x70"
+        android:background="@drawable/input_background"
+        android:drawableLeft="@drawable/lock_icon"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/x20"
+        android:drawablePadding="@dimen/x20"
+        android:layout_marginTop="@dimen/x40"
+        android:hint="请输入旧密码"
+        android:textColorHint="@color/main_button_enable"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x32"
+        />
+
+    <EditText
+        android:id="@+id/et_new_passwd"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x70"
+        android:background="@drawable/input_background"
+        android:drawableLeft="@drawable/lock_icon"
+        android:paddingLeft="@dimen/x20"
+        android:drawablePadding="@dimen/x20"
+        android:layout_marginTop="@dimen/x40"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:maxLines="1"
+        android:hint="请输入新密码"
+        android:textColorHint="@color/main_button_enable"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x32" />
+
+    <EditText
+        android:id="@+id/et_ok_new_passwd"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x70"
+        android:background="@drawable/input_background"
+        android:drawableLeft="@drawable/lock_icon"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/x20"
+        android:drawablePadding="@dimen/x20"
+        android:layout_marginTop="@dimen/x40"
+        android:hint="请再次输入新密码"
+        android:textColorHint="@color/main_button_enable"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x32"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x68"
+        android:layout_marginTop="@dimen/x40"
+        android:background="@drawable/btn_login_bg"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x37"
+        android:text="确认修改"
+        android:id="@+id/bt_ok_changepasswd" />
+</LinearLayout>

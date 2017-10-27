@@ -1,8 +1,9 @@
 package hengai.com.shishuo.network;
 
 
+import hengai.com.shishuo.bean.AddSeeNum;
 import hengai.com.shishuo.bean.Banner;
-import hengai.com.shishuo.bean.CourseDetailsBean;
+import hengai.com.shishuo.bean.DianZanBean;
 import hengai.com.shishuo.bean.HomeBean;
 import hengai.com.shishuo.bean.InfoMationBean;
 import hengai.com.shishuo.bean.InfoMationDetailBean;
@@ -13,13 +14,13 @@ import hengai.com.shishuo.bean.LoginBean;
 import hengai.com.shishuo.bean.MobileNumble;
 import hengai.com.shishuo.bean.MyLiveBean;
 import hengai.com.shishuo.bean.QuestionBean;
+import hengai.com.shishuo.bean.ReViewBean;
 import hengai.com.shishuo.bean.RegisterBean;
 
 import hengai.com.shishuo.bean.SettingMsgBean;
 import hengai.com.shishuo.bean.VideoSetting;
 import hengai.com.shishuo.bean.WrittenLiveBean;
-import hengai.com.shishuo.bean.Xueke;
-import hengai.com.shishuo.ui.activity.QuestionActivity;
+import hengai.com.shishuo.bean.VideoCouseInfo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -72,7 +73,6 @@ public interface Api {
     //获取笔试直播的数据
     @GET("listwrittencourse.html")
     Call<WrittenLiveBean> WrittenLive(@Query("channel") String channel, @Query("token") String token,@Query("page") int page,@Query("paging") int paging);
-
     //获取我的直播的数据
     @GET("mycourse.html")
     Call<MyLiveBean> MyLive(@Query("channel") String channel, @Query("token") String token);
@@ -83,10 +83,23 @@ public interface Api {
 
     @GET("ceshi.json")
     Call<SettingMsgBean> Settings();
-
+    //视频播放列表
     @GET("listvideotables.html")
-    Call<LessonVideoBean> LessonVideo(@Query("channel") String channel, @Query("token") String token, @Query("page") int page, @Query("paging") int paging,@Query("ctag1") String ctag1);
+    Call<LessonVideoBean> LessonVideo(@Query("channel") String channel, @Query("token") String token,@Query("catgid") String catgid, @Query("scatgid") String scatgid,@Query("ctag1") String ctag1,@Query("ctag2") String ctag2,@Query("page") int page,@Query("paging") int paging);
+    //code：课程编码,必输   视频详情点赞
+    //zanflag：点赞标志,yes点赞/no取消点赞
+    @GET("zanvideotable.html")
+    Call<DianZanBean> VideoDianZan(@Query("channel") String channel, @Query("token") String token, @Query("code") String code,@Query("zanflag") String zanflag);
+//视频评论  commentid
+    @GET("commentvideotable.html")
+    Call<ReViewBean> ReView(@Query("channel") String channel, @Query("token") String token, @Query("code") String code, @Query("comment") String comment,@Query("commentid") String commentid);
+    //视频详情
+    @GET("getvideotable.html")
+    Call<VideoCouseInfo> LessonVideoCouse(@Query("channel") String channel, @Query("token") String token, @Query("code") String code);
 
+//视频观看人数的增加
+    @GET("playvideotable.html")
+    Call<AddSeeNum> AddSeeNum(@Query("channel") String channel, @Query("token") String token, @Query("code") String code);
     @GET("listcoursefilebyram.html")
     Call<QuestionBean> QuestionTest(@Query("channel") String channel, @Query("token") String token, @Query("catgid") String catgid, @Query("scatgid") String scatgid, @Query("ctag1") String ctag1);
     //资讯列表    可加根据参数查询@Query("title") String title,
@@ -95,26 +108,7 @@ public interface Api {
     //资讯详情
     @GET("getinfocontent.html")
     Call<InfoMationDetailBean> InfoMationDetail(@Query("channel") String channel, @Query("infoid") String id);
-    /*@GET("categoryMenu")
-    Call<List<CategoryMenuBean>> ListCategory();*/
-   /* @GET("recommend")
-    Call<List<String>> ListRecommend();
-    @GET("category")
-    Call<List<CategoryBean>> ListCategory();
 
-    @GET("subject")
-    Call<List<SubjectBean>> ListSubject(@Query("index") int index);
-
-    @GET("game")
-    Call<List<AppListItemBean>> ListGame(@Query("index") int index);
-
-    @GET("app")
-    Call<List<AppListItemBean>> ListApp(@Query("index") int index);
-
-    @GET("home")
-    Call<HomeBean> ListHome(@Query("index") int index);
-    @GET("detail")
-    Call<AppDetailBean> ListDetail(@Query("packageName") String packageName);*/
 
 
 }

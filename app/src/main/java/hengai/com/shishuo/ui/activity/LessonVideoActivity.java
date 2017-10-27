@@ -27,9 +27,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sdsmdg.tastytoast.TastyToast;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,6 +42,8 @@ import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.widget.PopuIntroduce;
 import hengai.com.shishuo.ui.widget.PopuSelect;
 import hengai.com.shishuo.ui.widget.RatioImageView;
+import hengai.com.shishuo.utils.DateUtil;
+import hengai.com.shishuo.utils.LogUtils;
 import hengai.com.shishuo.utils.SPUtils;
 import hengai.com.shishuo.utils.T;
 import retrofit2.Call;
@@ -80,10 +84,12 @@ public class LessonVideoActivity extends AppCompatActivity {
 
     int page = 0;
     int paging = 10;
-    int bool=1;
-    String[] ctag={"","SK","SJ","JGH","DB"};
-    List<LessonVideoBean.DataBean> list= new ArrayList<>();
+    int bool = 1;
+    String[] ctag = {"", "SK", "SJ", "JGH", "DB"};
+    List<LessonVideoBean.DataBean.ListBean> list = new ArrayList<>();
     private MyAdapter mMyAdapter;
+    private String mType;
+    private LessonVideoBean.DataBean mDataBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,8 +99,10 @@ public class LessonVideoActivity extends AppCompatActivity {
         mContext = this;
         mChennel = (String) SPUtils.get(mContext, "channel", "1");
         mToken = (String) SPUtils.get(mContext, "token", "1");
+        //LogUtils.d(SPUtils.get(mContext, "catgId", "1") + "++++" + SPUtils.get(mContext, "scatgId", "1"));
+        mType = "";
 
-        initData();
+        initData(mType);
     }
 
     private void initView() {
@@ -103,8 +111,9 @@ public class LessonVideoActivity extends AppCompatActivity {
         mLvLessonVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent= new Intent(LessonVideoActivity.this,MediaPlayActivity.class);
-                intent.putExtra("videoId","A283A0C6C3DDFFE09C33DC5901307461");
+                Intent intent = new Intent(LessonVideoActivity.this, MediaPlayActivity.class);
+                intent.putExtra("videoId", list.get(position).getVideoId());
+                intent.putExtra("code", list.get(position).getCode());
 
                 startActivity(intent);
 
@@ -114,8 +123,9 @@ public class LessonVideoActivity extends AppCompatActivity {
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-
-                refreshlayout.finishRefresh(initData());
+                page = 0;
+                list.clear();
+                refreshlayout.finishRefresh(initData(mType));
 
             }
         });
@@ -123,55 +133,67 @@ public class LessonVideoActivity extends AppCompatActivity {
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
+                if(page<(mDataBean.getTotal()/paging)){
+                    LogUtils.d(mDataBean.getTotal()/paging+"++++++++"+page);
+                    page = page + 1;
+                    refreshlayout.finishLoadmore(initData(mType));
+                }else{
+                    refreshlayout.finishLoadmore(2000);
+                }/*else if(page==(mDataBean.getTotal()/paging)+1){
+                    page = page + 1;
+                    paging=mDataBean.getTotal()%paging;
+                }*/
 
-                refreshlayout.finishLoadmore(initData());
+
             }
         });
     }
 
-    private boolean initData(){
+    private boolean initData(String type) {
 
-        Call<LessonVideoBean> call=HiRetorfit.getInstans().getApi().LessonVideo(mChennel,mToken,page,paging,ctag[0]);
-         call.enqueue(new Callback<LessonVideoBean>() {
-             @Override
-             public void onResponse(Call<LessonVideoBean> call, Response<LessonVideoBean> response) {
-                 if(response!=null){
-                     if(response.body().getResult()==1){
-                         list=response.body().getData();
-                         if(bool==1){
-                             bool=2;
-                             initView();
-                         }else{
-                             mMyAdapter.notifyDataSetChanged();
-                         }
+        Call<LessonVideoBean> call = HiRetorfit.getInstans().getApi().LessonVideo(mChennel, mToken, "", "",mType, "",page,paging);
+        call.enqueue(new Callback<LessonVideoBean>() {
+            @Override
+            public void onResponse(Call<LessonVideoBean> call, Response<LessonVideoBean> response) {
+                if (response!= null) {
+                    if (response.body().getResult() == 1) {
+                        mDataBean = response.body().getData();
+                        list.addAll(response.body().getData().getList());
+                        if (bool == 1) {
+                            bool = 2;
+                            initView();
+                        } else {
+                            mMyAdapter.notifyDataSetChanged();
+                        }
 
-                     }else if (response.body().getResult() == -1) {
-                         startActivity(new Intent(LessonVideoActivity.this, LoginActivity.class));
-                         TastyToast.makeText(LessonVideoActivity.this, "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-                     } else if (response.body().getResult() == 0) {
-                         TastyToast.makeText(LessonVideoActivity.this, "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-                     }
-                 }else{
+                    } else if (response.body().getResult() == -1) {
+                        startActivity(new Intent(LessonVideoActivity.this, LoginActivity.class));
+                        TastyToast.makeText(LessonVideoActivity.this, "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    } else if (response.body().getResult() == 0) {
+                        TastyToast.makeText(LessonVideoActivity.this, "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    }
+                } else {
 
-                 }
+                }
 
 
-             }
+            }
 
-             @Override
-             public void onFailure(Call<LessonVideoBean> call, Throwable t) {
+            @Override
+            public void onFailure(Call<LessonVideoBean> call, Throwable t) {
 
-             }
-         });
+            }
+        });
         return true;
     }
+
     class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            if(list!=null){
+            if (list != null) {
                 return list.size();
-            }else{
+            } else {
                 return 0;
             }
         }
@@ -197,10 +219,43 @@ public class LessonVideoActivity extends AppCompatActivity {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
+            viewHolder.mTvTitle.setText(list.get(position).getTitle());
+            String startDate = DateUtil.getDate(list.get(position).getStartDate());
+            viewHolder.mTvTime.setText(startDate);
+            if(!list.get(position).getVideoHeadUrl().equals("")){
+                Picasso.with(LessonVideoActivity.this).load(list.get(position).getVideoHeadUrl()).into(viewHolder.mImTeacherclass);
+            }
 
 
+            if (!list.get(position).getIsRefered().equals("Y")) {
+                viewHolder.mIvTj.setVisibility(View.GONE);
+            }
 
+            viewHolder.mTvTeacherName.setText(list.get(position).getTeacher());
+            viewHolder.mTvTeacherItemCommentNum.setText(list.get(position).getCommentNum()+"");
 
+            switch (list.get(position).getCtag2()) {
+                case "SK":
+                    viewHolder.mTvType2.setText("说课");
+                    break;
+                case "JGH":
+                    viewHolder.mTvType2.setText("结构化");
+                    break;
+                case "DB":
+                    viewHolder.mTvType2.setText("答辩");
+                    break;
+                case "SJ":
+                    viewHolder.mTvType2.setText("试讲");
+                    break;
+            }
+            switch (list.get(position).getCtag3()) {
+                case "STUD":
+                    viewHolder.mTvType3.setText("学生");
+                    break;
+                case "TEACH":
+                    viewHolder.mTvType3.setText("老师");
+                    break;
+            }
             return convertView;
         }
 
@@ -287,19 +342,44 @@ public class LessonVideoActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.rb_all:
-                    T.showShort(LessonVideoActivity.this, "1");
+                    page=0;
+                    list.clear();
+                    bool=1;
+                    mType = "";
+                    initData(mType);
+                    mPopuSelect.dismiss();
                     break;
                 case R.id.rb_speak:
-                    T.showShort(LessonVideoActivity.this, "2");
+                    page=0;
+                    list.clear();
+                    bool=1;
+                    mType = "SK";
+                    initData(mType);
+                    mPopuSelect.dismiss();
                     break;
                 case R.id.rb_rehearsal:
-                    T.showShort(LessonVideoActivity.this, "3");
+                    page=0;
+                    list.clear();
+                    bool=1;
+                    mType = "SJ";
+                    initData(mType);
+                    mPopuSelect.dismiss();
                     break;
                 case R.id.rb_structured:
-                    T.showShort(LessonVideoActivity.this, "4");
+                    page=0;
+                    list.clear();
+                    bool=1;
+                    mType = "JGH";
+                    initData(mType);
+                    mPopuSelect.dismiss();
                     break;
                 case R.id.rb_defense:
-                    T.showShort(LessonVideoActivity.this, "5");
+                    page=0;
+                    list.clear();
+                    bool=1;
+                    mType = "DB";
+                    initData(mType);
+                    mPopuSelect.dismiss();
                     break;
             }
 

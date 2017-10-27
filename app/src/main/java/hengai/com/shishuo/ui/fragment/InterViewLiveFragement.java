@@ -161,8 +161,9 @@ public class InterViewLiveFragement extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isIsPackage()) {
-                    //intent2.putExtra("id", mList.get(position).getId() + "");
+
                     intent2.putExtra("crcode", mList.get(position).getCode());
+
                     startActivity(intent2);
                 } else {
                     String startDate = DateUtil.getDate(mList.get(position).getStartDate());

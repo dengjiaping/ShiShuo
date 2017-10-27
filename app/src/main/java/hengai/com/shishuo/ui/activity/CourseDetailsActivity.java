@@ -156,11 +156,16 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 break;
             case R.id.tv_sign_free:
                 if(mCourseDetailsBean!=null){
-                    Intent intent = new Intent(CourseDetailsActivity.this,SignUpActivity.class);
-                    intent.putExtra("title",mCourseDetailsBean.getData().getTitle());
 
-
-                    startActivity(intent);
+                    if(mCourseDetailsBean.getData().getCourseArrangement().size()==0){
+                        TastyToast.makeText(mContext, "数据错误请联系客服", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    }else{
+                        Intent intent = new Intent(CourseDetailsActivity.this,SignUpActivity.class);
+                        intent.putExtra("title",mCourseDetailsBean.getData().getTitle());
+                        intent.putExtra("videoId",mCourseDetailsBean.getData().getCourseArrangement().get(0).getVideoId());
+                        intent.putExtra("cfgId",mCourseDetailsBean.getData().getCourseArrangement().get(0).getCfgId()+"");
+                        startActivity(intent);
+                    }
                 }else{
                     TastyToast.makeText(mContext, "数据错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                 }

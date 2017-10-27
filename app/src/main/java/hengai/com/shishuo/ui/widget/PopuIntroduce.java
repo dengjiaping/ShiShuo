@@ -32,6 +32,7 @@ public class PopuIntroduce extends PopupWindow {
         ImageButton imgBtn= (ImageButton) mView.findViewById(R.id.img_btn_dismiss);
         ImageView imgIntroduce= (ImageView) mView.findViewById(R.id.iv_introduce);
 
+
         imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

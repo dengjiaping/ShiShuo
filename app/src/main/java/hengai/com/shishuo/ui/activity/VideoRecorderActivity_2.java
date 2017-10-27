@@ -318,7 +318,7 @@ public class VideoRecorderActivity_2 extends AppCompatActivity implements Surfac
         if (isRecording) {
             mMediaRecorder.stop();
             isRecording = false;
-            Toast.makeText(this, "视频已经放至" + mTargetFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "视频已经放至" + mTargetFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             video_send.setVisibility(View.VISIBLE);
             video_start.setVisibility(View.INVISIBLE);
             countdown.setVisibility(View.INVISIBLE);
@@ -449,7 +449,7 @@ public class VideoRecorderActivity_2 extends AppCompatActivity implements Surfac
                         startUploadService(uploadInfo);
                     if (getIntent().getStringExtra("source") != null && getIntent().getStringExtra("source").equals("MainActivity_2")) {
                         Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishActivity_2.class);
-                        LogUtils.d("++++333333");
+
                         intent.putExtra("filePath", filePath);
                         startActivity(intent);
                         finish();

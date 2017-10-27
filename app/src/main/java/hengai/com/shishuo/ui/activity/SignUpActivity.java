@@ -15,12 +15,14 @@ import com.bokecc.sdk.mobile.live.pojo.PublishInfo;
 import com.bokecc.sdk.mobile.live.pojo.RoomInfo;
 import com.bokecc.sdk.mobile.live.pojo.TemplateInfo;
 import com.bokecc.sdk.mobile.live.pojo.Viewer;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
 import hengai.com.shishuo.live.activity.PcLivePlayActivity;
+import hengai.com.shishuo.utils.LogUtils;
 import hengai.com.shishuo.utils.SPUtils;
 import hengai.com.shishuo.utils.T;
 
@@ -55,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
             mPhone = (String) SPUtils.get(this,"umname","良粉");
         }
         mTvTitle.setText(title);
+        LogUtils.d(mPhone+"xxxx"+mVideoId+"___"+mUserId);
     }
 
     @OnClick({R.id.iv_return, R.id.tv_into_live, R.id.tv_sharing})
@@ -64,7 +67,12 @@ public class SignUpActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.tv_into_live:
-            live();
+                if(mVideoId!=null){
+                    live();
+                }else{
+                    TastyToast.makeText(SignUpActivity.this, "播放错误请联系客服", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                }
+
                 break;
             case R.id.tv_sharing:
                 T.showShort(this,"点击了");
