@@ -92,7 +92,7 @@ public class InterViewHead extends RelativeLayout implements BaseSliderView.OnSl
             for (int i = 0; i < beanList.size(); i++) {
                 TextSliderView textSlider = new TextSliderView(getContext());
                 textSlider.description("跟随良师，方为良师")
-                        .image(beanList.get(i).getUrl())
+                        .image(beanList.get(i).getPicurl())
                         .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                         .setOnSliderClickListener(this);
                 textSlider.bundle(new Bundle());

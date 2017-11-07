@@ -360,7 +360,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 } else {
-                    TastyToast.makeText(MyDreamActivity.this, "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.INFO);
+                    TastyToast.makeText(getApplicationContext(), "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.INFO);
 
                 }
                 break;
@@ -373,7 +373,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 } else {
-                    TastyToast.makeText(MyDreamActivity.this, "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                    TastyToast.makeText(getApplicationContext(), "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
 
                 }
                 break;
@@ -386,7 +386,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 } else {
-                    TastyToast.makeText(MyDreamActivity.this, "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                    TastyToast.makeText(getApplicationContext(), "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 }
                 break;
             case R.id.bt_kid_sc:
@@ -398,7 +398,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 } else {
-                    TastyToast.makeText(MyDreamActivity.this, "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                    TastyToast.makeText(getApplicationContext(), "请选择考试类型", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 }
                 break;
             case R.id.rg_level:
@@ -412,7 +412,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     adp(s1);
                     mSpinner1.setVisibility(View.VISIBLE);
                 } else {
-                    TastyToast.makeText(MyDreamActivity.this, "请选择考试类型和教学目标", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                    TastyToast.makeText(getApplicationContext(), "请选择考试类型和教学目标", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
 
                 }
                 //mSubject = mSpinner1.getText().toString();
@@ -465,7 +465,7 @@ public class MyDreamActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    TastyToast.makeText(MyDreamActivity.this, "您还没有选择完成", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                    TastyToast.makeText(getApplicationContext(), "您还没有选择完成", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 }
                 break;
         }

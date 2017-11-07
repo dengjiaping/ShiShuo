@@ -163,6 +163,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void initView() {
         if (!mToken.equals("1") && !mCatagid.equals("1") && !mScatagid.equals("1")) {
+            LogUtils.d(mCatagid+"++++++"+mScatagid);
             Call<QuestionBean> call = HiRetorfit.getInstans().getApi().QuestionTest(mChannel, mToken, mCatagid, mScatagid, mCatg1);
             call.enqueue(new Callback<QuestionBean>() {
                 @Override
@@ -182,6 +183,7 @@ public class QuestionActivity extends AppCompatActivity {
                                 intent.putExtra("lessonType2", lessonType2);
                                 intent.putStringArrayListExtra("imgUrl", (ArrayList<String>) mlist);
                                 intent.putExtra("questionContent", mTitle);
+                                intent.putExtra("catg1", mCatg1);
                                 startActivity(intent);
                             }else{
                                TastyToast.makeText(mContext,"未抽到题型",TastyToast.LENGTH_SHORT,TastyToast.INFO);
@@ -201,6 +203,8 @@ public class QuestionActivity extends AppCompatActivity {
         }else{
             TastyToast.makeText(mContext,"请先配置个人信息",TastyToast.LENGTH_SHORT,TastyToast.INFO);
             startActivity(new Intent(mContext,MyDreamActivity.class));
+            SPUtils.put(getApplicationContext(),"quactivity","Y");
+            finish();
         }
 
     }
@@ -284,11 +288,12 @@ public class QuestionActivity extends AppCompatActivity {
                 case R.id.ll_recode_video:
                     Intent intent = new Intent(QuestionActivity.this, VideoRecorderActivity_2.class);
                     intent.putExtra("source", "recode");
+
                     startActivity(intent);
                     break;
                 case R.id.ll_upload_video:
-                    //TastyToast.makeText(mContext,"上传视频功能暂未实现",TastyToast.LENGTH_SHORT,TastyToast.INFO);
-                    toListVideo();
+                    TastyToast.makeText(mContext,"上传视频功能正在实现",TastyToast.LENGTH_SHORT,TastyToast.INFO);
+                    //toListVideo();
                     break;
             }
         }

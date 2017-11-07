@@ -58,12 +58,12 @@ public class Login2Activity extends AppCompatActivity {
         mPhone = getIntent().getStringExtra("phone");
         mTvLogin2Phone.setText(mPhone);
         mBtnLogin2.setEnabled(false);
+        mEtLoginPassword.addTextChangedListener(mWatcher);
     }
 
     @OnClick({ R.id.btn_login2})
     public void onClick(View view) {
         switch (view.getId()) {
-                //code(mChannel, mPhone);
             case R.id.btn_login2:
                register();
                 break;
@@ -75,17 +75,17 @@ public class Login2Activity extends AppCompatActivity {
      * @param channel
      * @param mobile
      */
-    private void code(String channel, String mobile) {
+   /* private void code(String channel, String mobile) {
         Call<RegisterBean> call = HiRetorfit.getInstans().getApi().Code(channel, mobile);
         call.enqueue(new Callback<RegisterBean>() {
             @Override
             public void onResponse(Call<RegisterBean> call, Response<RegisterBean> response) {
                 if (response != null) {
                     if(response.body().getResult()==1){
-                        mEtLoginPassword.addTextChangedListener(mWatcher);
-                        T.showShort(Login2Activity.this, response.body().getMessage());
+
+                        TastyToast.makeText(getApplicationContext(),response.body().getMessage(),TastyToast.LENGTH_SHORT,TastyToast.INFO);
                     }else{
-                        T.showShort(Login2Activity.this, response.body().getMessage());
+                        TastyToast.makeText(getApplicationContext(),response.body().getMessage(),TastyToast.LENGTH_SHORT,TastyToast.INFO);
                     }
 
                 } else {
@@ -99,11 +99,12 @@ public class Login2Activity extends AppCompatActivity {
             }
         });
     }
-
+*/
     /**
      * 注册操作
      */
     private void register() {
+
         if(!mEtLoginPhone.getText().toString().isEmpty()){
             String code=mEtLoginPhone.getText().toString();
             final String pwd=mEtLoginPassword.getText().toString();
@@ -113,7 +114,7 @@ public class Login2Activity extends AppCompatActivity {
                 public void onResponse(Call<RegisterBean> call, Response<RegisterBean> response) {
                     if(response!=null){
                         if(response.body().getResult()==1){
-                            TastyToast.makeText(Login2Activity.this,"注册成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
+                            TastyToast.makeText(getApplicationContext(),"注册成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
 
                             //注册成功后登录
                             runOnUiThread(new Runnable() {
@@ -123,12 +124,12 @@ public class Login2Activity extends AppCompatActivity {
                                 }
                             });
                         }else {
-                            TastyToast.makeText(Login2Activity.this,response.body().getMessage(),TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                            TastyToast.makeText(getApplicationContext(),response.body().getMessage(),TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                         }
 
                     }else{
                         //T.showShort(Login2Activity.this,"网络错误");
-                        TastyToast.makeText(Login2Activity.this,"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                        TastyToast.makeText(getApplicationContext(),"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                     }
                 }
 
@@ -157,20 +158,21 @@ public class Login2Activity extends AppCompatActivity {
             public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
                 if(response!=null){
                     LoginBean loginBean=response.body();
-                    T.showShort(mContext,response.body().getMessage());
                     if(loginBean.getResult()==1){
-                        SPUtils.put(mContext,"channel",channel);
-                        SPUtils.put(mContext,"phone",phone);
-                        SPUtils.put(mContext,"pwd",pwd);
-                        SPUtils.put(mContext,"uid",loginBean.getUsertoken().getUid());
-                        SPUtils.put(mContext,"token",loginBean.getUsertoken().getToken());
+                        SPUtils.put(getApplicationContext(),"channel",channel);
+                        SPUtils.put(getApplicationContext(),"phone",phone);
+                        SPUtils.put(getApplicationContext(),"pwd",pwd);
+                        SPUtils.put(getApplicationContext(),"name",phone);
+                        //SPUtils.put(getApplicationContext(),"uid",loginBean.getUsertoken().getUid());
+                        SPUtils.put(getApplicationContext(),"token",loginBean.getUsertoken().getToken());
                         LoginActivity.instance.finish();
+                        SPUtils.put(getApplicationContext(),"islogin","Y");
                         startActivity(new Intent(mContext, MyDreamActivity.class));
+                        TastyToast.makeText(getApplicationContext(),"登录成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
                         finish();
                     }
                     if(loginBean.getResult()==-1){
-
-                        TastyToast.makeText(Login2Activity.this,"登录失败",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                        TastyToast.makeText(getApplicationContext(),"登录失败",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                     }
 
                 }
@@ -182,6 +184,7 @@ public class Login2Activity extends AppCompatActivity {
             }
         });
     }
+
     TextWatcher mWatcher = new TextWatcher() {
         private CharSequence temp;
 

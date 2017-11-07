@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -16,6 +17,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.ui.activity.LoginActivity;
+import hengai.com.shishuo.ui.activity.MainActivity;
 import hengai.com.shishuo.ui.activity.MyDreamActivity;
 import hengai.com.shishuo.utils.SPUtils;
 
@@ -40,10 +43,15 @@ public class ShowMySettingActivity extends AppCompatActivity {
     TextView mTvSubject;
     @InjectView(R.id.tv_provinces)
     TextView mTvProvinces;
+    @InjectView(R.id.btn_changepwd)
+    Button mBtnChangepwd;
     private String mExam;
     private String mSchool;
     private String mSubject;
     private String mCity;
+    private String mHeadurl;
+    private String mName;
+    private String mPhone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,15 +67,31 @@ public class ShowMySettingActivity extends AppCompatActivity {
         mSchool = (String) SPUtils.get(getApplicationContext(), "school", "1");
         mSubject = (String) SPUtils.get(getApplicationContext(), "subject", "1");
         mCity = (String) SPUtils.get(getApplicationContext(), "city", "1");
+        mName = getIntent().getStringExtra("name");
+        mHeadurl = (String) SPUtils.get(getApplicationContext(), "umheadurl", "1");
+        mPhone = (String) SPUtils.get(getApplicationContext(), "phone", "1");
         initView();
     }
 
     private void initView() {
-        if (((String) SPUtils.get(getApplicationContext(), "headUrl", "1")).equals("1")) {
+        mTvName.setText(mName);
+        mTvNameid.setText(mName);
 
+
+        if (mPhone.equals("1")) {
+          mBtnChangepwd.setVisibility(View.INVISIBLE);
+        }
+        if (mHeadurl.equals("1")) {
+
+            if (((String) SPUtils.get(getApplicationContext(), "headUrl", "1")).equals("1")) {
+
+            } else {
+                File file = new File((String) SPUtils.get(getApplicationContext(), "headUrl", "1"));
+                Picasso.with(getApplicationContext()).load(file).into(mIvHead);
+            }
         } else {
-            File file = new File((String) SPUtils.get(getApplicationContext(), "headUrl", "1"));
-            Picasso.with(getApplicationContext()).load(file).into(mIvHead);
+
+            Picasso.with(getApplicationContext()).load(mHeadurl).into(mIvHead);
         }
         mTvType.setText(mExam);
         mTvLevel.setText(mSchool);
@@ -101,7 +125,9 @@ public class ShowMySettingActivity extends AppCompatActivity {
                 startActivity(new Intent(ShowMySettingActivity.this, ChangePwdActivity.class));
                 break;
             case R.id.tv_pull_out:
-
+                startActivity(new Intent(ShowMySettingActivity.this, LoginActivity.class));
+                MainActivity.instance.finish();
+                finish();
                 break;
         }
     }

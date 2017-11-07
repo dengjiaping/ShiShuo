@@ -168,7 +168,7 @@ public class VideoPublishNoSelectActivity_2 extends Activity {
         setContentView(R.layout.activity_publish_video_noselect_2);
         ButterKnife.inject(this);
         receiver = new UploadReceiver();
-        this.registerReceiver(receiver, new IntentFilter(ConfigUtil.ACTION_UPLOAD));
+        this.registerReceiver(receiver,new IntentFilter(ConfigUtil.ACTION_UPLOAD));
 
         initView();
     }

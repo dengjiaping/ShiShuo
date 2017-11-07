@@ -2,10 +2,12 @@ package hengai.com.shishuo.ui.adapter;
 
 import android.content.Context;
 import android.provider.ContactsContract;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -46,8 +48,8 @@ public class LiveDerailImgAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView=View.inflate(mContext, R.layout.item_live_detailimg,null);
-        ImageView img= (ImageView) convertView.findViewById(R.id.iv_detailimg);
-        Picasso.with(mContext).load(mUrl).into(img);
+        TextView img= (TextView) convertView.findViewById(R.id.iv_detailimg);
+        img.setText(Html.fromHtml(mUrl));
         return convertView;
     }
 }

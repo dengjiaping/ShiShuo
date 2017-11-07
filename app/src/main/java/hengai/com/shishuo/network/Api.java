@@ -3,6 +3,7 @@ package hengai.com.shishuo.network;
 
 import hengai.com.shishuo.bean.AddSeeNum;
 import hengai.com.shishuo.bean.Banner;
+import hengai.com.shishuo.bean.Deletecomm;
 import hengai.com.shishuo.bean.DianZanBean;
 import hengai.com.shishuo.bean.HomeBean;
 import hengai.com.shishuo.bean.InfoMationBean;
@@ -59,13 +60,16 @@ public interface Api {
     @GET("updateallsetting.html")
     Call<RegisterBean> UpSetting(@Query("channel") String channel, @Query("branchid") String branchid, @Query("catgid") String catgid, @Query("scatgid") String scatgid, @Query("token") String token);
     //获得视频平台播放配置参数
-    @GET("getvcpsetting.html")
-    Call<VideoSetting> VideoSetting(@Query("channel") String channel);
+   @GET("getvcpsetting.html")
+   Call<VideoSetting> VideoSetting(@Query("channel") String channel);
     //首页数据的获取
     @GET("homepagejson.html")
     Call<HomeBean> GetHomeData(@Query("channel") String channel, @Query("token") String token);
     @GET("homebannerjson.html")
-    Call<Banner> BannerList(@Query("channel") String channel);
+    Call<Banner> BannerList(@Query("channel") String channel,@Query("page") String page);
+//购买直播课程
+    @GET("buyqbcourse.html")
+    Call<Deletecomm> MyBuy(@Query("channel") String channel,@Query("token") String token,@Query("crcode") String crcode,@Query("buymemo") String buymemo);
     //获取面试直播的数据
     @GET("listinterviewcourse.html")
     Call<InterViewLiveBean> InterLive(@Query("channel") String channel,@Query("token") String token, @Query("page") int page,@Query("paging") int paging);
@@ -83,6 +87,17 @@ public interface Api {
 
     @GET("ceshi.json")
     Call<SettingMsgBean> Settings();
+    //上传视频channel：渠道号,必输
+    /*libid：可选，具体参数值后续提供
+    setid：必选，getvcpsetting.html获得的点播配置cfgSetId值,现在的值是2
+    videoid:视频id
+    name：课时名称
+    desc：课时描述
+    ctag1：类型，说课SK，结构化JGH，答辩DB，试讲SJ
+    ctag2：TEACH名师/STUD学生，可选*/
+    @GET("addnewvideo.html")
+    Call<Deletecomm> UploadVideo(@Query("channel") String channel, @Query("token") String token,@Query("setid") String setid,@Query("videoid") String videoid,@Query("name") String name,@Query("desc") String desc,@Query("ctag1") String ctag1,@Query("ctag2") String ctag2);
+
     //视频播放列表
     @GET("listvideotables.html")
     Call<LessonVideoBean> LessonVideo(@Query("channel") String channel, @Query("token") String token,@Query("catgid") String catgid, @Query("scatgid") String scatgid,@Query("ctag1") String ctag1,@Query("ctag2") String ctag2,@Query("page") int page,@Query("paging") int paging);
@@ -90,12 +105,15 @@ public interface Api {
     //zanflag：点赞标志,yes点赞/no取消点赞
     @GET("zanvideotable.html")
     Call<DianZanBean> VideoDianZan(@Query("channel") String channel, @Query("token") String token, @Query("code") String code,@Query("zanflag") String zanflag);
-//视频评论  commentid
+   //视频评论  commentid
     @GET("commentvideotable.html")
     Call<ReViewBean> ReView(@Query("channel") String channel, @Query("token") String token, @Query("code") String code, @Query("comment") String comment,@Query("commentid") String commentid);
     //视频详情
     @GET("getvideotable.html")
     Call<VideoCouseInfo> LessonVideoCouse(@Query("channel") String channel, @Query("token") String token, @Query("code") String code);
+   //删除评论
+    @GET("delcomment.html")
+    Call<Deletecomm> Deletecomm(@Query("channel") String channel, @Query("token") String token, @Query("commentid") String commentid);
 
 //视频观看人数的增加
     @GET("playvideotable.html")

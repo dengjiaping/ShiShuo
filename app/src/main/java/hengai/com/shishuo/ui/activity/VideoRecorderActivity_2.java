@@ -152,13 +152,14 @@ public class VideoRecorderActivity_2 extends AppCompatActivity implements Surfac
         video_send = (ImageView) findViewById(R.id.im_over_send);
         tvTitle = (TextView) findViewById(R.id.tv_main_title);
         checkmonitor = (ImageView) findViewById(R.id.im_checkmonitor);
-        int lessonType1 = getIntent().getIntExtra("lessonType1", 0);
+        /*int lessonType1 = getIntent().getIntExtra("lessonType1", 0);
         int lessonType2 = getIntent().getIntExtra("lessonType2", 0);
         if (lessonType1 == 0 && (lessonType2 == 0 || lessonType2 == 1) || lessonType1 == 1 && (lessonType2 == 0)) {
             totalTime = 10;
-        } else {
+        } else {*/
+        //TODO      先弄成15分钟的以后再改
             totalTime = 15;
-        }
+        //}
         video_start.setOnClickListener(this);
         video_send.setOnClickListener(this);
         checkmonitor.setOnClickListener(this);
@@ -445,22 +446,26 @@ public class VideoRecorderActivity_2 extends AppCompatActivity implements Surfac
                     DataSet.addUploadInfo(uploadInfo);
 
 //                    sendBroadcast(new Intent(ConfigUtil.ACTION_UPLOAD));
-                    if (binder.isStop())
+                    if (binder.isStop()){
                         startUploadService(uploadInfo);
-                    if (getIntent().getStringExtra("source") != null && getIntent().getStringExtra("source").equals("MainActivity_2")) {
-                        Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishActivity_2.class);
+                    }
 
+                    //if (getIntent().getStringExtra("source") != null && getIntent().getStringExtra("source").equals("MainActivity_2")) {
+                        Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishActivity_2.class);
                         intent.putExtra("filePath", filePath);
+                    if(getIntent().getStringExtra("catg1")!=null){
+                        intent.putExtra("catg1",getIntent().getStringExtra("catg1"));
+                    }
                         startActivity(intent);
                         finish();
-                    } else {
+                   /* } else {
                         Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishNoSelectActivity_2.class);
                         intent.putExtra("lessonType2", getIntent().getIntExtra("lessonType2", 0));
                         intent.putExtra("filePath", filePath);
                         LogUtils.d("++++444444");
                         startActivity(intent);
                         finish();
-                    }
+                    }*/
                 } else if (status == RECORDED) {
                     String filePath = mTargetFile.getAbsolutePath();
                     String uploadId = UploadInfo.UPLOAD_PRE.concat(System.currentTimeMillis() + "");
@@ -475,18 +480,19 @@ public class VideoRecorderActivity_2 extends AppCompatActivity implements Surfac
                     if (binder.isStop()) {
                         startUploadService(uploadInfo);
                     }
-                    if (getIntent().getStringExtra("source").equals("recode")) {
+                    //TODO
+                    //if (getIntent().getStringExtra("source").equals("recode")) {
                         Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishActivity_2.class);
                         intent.putExtra("filePath", filePath);
                         startActivity(intent);
                         finish();
-                    } else {
+                    /*} else {
                         Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishNoSelectActivity_2.class);
                         intent.putExtra("lessonType2", getIntent().getIntExtra("lessonType2", 0));
                         intent.putExtra("filePath", filePath);
                         startActivity(intent);
                         finish();
-                    }
+                    }*/
 
                 } else {
                     startRecord();

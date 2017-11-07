@@ -2,6 +2,7 @@ package hengai.com.shishuo.ui.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.ui.activity.AllWebActivity;
 import hengai.com.shishuo.ui.widget.PopMenu;
 import hengai.com.shishuo.ui.widget.PopuCitySelect;
 
@@ -53,6 +55,16 @@ public class WritenMoldTestFragment extends Fragment {
 
     private void initView() {
         mLvWriten.setAdapter(new MyAdapter(getContext()));
+        final Intent intent=new Intent(getContext(), AllWebActivity.class);
+        mLvWriten.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(0<position&&position<5){
+                    intent.putExtra("webUrl","http://x.iyoukiss.com/qbexamsess_ent.html?sesscode=6rq1zovb&checkopen=fDjeG2Tz1JEhZtERm4btxsz1NUCfvBrBsf5uhmvsLx4eeFSc&from=groupmessage");
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void initData() {

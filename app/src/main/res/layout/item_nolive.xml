@@ -5,6 +5,20 @@
               android:background="@color/white"
               android:orientation="vertical"
     >
-
-
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="18dp"
+    android:src="@mipmap/kym_icon"
+    />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:text="暂时没有直播，快去看回放吧！"
+    android:textColor="@color/black"
+    android:textSize="16sp"
+    android:layout_marginTop="12dp"
+    />
 </LinearLayout>

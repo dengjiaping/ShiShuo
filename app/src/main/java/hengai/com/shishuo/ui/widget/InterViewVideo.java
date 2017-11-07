@@ -51,8 +51,22 @@ public class InterViewVideo extends RelativeLayout {
 
     public void bindView(HomeBean.DataBean.PracticeBean.PracticeListBean practice) {
         mTvTitle.setText(practice.getTitle());
-        mTvType2.setText(practice.getClassType());
-        mTvTeacherItemCommentNum.setText(practice.getCommnetNum()+"");
+        switch (practice.getClassType()){
+            case "SK":
+                mTvType2.setText("说课");
+            break;
+            case "SJ":
+                mTvType2.setText("试讲");
+                break;
+            case "JGH":
+                mTvType2.setText("结构化");
+                break;
+            case "DB":
+                mTvType2.setText("答辩");
+                break;
+        }
+
+        mTvTeacherItemCommentNum.setText(practice.getCommentNum()+"");
         mTvTeacherName.setText(practice.getAuthor());
         Picasso.with(getContext()).load(practice.getCoverImage()).into(mImTeacherclass);
 

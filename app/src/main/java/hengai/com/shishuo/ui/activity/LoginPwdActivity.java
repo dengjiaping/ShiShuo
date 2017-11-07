@@ -120,11 +120,13 @@ public class LoginPwdActivity extends AppCompatActivity {
                         SPUtils.put(mContext,"channel",channel);
                         SPUtils.put(mContext,"phone",phone);
                         SPUtils.put(mContext,"pwd",pwd);
+                        SPUtils.put(mContext,"name",phone);
                         //SPUtils.put(mContext,"uid",loginBean.getUsertoken().getUid());
                         SPUtils.put(mContext,"token",loginBean.getUsertoken().getToken());
                         LoginActivity.instance.finish();
                         TastyToast.makeText(LoginPwdActivity.this,"登录成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
                         if(mIsStting.equals("N")){
+
                             startActivity(new Intent(LoginPwdActivity.this,MyDreamActivity.class));
                         }else{
                             startActivity(new Intent(LoginPwdActivity.this,MainActivity.class));

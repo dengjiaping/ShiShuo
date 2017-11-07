@@ -26,18 +26,20 @@ import android.widget.Toast;
 import com.bokecc.sdk.mobile.exception.ErrorCode;
 import com.bokecc.sdk.mobile.upload.Uploader;
 import com.bumptech.glide.Glide;
-
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.Deletecomm;
 import hengai.com.shishuo.bean.GlobalData;
-import hengai.com.shishuo.bean.LessonUploadVideo;
 import hengai.com.shishuo.bean.MetaUser;
+import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.upload.UploadService;
 import hengai.com.shishuo.utils.ClickFilter;
 import hengai.com.shishuo.utils.ConfigUtil;
@@ -46,13 +48,23 @@ import hengai.com.shishuo.utils.LogUtils;
 import hengai.com.shishuo.utils.MediaUtil;
 import hengai.com.shishuo.utils.ParamsUtil;
 import hengai.com.shishuo.utils.ParseToStringUtil_2;
+import hengai.com.shishuo.utils.SPUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
  * Created by pc on 2017-05-02.
  * implements RadioGroup.OnCheckedChangeListener
  */
-public class VideoPublishActivity_2 extends Activity  implements RadioGroup.OnCheckedChangeListener{
+public class VideoPublishActivity_2 extends Activity implements RadioGroup.OnCheckedChangeListener {
+    @InjectView(R.id.tv_catg)
+    TextView mTvCatg;
+    @InjectView(R.id.rg_type)
+    RadioGroup mRgType;
+    @InjectView(R.id.tv_catg1)
+    TextView mTvCatg1;
     private boolean isUploading = true;
     private String videoID = null;
     private Button btnPublish = null;
@@ -70,19 +82,26 @@ public class VideoPublishActivity_2 extends Activity  implements RadioGroup.OnCh
     private RadioGroup rgType;
     private SharedPreferences sp = null;
     private String FILE = "saveUserNamePwd";
-    private String userID, token, item, level, subject, province, nickname, avatar, sex, description;
+    //Call<Deletecomm> UploadVideo(@Query("channel") String channel, @Query("token") String token,@Query("setid") String setid,@Query("videoid") String videoid,@Query("name") String name,@Query("desc") String desc,@Query("ctag1") String ctag1,@Query("ctag2") String ctag2);
+    private String channel, token, setid, videoid, name, desc, ctag1 = "1", ctag2;
     //private DbManager mDb;
     private String mFilePath;
+    private String mXueduan;
+    private String mSubject;
+    private String mCatg1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_video_2);
-        String isuploa=getIntent().getStringExtra("isupload");
-        if(isuploa!=null){
-            if(isuploa.equals("is")){
-                isUploading=false;
-                videoID=getIntent().getStringExtra("videoId");
+        ButterKnife.inject(this);
+        String isuploa = getIntent().getStringExtra("isupload");
+
+        if (isuploa != null) {
+            if (isuploa.equals("is")) {
+                isUploading = false;
+                videoID = getIntent().getStringExtra("videoId");
+                LogUtils.d(videoID + "+++++++videoID");
             }
         }
 
@@ -91,59 +110,57 @@ public class VideoPublishActivity_2 extends Activity  implements RadioGroup.OnCh
         //mDb = x.getDb(XutilDb.getDaoConfig());
         receiver = new UploadReceiver();
         this.registerReceiver(receiver, new IntentFilter(ConfigUtil.ACTION_UPLOAD));
-
-        initView();
-
+        initData();
 
     }
 
-    /*private void deleteDb(String videoId) {
-        try {
-            UploadLive uploadLive = mDb.selector(UploadLive.class).where("videoId", "=", videoId).findFirst();
-            mDb.delete(uploadLive);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-    }*/
-    /*private void insert(String videoId, String uploadId, String filePath) {
-        try {
-            UploadLive uploadLive = new UploadLive();
-            uploadLive.setVideoId(videoId);
-            uploadLive.setUploadId(uploadId);
-            uploadLive.setFilePath(filePath);
-            mDb.save(uploadLive);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
-
-    /*private void query() {
-        try {
-            List<UploadLive> persons = mDb.findAll(UploadLive.class);
-            LogUtils.d("+++++" + persons.toString() + "+++++");
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-    }*/
+    private void initData() {
+        channel = (String) SPUtils.get(getApplicationContext(), "channel", "1");
+        token = (String) SPUtils.get(getApplicationContext(), "token", "1");
+        setid = (String) SPUtils.get(getApplicationContext(), "cfgSetId", "1");
+        mCatg1 = getIntent().getStringExtra("catg1");
+        ctag2 = "STUD";
+        mXueduan = (String) SPUtils.get(getApplicationContext(), "school", "1");
+        mSubject = (String) SPUtils.get(getApplicationContext(), "subject", "1");
+        initView();
+    }
 
     private void initView() {
+        if(mCatg1!=null){
+            mTvCatg.setVisibility(View.GONE);
+            mRgType.setVisibility(View.GONE);
+            ctag1=mCatg1;
+            switch (mCatg1){
+                case "SK":
+                    mTvCatg1.setText("说课");
+                    break;
+                case "DB":
+                    mTvCatg1.setText("答辩");
+                    break;
+                case "JGH":
+                    mTvCatg1.setText("结构化");
+                    break;
+                case "SJ":
+                    mTvCatg1.setText("试讲");
+                    break;
+            }
+        }else{
+           mTvCatg1.setVisibility(View.GONE);
+        }
         tvLevel = (TextView) findViewById(R.id.tv_level);
         tvSubject = (TextView) findViewById(R.id.tv_subject);
-        btnPublish = (Button) findViewById(R.id.charge_video_publish);
+        btnPublish = (Button) findViewById(R.id.change_video_publish);
         rgType = (RadioGroup) findViewById(R.id.rg_type);
         rgType.setOnCheckedChangeListener(this);
-        btnPublish.setEnabled(false);
+        tvLevel.setText(mXueduan);
+        tvSubject.setText(mSubject);
         // bindService(new Intent(getApplicationContext(), UploadService.class), serviceConnection, BIND_AUTO_CREATE);
-//        Toast.makeText(getApplicationContext(), "视频正在后台上传，请查看通知栏进度", Toast.LENGTH_LONG).show();
+
         videoiamge = (ImageView) this.findViewById(R.id.im_video_image);
         et_video_description = (EditText) this.findViewById(R.id.et_video_description);
 
-        //TODO
-       String uploadId = getIntent().getStringExtra("uploadId");
-        videoID = DataSet.getUploadInfo(uploadId).getVideoInfo().getVideoId();
-         LogUtils.d(videoID+"-------ID");
+
+        LogUtils.d(videoID + "-------ID");
         user = GlobalData.instance().getLoginUser();
         if (user != null) {
             if (!user.getLevel().isEmpty()) {
@@ -183,19 +200,28 @@ public class VideoPublishActivity_2 extends Activity  implements RadioGroup.OnCh
         btnPublish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (ClickFilter.filter()) {
-
                     return;
                 }
                 if (isUploading) {
                     Toast.makeText(getApplicationContext(), "您上传的视频正在审核中，请耐心等待", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!TextUtils.isEmpty(videoID)) {
-                    uploadVideoLesson(videoID, 0.0f);
+                if (et_video_description.getText().toString().isEmpty()) {
+                    TastyToast.makeText(getApplicationContext(), "标题不能为空", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+
                 } else {
-                    Toast.makeText(getApplicationContext(), "上传视频出现错误，请确保视频上传成功！", Toast.LENGTH_SHORT).show();
-                    //TODO 增加视频重传功能， gig007 160916
+                    name = et_video_description.getText().toString();
+                    if (!ctag1.equals("1")) {
+                        if (!TextUtils.isEmpty(videoID)) {
+                            uploadVideoLesson(videoID);
+                        } else {
+                            TastyToast.makeText(getApplicationContext(), "上传视频出现错误，请确保视频上传成功！", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                        }
+                    } else {
+                        TastyToast.makeText(getApplicationContext(), "请选择自己的标签", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
                 }
+
             }
         });
     }
@@ -209,21 +235,15 @@ public class VideoPublishActivity_2 extends Activity  implements RadioGroup.OnCh
             if (!isBind) {
                 binderService();
             }
-//TODO
+
             String uploadId = intent.getStringExtra("uploadId");
 
-            LogUtils.d(uploadId + "++++++222");
-            LogUtils.d(mFilePath + "++++++222");
+
             videoID = DataSet.getUploadInfo(uploadId).getVideoInfo().getVideoId();
-            if (i == 1) {
-                //insert(videoID, uploadId, mFilePath);
-                //query();
-                i = 2;
-            }
 
 
-            LogUtils.d("+++++++++这是" + videoID);
-            //若状态为上传中，重置当前上传view的标记位置
+            //LogUtils.d("+++++++++这是" + videoID);
+
             int uploadStatus = intent.getIntExtra("status", ParamsUtil.INVALID);
             if (uploadStatus == Uploader.UPLOAD) {
                 Toast.makeText(context, "课程正在上传，可在通知栏查看进度", Toast.LENGTH_SHORT).show();
@@ -264,74 +284,26 @@ public class VideoPublishActivity_2 extends Activity  implements RadioGroup.OnCh
         isBind = true;
     }
 
-    private void uploadVideoLesson(String videoID, float price) {
-        LessonUploadVideo req = new LessonUploadVideo();
-        MetaUser user = GlobalData.instance().getLoginUser();
+    private void uploadVideoLesson(String videoID) {
 
-        if (user != null) {
+        Call<Deletecomm> call = HiRetorfit.getInstans().getApi().UploadVideo(channel, token, setid, videoID, name, "", ctag1, ctag2);
+        call.enqueue(new Callback<Deletecomm>() {
+            @Override
+            public void onResponse(Call<Deletecomm> call, Response<Deletecomm> response) {
+                if (response != null) {
+                    if (response.body().getResult() == 1) {
 
-            req.setUserID(user.getUserID());
-            req.setToken(user.getToken());
-            req.setType1(user.getItem());
-            req.setType2(type2);
-            req.setLevel(user.getLevel());
-            req.setSubject(user.getSubject());
-        }
-        if (price > 0.0f) {
-            req.setPrice(price);
-        }
-        req.setVideoID(videoID);
-
-        if (et_video_description.getText().toString().trim().isEmpty()) {
-            Toast.makeText(VideoPublishActivity_2.this, "标题不能为空！", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(VideoPublishActivity_2.this, "上传到服务器", Toast.LENGTH_SHORT).show();
-            req.setDescription(et_video_description.getText().toString().trim());
-            /*BoBase<LessonResp> bo = new BoBase<LessonResp>();
-            bo.request("/lesson/uploadvideo", req, new LessonResp(), file, new Pipe() {
-                @Override
-                public void complete(Object owner, Object data, int success) {
-                    LessonResp lessonResp = (LessonResp) data;
-                    if (success >= Pipe.NET_SUCCESS) {
-                        MetaLesson metaLesson = lessonResp.getLesson();
-                        btnPublish.setClickable(false);
-                        deleteDb(videoID);
-                        Helper.showToastOnUiThread(VideoPublishActivity_2.this, "视频发布成功！");
-                        Intent intent = new Intent(VideoPublishActivity_2.this, PublishOverActivity_2.class);
-                        intent.putExtra("videoID", videoID);
-                        intent.putExtra("description", et_video_description.getText().toString().trim());
-                        intent.putExtra("image", BoBase.BASE_URL + metaLesson.getThumbnails());
-                        startActivity(intent);
-                        finish();
-                    } else if (success == Pipe.SERVER_ERROR) {
-                        if (null == data) {
-                            Helper.showToastOnUiThread(VideoPublishActivity_2.this, "数据访问出错，请重试");
-                        } else {
-                            if (lessonResp.getErrcode() == 1) {
-                                //T.showShort(VideoPublishActivity_2.this,"++++++++++++");
-
-                                Helper.showToastOnUiThread(VideoPublishActivity_2.this, "权限认证错误，请重新登陆");
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        startActivity(new Intent(VideoPublishActivity_2.this, FirstActivity_2.class));
-                                        finish();
-                                    }
-                                });
-                            } else if (lessonResp.getErrcode() == 2) {
-                                Helper.showToastOnUiThread(VideoPublishActivity_2.this, "课程号不存在");
-                            } else if (lessonResp.getErrcode() == 3) {
-                                Helper.showToastOnUiThread(VideoPublishActivity_2.this, "保存失败");
-                            } else if (lessonResp.getErrcode() == 4) {
-                                Helper.showToastOnUiThread(VideoPublishActivity_2.this, "保存失败");
-                            }
-                        }
-                    } else {
-                        Helper.showToastOnUiThread(VideoPublishActivity_2.this, "请求数据失败，请检查网络或重试");
                     }
                 }
-            });*/
-        }
+            }
+
+            @Override
+            public void onFailure(Call<Deletecomm> call, Throwable t) {
+                TastyToast.makeText(getApplicationContext(), "网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            }
+        });
+        TastyToast.makeText(getApplicationContext(), "上传成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+        finish();
     }
 
 
@@ -375,20 +347,20 @@ public class VideoPublishActivity_2 extends Activity  implements RadioGroup.OnCh
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.bt_trial_teaching:
-                type2 = "2";
-                btnPublish.setEnabled(true);
+                ctag1 = "SJ";
+
                 break;
             case R.id.bt_speaking:
-                type2 = "0";
-                btnPublish.setEnabled(true);
+                ctag1 = "SK";
+
                 break;
             case R.id.bt_interview:
-                type2 = "3";
-                btnPublish.setEnabled(true);
+                ctag1 = "JGH";
+
                 break;
             case R.id.bt_answer:
-                type2 = "4";
-                btnPublish.setEnabled(true);
+                ctag1 = "DB";
+
                 break;
         }
     }

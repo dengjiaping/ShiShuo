@@ -56,10 +56,13 @@ public class InterViewLive extends RelativeLayout {
     }
 
     public void bindView(HomeBean.DataBean.LiveBean liveBean) {
-        LogUtils.d("+++++"+liveBean.getTitle());
+
         mTvFaceName.setText(liveBean.getTitle()+"");
         mTvPersornum.setText(liveBean.getPersonNum()+"");
-        LogUtils.d("+++++"+DateUtil.getDate(liveBean.getStartDate()));
+        if(liveBean.isMybuy()){
+            mTvEnrol.setText("已报名");
+            mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
+        }
         mTvTimeYear.setText(DateUtil.getDate(liveBean.getStartDate()));
         mTvTimeHoues.setText(DateUtil.getTime(liveBean.getStartTime())+"-"+DateUtil.getTime(liveBean.getEndTime()));
 

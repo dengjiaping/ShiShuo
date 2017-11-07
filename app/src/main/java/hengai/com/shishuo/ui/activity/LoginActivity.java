@@ -163,7 +163,9 @@ public class LoginActivity extends AppCompatActivity {
                 thirdPartyLogin(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.tv_login_server:
-                startActivity(new Intent(LoginActivity.this, MyDreamActivity.class));
+                //startActivity(new Intent(LoginActivity.this, MyDreamActivity.class));
+                TastyToast.makeText(LoginActivity.this,"暂无隐私条款",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                //TODO
                 break;
         }
     }
@@ -292,18 +294,21 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginBean>() {
             @Override
             public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
-                String s1 = (String) SPUtils.get(LoginActivity.this, "settings", "1");
+                String s1 = (String) SPUtils.get(getApplicationContext(), "issetting", "N");
                 if (response != null) {
                     LoginBean loginBean = response.body();
-                    SPUtils.put(mContext, "uid", loginBean.getUsertoken().getUid());
+                    //SPUtils.put(mContext, "uid", loginBean.getUsertoken().getUid());
                     SPUtils.put(mContext, "token", loginBean.getUsertoken().getToken());
-                    SPUtils.put(mContext, "umname", umname);
+                    SPUtils.put(mContext, "name", umname);
                     SPUtils.put(mContext, "umgender", umgender);
                     SPUtils.put(mContext, "umheadurl", umheadurl);
-                    if (s1.equals("1")) {
+                    SPUtils.put(mContext,"channel","liangshishuo");
+                    if (s1.equals("N")) {
+                        SPUtils.put(getApplicationContext(),"islogin","Y");
                         startActivity(new Intent(mContext, MyDreamActivity.class));
                         finish();
                     } else {
+                        SPUtils.put(getApplicationContext(),"islogin","Y");
                         startActivity(new Intent(mContext, MainActivity.class));
                         finish();
                     }
@@ -312,7 +317,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginBean> call, Throwable t) {
-
+              TastyToast.makeText(getApplicationContext(),"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
             }
         });
     }

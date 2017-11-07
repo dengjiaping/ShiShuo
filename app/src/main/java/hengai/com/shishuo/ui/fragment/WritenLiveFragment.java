@@ -122,6 +122,12 @@ public class WritenLiveFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isIsPackage()) {
                     mIntent2.putExtra("crcode", mList.get(position).getCode());
+                    mIntent2.putExtra("tvhtml",mList.get(position).getCourseIntroduction().getIntroduce());
+                    if(mList.get(position).isMybuy()){
+                        mIntent2.putExtra("ismybuy","Y");
+                    }else{
+                        mIntent2.putExtra("ismybuy","N");
+                    }
                     startActivity(mIntent2);
                 } else {
                     String startDate = DateUtil.getDate(mList.get(position).getStartDate());
@@ -130,14 +136,21 @@ public class WritenLiveFragment extends Fragment {
                     mIntent1.putExtra("crcode", mList.get(position).getCode());
                     mIntent1.putExtra("date", startDate);
                     mIntent1.putExtra("time", startTime);
+                    mIntent1.putExtra("tvhtml",mList.get(position).getCourseIntroduction().getIntroduce());
                     mIntent1.putExtra("title",mList.get(position).getTitle());
                     mIntent1.putExtra("personNum", mList.get(position).getPersonNum()+"");
                     mIntent1.putExtra("url", mList.get(position).getCourseIntroduction().getIntroduceUrl());
+                    if(mList.get(position).isMybuy()){
+                        mIntent1.putExtra("ismybuy","Y");
+                    }else{
+                        mIntent1.putExtra("ismybuy","N");
+                    }
                     startActivity(mIntent1);
                 }
 
             }
         });
+
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -206,10 +219,11 @@ public class WritenLiveFragment extends Fragment {
                 viewHolder.mIvLiveTj.setVisibility(View.GONE);
             }
 
-            /*if (!mList.get(position).isEnrollmentStatus()) {
+            if (mList.get(position).isMybuy()) {
                 viewHolder.mTvEnrol.setText("已报名");
                 viewHolder.mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
-            }*/
+            }
+
             viewHolder.mTvPersornum.setText(mList.get(position).getPersonNum() + "");
 
             if (mList.get(position).getTeachers().size() == 1) {

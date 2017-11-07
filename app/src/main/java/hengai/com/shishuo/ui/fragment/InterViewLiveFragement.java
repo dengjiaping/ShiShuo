@@ -82,33 +82,7 @@ public class InterViewLiveFragement extends Fragment {
     }
 
     private boolean initData() {
-        //LogUtils.d("++++"+mToken);
-        Call<VideoSetting> callSetting = HiRetorfit.getInstans().getApi().VideoSetting(mChennel);
-        callSetting.enqueue(new Callback<VideoSetting>() {
-            @Override
-            public void onResponse(Call<VideoSetting> call, Response<VideoSetting> response) {
-                if (response != null) {
-                    if (response.body().getResult() == 1) {
-                        for(int i=0;i<response.body().getData().size();i++){
-                            SPUtils.put(getContext(),response.body().getData().get(i).getCfgId()+"",response.body().getData().get(i).getAccountId());
-                        }
 
-                    } else if (response.body().getResult() == -1) {
-                        TastyToast.makeText(getContext(), "登录失效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-                        startActivity(new Intent(getContext(), LoginActivity.class));
-                    } else if (response.body().getResult() == 0) {
-                        TastyToast.makeText(getContext(), "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-                    }
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<VideoSetting> call, Throwable t) {
-                TastyToast.makeText(getContext(), "网络错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-            }
-        });
         Call<InterViewLiveBean> call = HiRetorfit.getInstans().getApi().InterLive(mChennel, mToken, page, paging);
         call.enqueue(new Callback<InterViewLiveBean>() {
             @Override
@@ -161,9 +135,13 @@ public class InterViewLiveFragement extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isIsPackage()) {
-
+                    intent2.putExtra("tvhtml",mList.get(position).getCourseIntroduction().getIntroduce());
                     intent2.putExtra("crcode", mList.get(position).getCode());
-
+                    if(mList.get(position).isMybuy()){
+                        intent2.putExtra("ismybuy","Y");
+                    }else{
+                        intent2.putExtra("ismybuy","N");
+                    }
                     startActivity(intent2);
                 } else {
                     String startDate = DateUtil.getDate(mList.get(position).getStartDate());
@@ -173,8 +151,14 @@ public class InterViewLiveFragement extends Fragment {
                     intent1.putExtra("date", startDate);
                     intent1.putExtra("time", startTime);
                     intent1.putExtra("title",mList.get(position).getTitle());
+                    intent1.putExtra("tvhtml",mList.get(position).getCourseIntroduction().getIntroduce());
                     intent1.putExtra("personNum", mList.get(position).getPersonNum()+"");
                     intent1.putExtra("url", mList.get(position).getCourseIntroduction().getIntroduceUrl());
+                    if(mList.get(position).isMybuy()){
+                        intent1.putExtra("ismybuy","Y");
+                    }else{
+                        intent1.putExtra("ismybuy","N");
+                    }
                     startActivity(intent1);
                 }
             }
@@ -249,10 +233,10 @@ public class InterViewLiveFragement extends Fragment {
             }
             //TODO
             //是否已报名
-            /*if (!mList.get(position).isEnrollmentStatus()) {
+           if (mList.get(position).isMybuy()) {
                 viewHolder.mTvEnrol.setText("已报名");
                 viewHolder.mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
-            }*/
+            }
             viewHolder.mTvPersornum.setText(mList.get(position).getPersonNum() + "");
 
             if (mList.get(position).getTeachers().size() == 1) {

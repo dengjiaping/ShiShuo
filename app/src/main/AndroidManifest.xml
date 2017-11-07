@@ -117,6 +117,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
+
         </activity>
         //Splash轮播页面
         <activity android:name=".ui.activity.myactivity.SplashActivity"
@@ -167,13 +168,14 @@
         <activity android:name=".ui.activity.LiveRoomActivity"
                   android:screenOrientation="portrait"
             ></activity>
-        //视频点播 播放页面
+        //视频点播 播放页面视频详情页
         <activity
             android:name=".ui.activity.MediaPlayActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:label="@string/play"
             android:screenOrientation="sensor"
             ></activity>
+
         <activity android:name=".ui.activity.VideoPlayActivity"></activity>
         //视频录制界面
         <activity android:name=".ui.activity.VideoRecorderActivity_2"
@@ -186,20 +188,17 @@
         <activity android:name=".ui.activity.VideoPublishNoSelectActivity_2"
                   android:screenOrientation="portrait"
             ></activity>
-        //练课视频详情页
-        <activity android:name=".ui.activity.LessonDetailActivity"
-                  android:screenOrientation="portrait"
-            ></activity>
+
         //评价分享页
         <activity android:name=".ui.activity.EvalutionShareActivity"
                   android:screenOrientation="portrait"
-            ></activity>
+            >
+
+        </activity>
         //抽题
         <activity android:name=".ui.activity.QuestionActivity"
                   android:screenOrientation="portrait"
             >
-
-
         </activity>
         //课题图片介绍界面
         <activity android:name=".ui.activity.PhotoPagerActivity"

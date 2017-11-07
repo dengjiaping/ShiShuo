@@ -319,6 +319,7 @@ public class VideoCouseInfo {
             private String fromUserType;
             private String fromUserHeadUrl;
             private String fromIp;
+            private boolean mycomment;
             private int totalZanNum;
             private int niminZanNum;
             private int childNum;
@@ -453,7 +454,12 @@ public class VideoCouseInfo {
             public void setFromUser(int fromUser) {
                 this.fromUser = fromUser;
             }
-
+            public boolean getMycomment(){
+                return mycomment;
+            }
+            public void setId(boolean mycomment) {
+                this.mycomment = mycomment;
+            }
             public List<ReplaysBean> getReplys() {
                 return replys;
             }
@@ -473,6 +479,7 @@ public class VideoCouseInfo {
                 private String fromUserType;
                 private String fromUserHeadUrl;
                 private String fromIp;
+                private boolean mycomment;
                 private int totalZanNum;
                 private int niminZanNum;
                 private int childNum;
@@ -487,7 +494,12 @@ public class VideoCouseInfo {
                 public void setId(int id) {
                     this.id = id;
                 }
-
+                public boolean getMycomment(){
+                    return mycomment;
+                }
+                public void setId(boolean mycomment) {
+                    this.mycomment = mycomment;
+                }
                 public int getMainId() {
                     return mainId;
                 }

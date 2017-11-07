@@ -8,8 +8,7 @@
         android:id="@+id/tv_live"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:background="#f00"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="直播"
         />
     <TextView
@@ -22,14 +21,4 @@
         android:text="回放"
         />
 
-
-    <com.weiwangcn.betterspinner.library.BetterSpinner
-        android:id="@+id/sp_2"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:hint="长沙"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        />
 </LinearLayout>

@@ -214,6 +214,8 @@ public class MediaPlayActivity extends Activity implements
     private String mCode;
     private VideoCouseInfo.DataBean mData;
     private List<VideoCouseInfo.DataBean.CommentsBean> mList=new ArrayList<VideoCouseInfo.DataBean.CommentsBean>();
+    private String mType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,6 +249,8 @@ public class MediaPlayActivity extends Activity implements
         mToken = (String) SPUtils.get(getApplicationContext(), "token", "1");
         mCode = getIntent().getStringExtra("code");
 
+        mType =
+                getIntent().getStringExtra("type");
        if (mCode != null) {
              Call<AddSeeNum> call1=HiRetorfit.getInstans().getApi().AddSeeNum(mChannel,mToken,mCode);
             call1.enqueue(new Callback<AddSeeNum>() {
@@ -328,6 +332,7 @@ public class MediaPlayActivity extends Activity implements
             case R.id.tv_see_comments:
                 Intent intent=new Intent(MediaPlayActivity.this,TeacherCommentsActivity.class);
                 intent.putExtra("code",mCode);
+                intent.putExtra("title",mData.getTitle());
                 startActivity(intent);
                 break;
             case R.id.img_btn_appraise:
@@ -461,6 +466,10 @@ public class MediaPlayActivity extends Activity implements
     };
 
     private void initView1() {
+        if(mType.equals("STUD")){
+            mRlStudentAppraise.setVisibility(View.GONE);
+        }
+
         mLvVideoStudentappraise.setAdapter(new LessonAppraiseAdapter(MediaPlayActivity.this, mData.getComments()));
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -487,9 +496,11 @@ public class MediaPlayActivity extends Activity implements
         mTvVideoCategry.setText(mData.getTitle());
         mTvDzNum.setText(mData.getZannum() + "");
         mTvMsgNum.setText(mData.getCommentNum() + "");
+        mLlPofile.setVisibility(View.INVISIBLE);
         if (mData.isMyzan()) {
             mImgDz.setImageResource(R.drawable.dz_button_after);
         }
+
        mTvTeacherNum.setText(mList.size()+"");
        /* if(mList.size()==0){
             mTvSeeComments.setEnabled(false);

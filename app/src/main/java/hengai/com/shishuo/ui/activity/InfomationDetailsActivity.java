@@ -9,6 +9,14 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sdsmdg.tastytoast.TastyToast;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.ShareBoardConfig;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -106,7 +114,57 @@ public class InfomationDetailsActivity extends AppCompatActivity {
     }
 
     private void share() {
+        UMWeb img = new UMWeb(url);
+        ShareBoardConfig config = new ShareBoardConfig();
+        config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE);
+        new ShareAction(InfomationDetailsActivity.this)
+                .withMedia(img)
+                .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE)
+                .setCallback(shareListener)
+                .open(config);
+    }
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+        }
 
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            TastyToast.makeText(getApplicationContext(), "分享成功", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            TastyToast.makeText(getApplicationContext(), "分享失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            TastyToast.makeText(getApplicationContext(), "取消分享", TastyToast.LENGTH_LONG, TastyToast.INFO);
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UMShareAPI.get(this).release();
     }
 
     int x = 1;

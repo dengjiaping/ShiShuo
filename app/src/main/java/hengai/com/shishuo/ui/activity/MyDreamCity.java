@@ -227,11 +227,10 @@ if(mActivity==null){
                 public void onResponse(Call<RegisterBean> call, Response<RegisterBean> response) {
                     if (response != null) {
                         if (response.body().getResult() == 1) {
-                            TastyToast.makeText(mContext, "设置成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                            TastyToast.makeText(getApplicationContext(), "设置成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                             SPUtils.put(mContext, "scatgId", mScatgid);
                             SPUtils.put(mContext, "catgId", mCatgid);
                             SPUtils.put(mContext, "cityId", mCityId);
-
 
                             SPUtils.put(mContext, "city", mCity);
                             SPUtils.put(mContext, "exam", mExam);
@@ -242,8 +241,16 @@ if(mActivity==null){
 
                                 if(mActivity.equals("1")){
                                 }else{
-                                    SPUtils.put(getApplicationContext(),"issetting","Y");
-                                    startActivity(new Intent(MyDreamCity.this, MainActivity.class));
+                                    String ac= (String) SPUtils.get(getApplicationContext(),"quactivity","Y");
+                                    if(ac.equals("N")){
+                                        SPUtils.put(getApplicationContext(),"issetting","Y");
+                                        startActivity(new Intent(MyDreamCity.this, QuestionActivity.class));
+                                    }else{
+                                        SPUtils.put(getApplicationContext(),"issetting","Y");
+
+                                        startActivity(new Intent(MyDreamCity.this, MainActivity.class));
+                                    }
+
                                 }
 
 

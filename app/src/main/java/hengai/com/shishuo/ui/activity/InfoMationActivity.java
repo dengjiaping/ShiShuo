@@ -23,6 +23,7 @@ import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.adapter.FragmentVPAdapter;
 import hengai.com.shishuo.ui.fragment.InfomationLFragment;
 import hengai.com.shishuo.ui.fragment.InfomationRFragment;
+import hengai.com.shishuo.utils.LogUtils;
 import hengai.com.shishuo.utils.SPUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,31 +45,41 @@ public class InfoMationActivity extends AppCompatActivity {
     @InjectView(R.id.vp_infomation)
     ViewPager mVpInfomation;
     private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
-    private InfomationLFragment mInfomationL=null;
-    private InfomationRFragment mInfomationR=null;
+    private InfomationLFragment mInfomationL = null;
+    private InfomationRFragment mInfomationR = null;
+    private String mType = "X";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infomation);
         ButterKnife.inject(this);
-
-       initView();
+        mType = getIntent().getStringExtra("type");
+        initView();
 
     }
-
 
 
     private void initView() {
         mInfomationL = new InfomationLFragment();
         mInfomationR = new InfomationRFragment();
-        mFragments.add(mInfomationL);
-        mFragments.add(mInfomationR);
 
 
+        if (mType.equals("R")) {
+            mFragments.add(mInfomationR);
+            mFragments.add(mInfomationL);
+            mRbInter.setText("考试公告");
+            mRbWriten.setText("备考干货");
+        } else {
+            mFragments.add(mInfomationL);
+            mFragments.add(mInfomationR);
+            //mRbInter.setText("备考干货");
+           // mRbWriten.setText("考试公告");
+        }
         mVpInfomation.setCurrentItem(0);
         mRbInter.setSelected(true);
-        mVpInfomation.setAdapter(new FragmentVPAdapter(getSupportFragmentManager(),mFragments) {
+
+        mVpInfomation.setAdapter(new FragmentVPAdapter(getSupportFragmentManager(), mFragments) {
             @Override
             public Fragment getItem(int position) {
                 return mFragments.get(position);
@@ -89,18 +100,20 @@ public class InfoMationActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 0) {
 
-                    mVpInfomation.setCurrentItem(0);
-                    mRbInter.setSelected(true);
-                    mRbWriten.setSelected(false);
+                    if (position == 0) {
 
-                } else if(position == 1) {
+                        mVpInfomation.setCurrentItem(0);
+                        mRbInter.setSelected(true);
+                        mRbWriten.setSelected(false);
 
-                    mVpInfomation.setCurrentItem(1);
-                    mRbInter.setSelected(false);
-                    mRbWriten.setSelected(true);
-                }
+                    } else if (position == 1) {
+
+                        mVpInfomation.setCurrentItem(1);
+                        mRbInter.setSelected(false);
+                        mRbWriten.setSelected(true);
+                    }
+
             }
 
             @Override
@@ -124,7 +137,6 @@ public class InfoMationActivity extends AppCompatActivity {
                 mRbWriten.setSelected(false);
                 break;
             case R.id.rb_writen:
-
                 mVpInfomation.setCurrentItem(1);
                 mRbInter.setSelected(false);
                 mRbWriten.setSelected(true);

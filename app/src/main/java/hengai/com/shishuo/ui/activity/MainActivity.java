@@ -54,11 +54,14 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
     private FragmentManager manager;
     private FragmentTransaction transaction;
+    public static MainActivity instance = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance=this;
         mContext=this;
+
         //权限管理
 
         /*if(Build.VERSION.SDK_INT>=23){

@@ -22,6 +22,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import hengai.com.shishuo.R;
 import hengai.com.shishuo.bean.CourseDetailsBean;
+import hengai.com.shishuo.bean.Deletecomm;
 import hengai.com.shishuo.bean.LiveCourseInfo;
 import hengai.com.shishuo.network.HiRetorfit;
 import hengai.com.shishuo.ui.adapter.LiveDerailImgAdapter;
@@ -75,6 +76,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
     private LiveCourseInfo mCourseDetailsBean;
     Context mContext;
     String url;
+    private String mChannel;
+    private String mToken;
+    private String mCrcode;
+    private String mIsMyBuy;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,22 +101,26 @@ public class CourseDetailsActivity extends AppCompatActivity {
         mTvLiveTime.setText(startTime+"-"+endTime);
         mIvDetailsLeft.setSelected(true);
         mTvClassArrangument.setTextColor(getResources().getColor(R.color.main_color));
+        if(mIsMyBuy.equals("Y")){
+            mTvFree.setText("已报名");
+            mTvFree.setEnabled(false);
+        }
+
     }
 
     private void initData() {
-        String channel = (String) SPUtils.get(this, "channel", "1");
-        String token = (String) SPUtils.get(this, "token", "1");
-        String crcode = getIntent().getStringExtra("crcode");
-
-        Call<LiveCourseInfo> call = HiRetorfit.getInstans().getApi().CourseDetail(channel, token, crcode);
+        mChannel = (String) SPUtils.get(this, "channel", "1");
+        mToken = (String) SPUtils.get(this, "token", "1");
+        mCrcode = getIntent().getStringExtra("crcode");
+        mIsMyBuy = getIntent().getStringExtra("ismybuy");
+        url=getIntent().getStringExtra("tvhtml");
+        Call<LiveCourseInfo> call = HiRetorfit.getInstans().getApi().CourseDetail(mChannel, mToken, mCrcode);
         call.enqueue(new Callback<LiveCourseInfo>() {
             @Override
             public void onResponse(Call<LiveCourseInfo> call, Response<LiveCourseInfo> response) {
                 if (response.body().getResult() == 1) {
                     mCourseDetailsBean = response.body();
                     mList = mCourseDetailsBean.getData().getCourseArrangement();
-                    //url=mCourseDetailsBean.getData();
-                    //TODO
                     initView();
                 } else if (response.body().getResult() == -1) {
                     TastyToast.makeText(mContext, "服务器错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
@@ -160,16 +170,37 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     if(mCourseDetailsBean.getData().getCourseArrangement().size()==0){
                         TastyToast.makeText(mContext, "数据错误请联系客服", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                     }else{
-                        Intent intent = new Intent(CourseDetailsActivity.this,SignUpActivity.class);
-                        intent.putExtra("title",mCourseDetailsBean.getData().getTitle());
-                        intent.putExtra("videoId",mCourseDetailsBean.getData().getCourseArrangement().get(0).getVideoId());
-                        intent.putExtra("cfgId",mCourseDetailsBean.getData().getCourseArrangement().get(0).getCfgId()+"");
-                        startActivity(intent);
+                        buy();
                     }
                 }else{
                     TastyToast.makeText(mContext, "数据错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                 }
                 break;
         }
+    }
+    private void buy() {
+        Call<Deletecomm> call=HiRetorfit.getInstans().getApi().MyBuy(mChannel,mToken,mCrcode,"");
+        call.enqueue(new Callback<Deletecomm>() {
+            @Override
+            public void onResponse(Call<Deletecomm> call, Response<Deletecomm> response) {
+                if(response!=null){
+                    if(response.body().getResult()==1){
+                        TastyToast.makeText(getApplicationContext(), "报名成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                        Intent intent = new Intent(CourseDetailsActivity.this,SignUpActivity.class);
+                        intent.putExtra("title",mCourseDetailsBean.getData().getTitle());
+                        intent.putExtra("videoId",mCourseDetailsBean.getData().getCourseArrangement().get(0).getVideoId());
+                        intent.putExtra("cfgId",mCourseDetailsBean.getData().getCourseArrangement().get(0).getCfgId()+"");
+                        startActivity(intent);
+                    }else{
+                        TastyToast.makeText(getApplicationContext(), "报名失败请联系客服", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Deletecomm> call, Throwable t) {
+
+            }
+        });
     }
 }

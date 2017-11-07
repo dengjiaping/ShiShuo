@@ -90,7 +90,7 @@ public class LessonVideoActivity extends AppCompatActivity {
     private MyAdapter mMyAdapter;
     private String mType;
     private LessonVideoBean.DataBean mDataBean;
-
+   String type="1";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +114,7 @@ public class LessonVideoActivity extends AppCompatActivity {
                 Intent intent = new Intent(LessonVideoActivity.this, MediaPlayActivity.class);
                 intent.putExtra("videoId", list.get(position).getVideoId());
                 intent.putExtra("code", list.get(position).getCode());
-
+                intent.putExtra("type",list.get(position).getCtag2());
                 startActivity(intent);
 
                 //startActivity(new Intent(LessonVideoActivity.this, LessonDetailActivity.class));
@@ -234,7 +234,7 @@ public class LessonVideoActivity extends AppCompatActivity {
             viewHolder.mTvTeacherName.setText(list.get(position).getTeacher());
             viewHolder.mTvTeacherItemCommentNum.setText(list.get(position).getCommentNum()+"");
 
-            switch (list.get(position).getCtag2()) {
+            switch (list.get(position).getCtag1()) {
                 case "SK":
                     viewHolder.mTvType2.setText("说课");
                     break;
@@ -248,12 +248,14 @@ public class LessonVideoActivity extends AppCompatActivity {
                     viewHolder.mTvType2.setText("试讲");
                     break;
             }
-            switch (list.get(position).getCtag3()) {
+            switch (list.get(position).getCtag2()) {
                 case "STUD":
                     viewHolder.mTvType3.setText("学生");
+
                     break;
                 case "TEACH":
                     viewHolder.mTvType3.setText("老师");
+
                     break;
             }
             return convertView;

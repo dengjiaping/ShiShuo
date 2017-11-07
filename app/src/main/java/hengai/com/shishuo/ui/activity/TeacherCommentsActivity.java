@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -35,6 +36,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hengai.com.shishuo.R;
+import hengai.com.shishuo.bean.Deletecomm;
 import hengai.com.shishuo.bean.ReViewBean;
 import hengai.com.shishuo.bean.VideoCouseInfo;
 import hengai.com.shishuo.network.HiRetorfit;
@@ -67,6 +69,8 @@ public class TeacherCommentsActivity extends AppCompatActivity {
     private VideoCouseInfo.DataBean mData;
     private List<VideoCouseInfo.DataBean.CommentsBean> mList = new ArrayList<VideoCouseInfo.DataBean.CommentsBean>();
     private PopuIntroduce mPopuIntroduce;
+    private String mTitle;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,7 @@ public class TeacherCommentsActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTvTitle.setText(mTitle);
         mExpandable.setGroupIndicator(null);
         mExpandable.setAdapter(new MyAdapter());
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -101,6 +106,7 @@ public class TeacherCommentsActivity extends AppCompatActivity {
     }
 
     private boolean initData() {
+        mTitle = getIntent().getStringExtra("title");
         Call<VideoCouseInfo> call = HiRetorfit.getInstans().getApi().LessonVideoCouse(mChannel, mToken, mCode);
         call.enqueue(new Callback<VideoCouseInfo>() {
             @Override
@@ -205,7 +211,7 @@ List<VideoCouseInfo.DataBean.CommentsBean.ReplaysBean> list=null;
         }
 
         @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             ViewHolder1 viewHolder = null;
             if (convertView == null) {
                 convertView = View.inflate(TeacherCommentsActivity.this, R.layout.item_replay_comments, null);
@@ -222,6 +228,16 @@ List<VideoCouseInfo.DataBean.CommentsBean.ReplaysBean> list=null;
             }
             viewHolder.mTvApraisseDetail.setText(mList.get(groupPosition).getReplys().get(childPosition).getContent());
             viewHolder.mTvTeacher.setText(mList.get(groupPosition).getFromUserName());
+            if(!mList.get(groupPosition).getReplys().get(childPosition).getMycomment()){
+                viewHolder.mDelete.setVisibility(View.INVISIBLE);
+            }
+            viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int comm =mList.get(groupPosition).getReplys().get(childPosition).getId();
+                    deletecomm(comm);
+                }
+            });
             return convertView;
         }
 
@@ -229,6 +245,27 @@ List<VideoCouseInfo.DataBean.CommentsBean.ReplaysBean> list=null;
         public boolean isChildSelectable(int groupPosition, int childPosition) {
             return true;
         }
+    }
+
+    private void deletecomm(int comm) {
+        Call<Deletecomm> call=HiRetorfit.getInstans().getApi().Deletecomm(mChannel,mToken,comm+"");
+        call.enqueue(new Callback<Deletecomm>() {
+            @Override
+            public void onResponse(Call<Deletecomm> call, Response<Deletecomm> response) {
+                if(response!=null){
+                    if(response.body().getResult()==1){
+                        TastyToast.makeText(getApplicationContext(),"删除成功",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
+                    }else{
+                        TastyToast.makeText(getApplicationContext(),"删除失败",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Deletecomm> call, Throwable t) {
+                TastyToast.makeText(getApplicationContext(),"网络错误",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+            }
+        });
     }
 
     static class ViewHolder1 {

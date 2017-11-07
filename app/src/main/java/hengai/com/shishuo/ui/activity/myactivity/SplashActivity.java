@@ -50,9 +50,9 @@ public class SplashActivity extends AppCompatActivity {
 
     private void processLogic() {
         // 设置数据源
-        mBackgroundBanner.setData(R.drawable.background, R.drawable.background, R.drawable.background);
+        mBackgroundBanner.setData(R.drawable.tp_1, R.drawable.tp_2, R.drawable.tp_3);
 
-        //mForegroundBanner.setData(R.drawable.uoko_guide_foreground_1, R.drawable.uoko_guide_foreground_2, R.drawable.uoko_guide_foreground_3);
+        mForegroundBanner.setData(R.drawable.wz_1, R.drawable.wz_2, R.drawable.wz_3);
     }
 
     @Override
