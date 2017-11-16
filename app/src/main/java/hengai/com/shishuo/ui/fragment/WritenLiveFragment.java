@@ -55,7 +55,7 @@ public class WritenLiveFragment extends Fragment {
     private String mToken;
     private Intent mIntent1;
     private Intent mIntent2;
-
+    //private long mTime;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +64,7 @@ public class WritenLiveFragment extends Fragment {
         mListView = (ListView) mRoot.findViewById(R.id.lv_writen_live);
         mChennel = (String) SPUtils.get(getContext(), "channel", "1");
         mToken = (String) SPUtils.get(getContext(), "token", "1");
+        //mTime = System.currentTimeMillis()/1000;
         mMyAdapter = new MyAdapter();
         mIntent1 = new Intent(getContext(), CourseOneDetailsActivity.class);
         mIntent2 = new Intent(getContext(), CourseDetailsActivity.class);
@@ -219,8 +220,11 @@ public class WritenLiveFragment extends Fragment {
                 viewHolder.mIvLiveTj.setVisibility(View.GONE);
             }
 
-            if (mList.get(position).isMybuy()) {
-                viewHolder.mTvEnrol.setText("已报名");
+            if (mList.get(position).getLivestatus()==1) {
+                viewHolder.mTvEnrol.setText("可回放");
+                viewHolder.mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
+            }else if(mList.get(position).getLivestatus()==0){
+                viewHolder.mTvEnrol.setText("直播中");
                 viewHolder.mTvEnrol.setTextColor(getResources().getColor(R.color.replay));
             }
 

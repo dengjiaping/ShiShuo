@@ -41,7 +41,9 @@ import com.bokecc.sdk.mobile.upload.VideoInfo;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -130,12 +132,37 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sellect_exam_2);
         ButterKnife.inject(this);
+        //initList();
         mContext = this;
         initUpload();
 
         mBtSelect.setEnabled(false);
         initData();
 
+    }
+
+    private void initList() {
+        Map<String,String> mapsk=new HashMap<>();
+        mapsk.put("未命名视频","51AB5110A2A9388F");
+        mapsk.put("语文","419AAE81310CE1E3");
+        mapsk.put("数学","ED5647D36D21DC05");
+        mapsk.put("英语","C1523940AA149C56");
+        mapsk.put("体育","6F86ABD7394B5F63");
+        mapsk.put("音乐","AA5200EEACF53D75");
+        mapsk.put("美术","A39FFB1D085AF295");
+        mapsk.put("政治","D8CC39812FB410CB");
+        mapsk.put("地理","9C695B8111E67DED");
+
+        Map<String,String> mapsj=new HashMap<>();
+        mapsk.put("未命名视频","51AB5110A2A9388F");
+        mapsk.put("语文","99C6EA01211179FB");
+        mapsk.put("数学","A4EA82651DCC98EC");
+        mapsk.put("英语","C8C5B48A87EABB34");
+        mapsk.put("体育","045D58977EA77683");
+        mapsk.put("音乐","F4AB2FEAFCD7EE5E");
+        mapsk.put("美术","EEAC8394B04DD13A");
+        mapsk.put("政治","90A4B7EF73DF6924");
+        mapsk.put("地理","533934F62284201E");
     }
 
     private void initUpload() {
@@ -292,8 +319,8 @@ public class QuestionActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.ll_upload_video:
-                    TastyToast.makeText(mContext,"上传视频功能正在实现",TastyToast.LENGTH_SHORT,TastyToast.INFO);
-                    //toListVideo();
+                    //TastyToast.makeText(mContext,"上传视频功能正在实现",TastyToast.LENGTH_SHORT,TastyToast.INFO);
+                    toListVideo();
                     break;
             }
         }
@@ -544,7 +571,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (requestCode == ConfigUtil.UPLOAD_REQUEST) {
 
-            Intent intent = new Intent(QuestionActivity.this, InputInfoActivity.class);
+            //Intent intent = new Intent(QuestionActivity.this, InputInfoActivity.class);
             String filePath = null;
             int sdkVersion = Integer.valueOf(Build.VERSION.SDK);
             Uri uri = data.getData();
@@ -561,11 +588,14 @@ public class QuestionActivity extends AppCompatActivity {
                 TastyToast.makeText(getApplicationContext(),"文件有误，请重新选择",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                 return;
             }
-
-            intent.putExtra("filePath", filePath);
-            startActivity(intent);
+            upload(filePath);
+            //intent.putExtra("filePath", filePath);
+            //startActivity(intent);
         }
     }
+
+
+
 
     @Override
     public void onDestroy() {
@@ -618,5 +648,47 @@ public class QuestionActivity extends AppCompatActivity {
         }
         return null;
     }
+
+
+public void upload(String filePath){
+    String uploadId = UploadInfo.UPLOAD_PRE.concat(System.currentTimeMillis() + "");
+    VideoInfo videoInfo = new VideoInfo();
+    videoInfo.setTitle("android_video");
+    videoInfo.setTags("标签");
+    videoInfo.setDescription("描述");
+    videoInfo.setFilePath(filePath);
+
+
+    String categoryId = "51AB5110A2A9388F";
+    videoInfo.setCategoryId(categoryId);
+    Log.d("我是",uploadId + "+++++++"+videoInfo);
+    UploadInfo uploadInfo=new UploadInfo(uploadId, videoInfo, Uploader.WAIT, 0, null);
+    DataSet.addUploadInfo(uploadInfo);
+    sendBroadcast(new Intent(ConfigUtil.ACTION_UPLOAD));
+
+
+    if (binder.isStop()) {
+
+        Intent service = new Intent(getApplicationContext(), UploadService.class);
+        service.putExtra("title", "android_video");
+        service.putExtra("tag", "标签");
+        service.putExtra("desc", "描述");
+        service.putExtra("filePath", filePath);
+        service.putExtra("uploadId", uploadId);
+        service.putExtra("categoryId", categoryId);
+        Log.d("++++打印",uploadId+"----"+categoryId);
+
+        startService(service);
+    }
+
+    Intent intent=new Intent(QuestionActivity.this,VideoPublishActivity_2.class);
+    intent.putExtra("filePath", filePath);
+    intent.putExtra("uploadId", uploadId);
+    startActivity(intent);
+
+    finish();
+
+}
+
 
 }

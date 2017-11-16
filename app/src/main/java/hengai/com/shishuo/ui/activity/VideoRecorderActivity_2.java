@@ -450,22 +450,15 @@ public class VideoRecorderActivity_2 extends AppCompatActivity implements Surfac
                         startUploadService(uploadInfo);
                     }
 
-                    //if (getIntent().getStringExtra("source") != null && getIntent().getStringExtra("source").equals("MainActivity_2")) {
                         Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishActivity_2.class);
                         intent.putExtra("filePath", filePath);
+
                     if(getIntent().getStringExtra("catg1")!=null){
                         intent.putExtra("catg1",getIntent().getStringExtra("catg1"));
                     }
                         startActivity(intent);
                         finish();
-                   /* } else {
-                        Intent intent = new Intent(VideoRecorderActivity_2.this, VideoPublishNoSelectActivity_2.class);
-                        intent.putExtra("lessonType2", getIntent().getIntExtra("lessonType2", 0));
-                        intent.putExtra("filePath", filePath);
-                        LogUtils.d("++++444444");
-                        startActivity(intent);
-                        finish();
-                    }*/
+
                 } else if (status == RECORDED) {
                     String filePath = mTargetFile.getAbsolutePath();
                     String uploadId = UploadInfo.UPLOAD_PRE.concat(System.currentTimeMillis() + "");

@@ -14,7 +14,8 @@ public class DateUtil {
      */
     public static String getDate(int date){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(date);
+        Long x=Long.parseLong(date+"000");
+        String dateString = formatter.format(x);
         return dateString;
     }
 
@@ -24,7 +25,8 @@ public class DateUtil {
      */
     public static String getTime(int date){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-        String dateString = formatter.format(date);
+        Long x=Long.parseLong(date+"000");
+        String dateString = formatter.format(x);
         return dateString;
     }
 }

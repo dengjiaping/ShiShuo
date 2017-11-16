@@ -1,6 +1,7 @@
 package hengai.com.shishuo.ui.activity;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,11 +17,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bokecc.sdk.mobile.download.Downloader;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
+    private long exitTime = 0;
     private Fragment f1,f2,f3,f4;
     private Context mContext;
     private FragmentManager manager;
@@ -154,17 +157,34 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.i("data", "save data... ...");
-
         DataSet.saveUploadData();
         DataSet.saveDownloadData();
 
         if (hasDownloadingTask()) {
             //showDialog();
-            super.onBackPressed();
+            //super.onBackPressed();
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
+
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            TastyToast.makeText(getApplicationContext(), "再按一次退出程序", TastyToast.LENGTH_SHORT,TastyToast.INFO);
+            exitTime = System.currentTimeMillis();
+        } else {
+            //彻底关闭整个APP
+            int currentVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentVersion > android.os.Build.VERSION_CODES.ECLAIR_MR1) {
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+                System.exit(0);
+            } else {// android2.1
+                ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                am.restartPackage(getPackageName());
+            }
+        }
+
     }
 
     private boolean hasDownloadingTask() {
@@ -202,4 +222,5 @@ public class MainActivity extends AppCompatActivity {
         /*Intent intent = new Intent(this, DownloadService.class);
         stopService(intent);*/
     }
+
 }

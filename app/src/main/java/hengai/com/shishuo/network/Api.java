@@ -115,6 +115,8 @@ public interface Api {
     @GET("delcomment.html")
     Call<Deletecomm> Deletecomm(@Query("channel") String channel, @Query("token") String token, @Query("commentid") String commentid);
 
+    @GET("qbcoursebuylist.html")
+    Call<Deletecomm> MyBuyLive(@Query("channel") String channel, @Query("token") String token, @Query("page") String page, @Query("paging") String paging, @Query("videotype") String videotype);
 //视频观看人数的增加
     @GET("playvideotable.html")
     Call<AddSeeNum> AddSeeNum(@Query("channel") String channel, @Query("token") String token, @Query("code") String code);

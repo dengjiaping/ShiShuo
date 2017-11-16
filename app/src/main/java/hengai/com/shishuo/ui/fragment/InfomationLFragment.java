@@ -64,7 +64,7 @@ public class InfomationLFragment extends Fragment {
 
     private boolean initData() {
         //网络请求获取数据
-        Call<InfoMationBean> call = HiRetorfit.getInstans().getApi().InfoMationList(mChennel, mToken, "BK");
+        Call<InfoMationBean> call = HiRetorfit.getInstans().getApi().InfoMationList(mChennel, mToken,"BK");
         call.enqueue(new Callback<InfoMationBean>() {
             @Override
             public void onResponse(Call<InfoMationBean> call, Response<InfoMationBean> response) {
@@ -96,6 +96,7 @@ public class InfomationLFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 intent.putExtra("id", mList.get(position).getId() + "");
+                intent.putExtra("title", mList.get(position).getTitle());
                 startActivity(intent);
             }
         });

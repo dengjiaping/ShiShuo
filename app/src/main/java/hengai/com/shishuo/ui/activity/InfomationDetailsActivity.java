@@ -55,18 +55,21 @@ public class InfomationDetailsActivity extends AppCompatActivity {
     @InjectView(R.id.webv_infomation)
     WebView mWebvInfomation;
 
-    private String url;
+    private String url=null;
+    private String mTitle=null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infomation_details);
         ButterKnife.inject(this);
+        mTitle = getIntent().getStringExtra("title");
         initData();
     }
 
     private void initData() {
         //url="http://mp.weixin.qq.com/s/8mkmc1RNuDZ3TRV3wpPDSQ";
+
         String mchannel = (String) SPUtils.get(this, "channel", "liangshishuo");
         String id = getIntent().getStringExtra("id");
         Call<InfoMationDetailBean> call = HiRetorfit.getInstans().getApi().InfoMationDetail(mchannel, id);
@@ -76,14 +79,17 @@ public class InfomationDetailsActivity extends AppCompatActivity {
                 if (response != null) {
                     if (response.body().getCode() == 200) {
                         url = response.body().getData().getUrl();
+
                         initView();
+                    }else{
+                        TastyToast.makeText(getApplicationContext(),"数据错误请联系客服！",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<InfoMationDetailBean> call, Throwable t) {
-
+                TastyToast.makeText(getApplicationContext(),"网络错误！",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
             }
         });
 
@@ -108,17 +114,25 @@ public class InfomationDetailsActivity extends AppCompatActivity {
                 collect();
                 break;
             case R.id.iv_share:
-                share();
+                if(mTitle!=null&url!=null){
+                    share();
+                }else{
+                    TastyToast.makeText(getApplicationContext(),"分享数据错误！",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
+                }
                 break;
         }
     }
 
     private void share() {
-        UMWeb img = new UMWeb(url);
+        UMWeb shareUrl = new UMWeb(url+"&share=Y");
+
+        shareUrl.setTitle(mTitle);//标题
+        //shareUrl.setThumb(thumb);  //缩略图
+        shareUrl.setDescription("跟随良师，方为良师");//描述
         ShareBoardConfig config = new ShareBoardConfig();
         config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE);
         new ShareAction(InfomationDetailsActivity.this)
-                .withMedia(img)
+                .withMedia(shareUrl)
                 .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE)
                 .setCallback(shareListener)
                 .open(config);

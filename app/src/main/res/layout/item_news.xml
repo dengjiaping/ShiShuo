@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:background="@color/white"
+    >
+<TextView
+    android:id="@+id/tv_title"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="14dp"
+    android:layout_marginTop="14dp"
+    android:layout_marginBottom="14dp"
+    android:text="大家好，欢迎来到良师说，最新的教师招聘视频已经上线了"
+    android:textSize="16sp"
+    android:textColor="@color/black"
+    android:maxLines="2"
+    />
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="14dp"
+        android:textSize="15sp"
+        android:textColor="@color/main_button_enable"
+        android:text="2017-12-12"
+        />
+</RelativeLayout>

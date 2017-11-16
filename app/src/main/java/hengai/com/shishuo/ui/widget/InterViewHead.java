@@ -1,6 +1,7 @@
 package hengai.com.shishuo.ui.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import butterknife.OnClick;
 import hengai.com.shishuo.R;
 import hengai.com.shishuo.bean.Banner;
 import hengai.com.shishuo.bean.HomeBean;
+import hengai.com.shishuo.ui.activity.AllWebActivity;
 import hengai.com.shishuo.utils.T;
 
 /**
@@ -88,43 +90,38 @@ public class InterViewHead extends RelativeLayout implements BaseSliderView.OnSl
     }
 
     public void bindView(List<Banner.DataBean.BannerBean> beanList) {
-        if(beanList.size()>0){
-            for (int i = 0; i < beanList.size(); i++) {
-                TextSliderView textSlider = new TextSliderView(getContext());
-                textSlider.description("跟随良师，方为良师")
-                        .image(beanList.get(i).getPicurl())
-                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-                        .setOnSliderClickListener(this);
-                textSlider.bundle(new Bundle());
-                textSlider.getBundle().putInt("extra", beanList.get(i).getId());
-                mSlider.addSlider(textSlider);
+        if (beanList != null) {
+            if (beanList.size() > 0) {
+                for (int i = 0; i < beanList.size(); i++) {
+                    TextSliderView textSlider = new TextSliderView(getContext());
+                    textSlider.description("跟随良师，方为良师")
+                            .image(beanList.get(i).getPicurl())
+                            .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                            .setOnSliderClickListener(this);
+                    textSlider.bundle(new Bundle());
+                    textSlider.getBundle().putString("extra", beanList.get(i).getClickurl());
+                    mSlider.addSlider(textSlider);
+                }
+
+                mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mSlider.setCustomAnimation(new DescriptionAnimation());
+                mSlider.setDuration(4000);
+            } else {
+
             }
-
-            mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-            mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            mSlider.setCustomAnimation(new DescriptionAnimation());
-            mSlider.setDuration(4000);
-        }else{
-
         }
+
 
     }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        switch ((int) slider.getBundle().get("extra")) {
-            case 1:
-                T.showShort(getContext(), "1++");
-                break;
-            case 2:
-                T.showShort(getContext(), "2++");
-                break;
-            case 3:
-                T.showShort(getContext(), "3++");
-                break;
-        }
-
-
+        //T.showShort(getContext(), slider.getBundle().get("extra") + "");
+        Intent intent = new Intent(getContext(), AllWebActivity.class);
+        intent.putExtra("webUrl",slider.getBundle().get("extra")+"");
+        getContext().startActivity(intent);
     }
+
 
 }

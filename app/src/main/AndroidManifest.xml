@@ -147,6 +147,30 @@
         <activity android:name=".ui.activity.MyLiveActivity"
                   android:screenOrientation="portrait"
             />
+        //回放列表页
+        <activity android:name=".ui.activity.listReplayLiveActivity"
+                  android:screenOrientation="portrait"
+            />
+        //意见反馈
+        <activity android:name=".ui.activity.myactivity.FeedBackActivity"
+                  android:screenOrientation="portrait"
+            />
+        //我已上传的视频
+        <activity android:name=".ui.activity.myactivity.MyUploadedVideo"
+                  android:screenOrientation="portrait"
+            />
+        //我的消息中心
+        <activity android:name=".ui.activity.myactivity.MyNewsActivity"
+                  android:screenOrientation="portrait"
+            />
+        //消息详情
+        <activity android:name=".ui.activity.myactivity.MyNewsDetailActivity"
+                  android:screenOrientation="portrait"
+            />
+        //我的订单
+        <activity android:name=".ui.activity.myactivity.MyMoneyActivity"
+                  android:screenOrientation="portrait"
+            />
         //多课时直播详情
         <activity android:name=".ui.activity.CourseDetailsActivity"
                   android:screenOrientation="portrait"

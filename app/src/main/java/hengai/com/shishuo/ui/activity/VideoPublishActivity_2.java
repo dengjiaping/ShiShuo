@@ -203,7 +203,8 @@ public class VideoPublishActivity_2 extends Activity implements RadioGroup.OnChe
                     return;
                 }
                 if (isUploading) {
-                    Toast.makeText(getApplicationContext(), "您上传的视频正在审核中，请耐心等待", Toast.LENGTH_SHORT).show();
+
+                    TastyToast.makeText(getApplicationContext(),"您上传的视频正在审核中，请耐心等待",TastyToast.LENGTH_SHORT,TastyToast.INFO);
                     return;
                 }
                 if (et_video_description.getText().toString().isEmpty()) {
@@ -215,7 +216,8 @@ public class VideoPublishActivity_2 extends Activity implements RadioGroup.OnChe
                         if (!TextUtils.isEmpty(videoID)) {
                             uploadVideoLesson(videoID);
                         } else {
-                            TastyToast.makeText(getApplicationContext(), "上传视频出现错误，请确保视频上传成功！", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+
+                            TastyToast.makeText(getApplicationContext(),"上传视频出现错误，请确保视频上传成功！",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
                         }
                     } else {
                         TastyToast.makeText(getApplicationContext(), "请选择自己的标签", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
@@ -242,25 +244,28 @@ public class VideoPublishActivity_2 extends Activity implements RadioGroup.OnChe
             videoID = DataSet.getUploadInfo(uploadId).getVideoInfo().getVideoId();
 
 
-            //LogUtils.d("+++++++++这是" + videoID);
+            LogUtils.d("+++++++++这是" + videoID);
 
             int uploadStatus = intent.getIntExtra("status", ParamsUtil.INVALID);
             if (uploadStatus == Uploader.UPLOAD) {
-                Toast.makeText(context, "课程正在上传，可在通知栏查看进度", Toast.LENGTH_SHORT).show();
+                TastyToast.makeText(getApplicationContext(),"课程正在上传，可在通知栏查看进度",TastyToast.LENGTH_SHORT,TastyToast.INFO);
             }
             if (uploadStatus == Uploader.FINISH) {
                 binder.cancle();
                 isUploading = false;
-                Toast.makeText(context, "课程已完成上传，请点击“发布”，完成课程发布", Toast.LENGTH_SHORT).show();
+                TastyToast.makeText(getApplicationContext(),"课程已完成上传,请发布课程",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS);
+
             }
             // 若出现异常，提示用户处理
             int errorCode = intent.getIntExtra("errorCode", ParamsUtil.INVALID);
             if (errorCode == ErrorCode.NETWORK_ERROR.Value()) {
-                Toast.makeText(context, "网络异常，请检查", Toast.LENGTH_SHORT).show();
+
+                TastyToast.makeText(getApplicationContext(),"网络异常，请检查",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
             } else if (errorCode == ErrorCode.PROCESS_FAIL.Value()) {
-                Toast.makeText(context, "上传失败，请重试", Toast.LENGTH_SHORT).show();
+                TastyToast.makeText(getApplicationContext(),"上传失败，请重试",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
             } else if (errorCode == ErrorCode.INVALID_REQUEST.Value()) {
-                Toast.makeText(context, "上传失败，请检查账户信息", Toast.LENGTH_SHORT).show();
+
+                TastyToast.makeText(getApplicationContext(),"上传失败，请检查账户信息",TastyToast.LENGTH_SHORT,TastyToast.ERROR);
             }
         }
     }
@@ -286,6 +291,7 @@ public class VideoPublishActivity_2 extends Activity implements RadioGroup.OnChe
 
     private void uploadVideoLesson(String videoID) {
 
+
         Call<Deletecomm> call = HiRetorfit.getInstans().getApi().UploadVideo(channel, token, setid, videoID, name, "", ctag1, ctag2);
         call.enqueue(new Callback<Deletecomm>() {
             @Override
@@ -302,7 +308,7 @@ public class VideoPublishActivity_2 extends Activity implements RadioGroup.OnChe
                 TastyToast.makeText(getApplicationContext(), "网络错误", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             }
         });
-        TastyToast.makeText(getApplicationContext(), "上传成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+        TastyToast.makeText(getApplicationContext(), "发布成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
         finish();
     }
 
